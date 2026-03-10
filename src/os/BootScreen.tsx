@@ -10,9 +10,9 @@ export const BootScreen = ({ onBootComplete }: BootScreenProps) => {
 
   useEffect(() => {
     const bootSequence = async () => {
-      // Simulate boot sequence: 0 -> 100% over 4 seconds
+      // Simulate boot sequence: 0 -> 100% over 2 seconds
       const steps = 20;
-      const stepDuration = 200; 
+      const stepDuration = 100; 
 
       for (let i = 0; i <= steps; i++) {
         await new Promise((resolve) => setTimeout(resolve, stepDuration));
