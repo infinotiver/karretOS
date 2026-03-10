@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppContext } from "@/providers/AppProvider";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input"; // Assuming you have an Input component
+import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -14,13 +14,37 @@ import {
 
 export function AboutSettings() {
   const { username, setUsername } = useAppContext();
-  // Local state to hold the text while typing
+
+  // 1. Sync local state with context if username changes elsewhere
   const [tempName, setTempName] = useState(username);
   const [open, setOpen] = useState(false);
+  const [info, setInfo] = useState<Record<string, string | number>>({});
+
+  useEffect(() => {
+    setTempName(username);
+  }, [username]);
+
+  // 2. Fetch system info safely
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const systemInfo = {
+        "User Agent": navigator.userAgent,
+        Platform:
+          (navigator as any).userAgentData?.platform || navigator.platform,
+        Language: navigator.language,
+        Screen: `${window.screen.width}x${window.screen.height}`,
+        "Color Depth": `${window.screen.colorDepth}-bit`,
+        Timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      };
+      setInfo(systemInfo);
+    }
+  }, []);
 
   const handleSave = () => {
-    setUsername(tempName);
-    setOpen(false); // Close the dialog
+    if (tempName.trim()) {
+      setUsername(tempName.trim());
+      setOpen(false);
+    }
   };
 
   return (
@@ -44,22 +68,44 @@ export function AboutSettings() {
               </DialogDescription>
             </DialogHeader>
 
-            <div className="grid gap-4 py-4">
+            <div className="py-4">
               <Input
                 value={tempName}
                 onChange={(e) => setTempName(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSave()}
                 placeholder="Enter new username..."
                 autoFocus
               />
             </div>
 
             <DialogFooter>
-              <Button type="submit" onClick={handleSave}>
-                Save Changes
+              <Button variant="ghost" onClick={() => setOpen(false)}>
+                Cancel
               </Button>
+              <Button onClick={handleSave}>Save Changes</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
+      </div>
+
+      {/* System Info Section */}
+      <div className="space-y-3 px-1">
+        <h3 className="text-sm font-semibold text-muted-foreground">
+          System Information
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+          {Object.entries(info).map(([key, value]) => (
+            <div
+              key={key}
+              className="flex flex-col p-2 border rounded-md bg-background/50"
+            >
+              <span className="text-xs text-muted-foreground">{key}</span>
+              <span className="font-mono truncate" title={value?.toString()}>
+                {value}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
