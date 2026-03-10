@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SettingsList } from "@/components/settings/SettingsList";
 import { TransparencySettings } from "@/components/settings/TransparencySettings";
-import { NetworkSettings } from "@/components/settings/NetworkSettings";
+import { AboutSettings } from "@/components/settings/AboutSettings";
 
 const SETTINGS = [
   {
@@ -9,7 +9,7 @@ const SETTINGS = [
     title: "Transparency",
     description: "Configure background opacity",
   },
-  { icon: "🌐", title: "Network", description: "WiFi and connections" },
+  { icon: "👤", title: "About", description: "About karretOS & You" },
 ];
 
 export default function SettingsApp() {
@@ -29,7 +29,7 @@ export default function SettingsApp() {
         </p>
 
         {active === "Transparency" && <TransparencySettings />}
-        {active === "Network" && <NetworkSettings />}
+        {active === "About" && <AboutSettings />}
       </section>
     </main>
   );
