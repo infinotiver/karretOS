@@ -7,7 +7,7 @@ import Environment from "@/os/Environment";
 import Dock from "@/os/Dock";
 import useSession, { type WindowEntry } from "@/os/useSession";
 import type { AppId } from "@/os/apps/types";
-import useUserName from "@/hooks/useUserName";
+import { useAppContext } from "@/providers/AppProvider";
 
 const getGreeting = () => {
   const h = new Date().getHours();
@@ -35,7 +35,7 @@ interface DesktopProps {
 }
 
 const Desktop = ({ selectedId, onSelect, onOpen }: DesktopProps) => {
-  const [username] = useUserName();
+  const { username } = useAppContext();
 
   return (
     <motion.div

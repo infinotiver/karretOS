@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useUserName from "@/hooks/useUserName";
+import { useAppContext } from "@/providers/AppProvider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"; // Assuming you have an Input component
 import {
@@ -13,13 +13,13 @@ import {
 } from "@/components/ui/dialog";
 
 export function AboutSettings() {
-  const [username, setUserName] = useUserName();
+  const { username, setUsername } = useAppContext();
   // Local state to hold the text while typing
   const [tempName, setTempName] = useState(username);
   const [open, setOpen] = useState(false);
 
   const handleSave = () => {
-    setUserName(tempName);
+    setUsername(tempName);
     setOpen(false); // Close the dialog
   };
 
@@ -33,9 +33,7 @@ export function AboutSettings() {
 
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button size="sm">
-              Change Username
-            </Button>
+            <Button size="sm">Change Username</Button>
           </DialogTrigger>
 
           <DialogContent>
