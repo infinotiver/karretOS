@@ -83,7 +83,7 @@ const Dock = ({ apps, activeAppId, onShowDesktop, onOpenApp }: DockProps) => {
               <button
                 type="button"
                 onClick={() => setPinned((p) => !p)}
-                className={btn(pinned)}
+                className={`${btn(pinned)} hidden lg:inline`}
                 aria-label={pinned ? "Unpin dock" : "Pin dock"}
               >
                 {pinned ? (
