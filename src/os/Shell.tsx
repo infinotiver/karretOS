@@ -7,6 +7,7 @@ import Environment from "@/os/Environment";
 import Dock from "@/os/Dock";
 import useSession, { type WindowEntry } from "@/os/useSession";
 import type { AppId } from "@/os/apps/types";
+import useUserName from "@/hooks/useUserName";
 
 const getGreeting = () => {
   const h = new Date().getHours();
@@ -14,13 +15,6 @@ const getGreeting = () => {
   if (h < 18) return "Good afternoon";
   return "Good evening";
 };
-
-const formatDate = () =>
-  new Date().toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-  });
 
 /* ── Spring pop-in variant ── */
 const popIn = {
@@ -39,41 +33,48 @@ interface DesktopProps {
   onSelect: (id: AppId) => void;
   onOpen: (id: AppId) => void;
 }
-const Desktop = ({ selectedId, onSelect, onOpen }: DesktopProps) => (
-  <motion.div
-    className="flex flex-col gap-6 lg:flex-row lg:gap-10"
-    initial="initial"
-    animate="animate"
-    variants={{
-      animate: { transition: { staggerChildren: 0.1, delayChildren: 0.08 } },
-    }}
-  >
-    <motion.div variants={popIn} className="flex-1 space-y-6">
-      <motion.div variants={popIn} className="space-y-1.5">
-        <h1 className="text-3xl font-black tracking-tighter text-foreground sm:text-4xl md:text-6xl">
-          {getGreeting()}
-        </h1>
-        <p className="text-sm font-semibold text-muted-foreground md:text-lg">
-          {formatDate()}
-        </p>
-      </motion.div>
-      <motion.div variants={popIn}>
-        <AppGrid
-          apps={apps}
-          selectedId={selectedId}
-          onSelect={onSelect}
-          onOpen={onOpen}
-        />
-      </motion.div>
-    </motion.div>
-    <motion.aside
-      variants={popIn}
-      className="hidden shrink-0 lg:block lg:w-72 xl:w-80"
+
+const Desktop = ({ selectedId, onSelect, onOpen }: DesktopProps) => {
+  const [username] = useUserName();
+
+  return (
+    <motion.div
+      className="flex flex-col gap-6 lg:flex-row lg:gap-10"
+      initial="initial"
+      animate="animate"
+      variants={{
+        animate: { transition: { staggerChildren: 0.1, delayChildren: 0.08 } },
+      }}
     >
-      <DesktopWidgets />
-    </motion.aside>
-  </motion.div>
-);
+      <motion.div variants={popIn} className="flex-1 space-y-6">
+        <motion.div variants={popIn} className="space-y-1.5">
+          <div className="flex flex-col font-black gap-0 tracking-tighter text-foreground">
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl">
+              {getGreeting()},
+            </h1>
+            <h2 className="text-2xl font-semibold opacity-50 sm:text-3xl md:text-4xl">
+              {username}
+            </h2>
+          </div>
+        </motion.div>
+        <motion.div variants={popIn}>
+          <AppGrid
+            apps={apps}
+            selectedId={selectedId}
+            onSelect={onSelect}
+            onOpen={onOpen}
+          />
+        </motion.div>
+      </motion.div>
+      <motion.aside
+        variants={popIn}
+        className="hidden shrink-0 lg:block lg:w-72 xl:w-80"
+      >
+        <DesktopWidgets />
+      </motion.aside>
+    </motion.div>
+  );
+}; // 3. Close the curly brace
 
 /* ── AppWindow (one per open window) ── */
 interface AppWindowProps {

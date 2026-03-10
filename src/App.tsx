@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/hooks/useTheme";
 
 const App = () => {
   const [bootComplete, setBootComplete] = useState(false);
-
+  
   return (
     <ThemeProvider>
       <AnimatePresence mode="wait">
