@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAppContext } from "@/providers/AppProvider";
+import { useAppContext } from "@/hooks/useAppContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {

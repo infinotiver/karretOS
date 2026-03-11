@@ -3,7 +3,7 @@ import { apps } from "@/os/apps/registry";
 import AppGrid from "@/os/AppGrid";
 import DesktopWidgets from "@/os/DesktopWidgets";
 import type { AppId } from "@/os/apps/types";
-import { useAppContext } from "@/providers/AppProvider";
+import { useAppContext } from "@/hooks/useAppContext";
 
 const getGreeting = () => {
   const h = new Date().getHours();

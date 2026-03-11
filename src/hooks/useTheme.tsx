@@ -1,47 +1,43 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 
-export type BackgroundType =
-  | "default"
-  | "blur-minimal"
-  | "solid"
-  | "transparent";
+export type BackgroundStyle = "mountain" | "solid";
+export type OpacityLevel = "default" | "light" | "none";
 
 interface ThemeContextType {
-  backgroundType: BackgroundType;
-  setBackgroundType: (type: BackgroundType) => void;
+  username: string;
+  setUsername: (name: string) => void;
+  backgroundStyle: BackgroundStyle;
+  setBackgroundStyle: (style: BackgroundStyle) => void;
+  opacityLevel: OpacityLevel;
+  setOpacityLevel: (level: OpacityLevel) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [backgroundType, setBackgroundType] = useState<BackgroundType>(() => {
-    try {
-      const stored = localStorage.getItem("karretOS_bg");
-      if (
-        stored &&
-        ["default", "blur-minimal", "solid", "transparent"].includes(stored)
-      ) {
-        return stored as BackgroundType;
-      }
-      return "default";
-    } catch {
-      return "default";
-    }
-  });
+  const [username, setUsername] = useState(
+    localStorage.getItem("karretOS_username") || "User",
+  );
+  const [backgroundStyle, setBackgroundStyle] =
+    useState<BackgroundStyle>("mountain");
+  const [opacityLevel, setOpacityLevel] = useState<OpacityLevel>("default");
 
-  const updateBackground = (type: BackgroundType) => {
-    setBackgroundType(type);
-    try {
-      localStorage.setItem("karretOS_bg", type);
-    } catch {
-      // Silently fail if localStorage unavailable
-    }
+  const updateUsername = (name: string) => {
+    setUsername(name);
+    localStorage.setItem("karretOS_username", name);
   };
 
   return (
     <ThemeContext.Provider
-      value={{ backgroundType, setBackgroundType: updateBackground }}
+      value={{
+        username,
+        setUsername: updateUsername,
+        backgroundStyle,
+        setBackgroundStyle,
+        opacityLevel,
+        setOpacityLevel,
+      }}
     >
       {children}
     </ThemeContext.Provider>
@@ -50,8 +46,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
 export function useTheme() {
   const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error("useTheme must be used within ThemeProvider");
-  }
+  if (!context) throw new Error("useTheme must be used within ThemeProvider");
   return context;
 }
