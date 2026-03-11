@@ -27,8 +27,8 @@ export const AppWindow = ({
       style={{ zIndex: win.zIndex }}
       className={`fixed inset-0 pointer-events-none ${
         isWindowed
-          ? "flex items-center justify-center p-6 pb-24"
-          : "flex flex-col p-6"
+          ? "flex items-center justify-center p-4 pb-24"
+          : "flex flex-col p-2"
       }`}
       initial={{ opacity: 0, y: 20, scale: 0.985 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -39,7 +39,7 @@ export const AppWindow = ({
         className={`pointer-events-auto h-full ${
           isWindowed
             ? "max-w-4xl w-full flex flex-col rounded-2xl border-2 border-border bg-background/85 backdrop-blur-md min-h-[50vh] max-h-[75vh] transition-all"
-            : "flex flex-1 min-h-0 w-full flex-col rounded-xl border border-border bg-background overflow-hidden"
+            : "flex flex-1 w-full flex-col rounded-xl border border-border bg-background overflow-hidden"
         } ${isWindowed && isFocused ? "shadow-2xl shadow-black/20" : ""} ${
           isWindowed && !isFocused ? "opacity-90 shadow-sm" : ""
         }`}
