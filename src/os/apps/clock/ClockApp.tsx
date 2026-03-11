@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { WindowLayout } from "@/components/layouts/WindowLayout";
 
 const ClockApp = () => {
   const [now, setNow] = useState(new Date());
@@ -23,16 +24,18 @@ const ClockApp = () => {
   });
 
   return (
-    <main className="flex h-full w-full flex-col items-center justify-center gap-8 p-6">
-      <div className="text-center">
-        <h1 className="text-7xl font-black tracking-tighter text-foreground md:text-8xl">
-          {time}
-        </h1>
-        <p className="mt-4 text-lg font-semibold text-muted-foreground">
-          {date}
-        </p>
+    <WindowLayout>
+      <div className="flex h-full w-full flex-col items-center justify-center gap-8 p-6">
+        <div className="text-center">
+          <h1 className="text-7xl font-black tracking-tighter text-foreground md:text-8xl">
+            {time}
+          </h1>
+          <p className="mt-4 text-lg font-semibold text-muted-foreground">
+            {date}
+          </p>
+        </div>
       </div>
-    </main>
+    </WindowLayout>
   );
 };
 

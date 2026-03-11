@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { WindowLayout } from "@/components/layouts/WindowLayout";
 
 const NotesApp = () => {
   const [note, setNote] = useState(() => localStorage.getItem("note") ?? "");
@@ -9,14 +10,14 @@ const NotesApp = () => {
   };
 
   return (
-    <main className="flex h-full w-full flex-col bg-background text-foreground p-6">
+    <WindowLayout footer={`${note.length} characters`}>
       <textarea
-        className="flex-1 resize-none bg-transparent text-sm outline-none placeholder-muted-foreground/50"
+        className="w-full h-full resize-none bg-transparent text-sm outline-none placeholder-muted-foreground/50 p-6"
         placeholder="Start typing..."
         value={note}
         onChange={(e) => save(e.target.value)}
       />
-    </main>
+    </WindowLayout>
   );
 };
 
