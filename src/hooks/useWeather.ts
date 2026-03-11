@@ -1,167 +1,80 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { useWidgetUpdater } from "./useWidgetUpdater";
 
 export interface WeatherData {
   temp: number;
   condition: string;
   emoji: string;
   wind: number;
+  humidity: number;
+  feelsLike: number;
 }
 
-interface CacheEntry {
-  data: WeatherData;
-  timestamp: number;
-}
-
-const CACHE_KEY = "karretOS_weather_cache";
-const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
-
-const getCache = (): WeatherData | null => {
-  try {
-    const cached = localStorage.getItem(CACHE_KEY);
-    if (!cached) return null;
-
-    const { data, timestamp } = JSON.parse(cached) as CacheEntry;
-    if (Date.now() - timestamp > CACHE_TTL) {
-      localStorage.removeItem(CACHE_KEY);
-      return null;
-    }
-
-    return data;
-  } catch {
-    return null;
-  }
-};
-
-const setCache = (data: WeatherData) => {
-  try {
-    localStorage.setItem(
-      CACHE_KEY,
-      JSON.stringify({ data, timestamp: Date.now() }),
-    );
-  } catch {
-    // Silently fail if localStorage is unavailable
-  }
-};
-
-const wmoMeta = (code: number): { condition: string; emoji: string } => {
+const wmoMeta = (code: number) => {
   if (code === 0) return { condition: "Clear sky", emoji: "☀️" };
-  if (code <= 2) return { condition: "Partly cloudy", emoji: "⛅" };
-  if (code === 3) return { condition: "Overcast", emoji: "☁️" };
-  if (code <= 48) return { condition: "Foggy", emoji: "🌫️" };
-  if (code <= 55) return { condition: "Drizzle", emoji: "🌦️" };
+  if (code <= 3) return { condition: "Cloudy", emoji: "☁️" };
   if (code <= 67) return { condition: "Rain", emoji: "🌧️" };
   if (code <= 77) return { condition: "Snow", emoji: "❄️" };
-  if (code <= 82) return { condition: "Showers", emoji: "🌦️" };
-  if (code <= 99) return { condition: "Thunderstorm", emoji: "⛈️" };
-  return { condition: "Unknown", emoji: "🌡️" };
+  return { condition: "Overcast", emoji: "🌥️" };
 };
 
 export const useWeather = () => {
-  const [data, setData] = useState<WeatherData | null>(() => getCache());
-  const [loading, setLoading] = useState(() => !getCache());
+  const [data, setData] = useState<WeatherData | null>(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    // If we have cached data, don't fetch
-    const cached = getCache();
-    if (cached) {
-      setData(cached);
-      setLoading(false);
-      setError(null);
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
+  const updateWeather = useCallback(async () => {
     if (!navigator.geolocation) {
-      setError("Geolocation not available");
+      setError("Geolocation not supported");
       setLoading(false);
       return;
     }
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
 
     navigator.geolocation.getCurrentPosition(
-      async ({ coords: { latitude, longitude } }) => {
+      async ({ coords }) => {
         try {
           const url = new URL("https://api.open-meteo.com/v1/forecast");
-          url.searchParams.set("latitude", String(latitude));
-          url.searchParams.set("longitude", String(longitude));
+          url.searchParams.set("latitude", coords.latitude.toString());
+          url.searchParams.set("longitude", coords.longitude.toString());
           url.searchParams.set(
             "current",
-            "temperature_2m,weather_code,wind_speed_10m",
+            "temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code,apparent_temperature",
           );
 
-          const res = await fetch(url.toString(), {
-            signal: controller.signal,
+          const response = await fetch(url.toString());
+
+          if (!response.ok) throw new Error("Network response was not ok");
+          const json = await response.json();
+
+          setData({
+            temp: Math.round(json.current.temperature_2m),
+            wind: Math.round(json.current.wind_speed_10m),
+            humidity: json.current.relative_humidity_2m,
+            feelsLike: Math.round(json.current.apparent_temperature),
+            ...wmoMeta(json.current.weather_code),
           });
-
-          if (!res.ok) {
-            throw new Error(`API error: ${res.status}`);
-          }
-
-          const json = await res.json();
-
-          if (!json?.current) {
-            throw new Error("Invalid API response");
-          }
-
-          const { temperature_2m, weather_code, wind_speed_10m } = json.current;
-
-          if (
-            temperature_2m === null ||
-            weather_code === null ||
-            wind_speed_10m === null
-          ) {
-            throw new Error("Missing weather data");
-          }
-
-          const weatherData: WeatherData = {
-            temp: Math.round(temperature_2m),
-            wind: Math.round(wind_speed_10m),
-            ...wmoMeta(weather_code),
-          };
-
-          setData(weatherData);
-          setCache(weatherData);
           setError(null);
         } catch (err) {
-          const message =
-            err instanceof Error
-              ? err.message === "The operation was aborted."
-                ? "Request timeout"
-                : err.message
-              : "Weather fetch failed";
-          setError(message);
-          setData(null);
+          setError(`Failed to fetch weather ${err}`);
         } finally {
           setLoading(false);
-          clearTimeout(timeoutId);
         }
       },
-      (err) => {
-        const message =
-          err.code === 1
-            ? "Location access denied"
-            : err.code === 2
-              ? "Location unavailable"
-              : err.code === 3
-                ? "Location timeout"
-                : "Geolocation error";
-        setError(message);
+      () => {
+        setError("Location access denied");
         setLoading(false);
-        clearTimeout(timeoutId);
       },
-      { timeout: 8000 },
     );
-
-    return () => {
-      controller.abort();
-      clearTimeout(timeoutId);
-    };
   }, []);
+
+  useEffect(() => {
+    updateWeather();
+  }, [updateWeather]);
+
+  useWidgetUpdater({
+    onUpdate: updateWeather,
+    interval: 30 * 60 * 1000, // every 30 mins
+  });
 
   return { data, loading, error };
 };

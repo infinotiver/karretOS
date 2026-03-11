@@ -1,23 +1,31 @@
-import { useEffect, useState } from "react";
+import { useState, useCallback } from "react"; // Added useCallback
 import { Card } from "./Card";
 import Clock from "react-clock";
 import "react-clock/dist/Clock.css";
+import { useWidgetUpdater } from "@/hooks/useWidgetUpdater";
 
 export const ClockWidget = () => {
   const [now, setNow] = useState(new Date());
 
-  useEffect(() => {
-    const id = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(id);
+  // Wrap update logic in useCallback so the timer doesn't reset constantly
+  const handleUpdate = useCallback(() => {
+    setNow(new Date());
   }, []);
+
+  useWidgetUpdater({
+    interval: 1000,
+    onUpdate: handleUpdate,
+    enabled: true, // TODO pull this from settings
+  });
 
   const time = now.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
     hour12: true,
   });
-  // const secs = String(now.getSeconds()).padStart(2, "0");
-  const currentDate = new Date().toLocaleDateString();
+
+  const currentDate = now.toLocaleDateString();
+
   return (
     <Card className="self-start">
       <div className="flex items-center gap-6">
@@ -28,7 +36,6 @@ export const ClockWidget = () => {
           <p className="text-4xl font-black tracking-tighter text-foreground">
             {time}
           </p>
-          {/* <span className="text-xl font-bold">{secs}</span> */}
           <span>{currentDate}</span>
         </div>
       </div>
