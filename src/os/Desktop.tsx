@@ -34,7 +34,7 @@ export const Desktop = ({ selectedId, onSelect, onOpen }: DesktopProps) => {
 
   return (
     <motion.div
-      className="flex flex-col gap-6 lg:flex-row lg:gap-10"
+      className="flex flex-row gap-6 lg:gap-10"
       initial="initial"
       animate="animate"
       variants={{
@@ -61,9 +61,10 @@ export const Desktop = ({ selectedId, onSelect, onOpen }: DesktopProps) => {
           />
         </motion.div>
       </motion.div>
+      {/* Widgets section - side by side on all devices */}
       <motion.aside
         variants={popIn}
-        className="hidden shrink-0 lg:block lg:w-72 xl:w-80"
+        className="shrink-0 h-auto w-40 sm:w-48 md:w-56 lg:w-80 lg:h-screen lg:max-h-150 grid grid-cols-1 gap-4 auto-rows-max"
       >
         <DesktopWidgets />
       </motion.aside>

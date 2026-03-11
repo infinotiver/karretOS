@@ -29,8 +29,8 @@ export const ClockWidget = () => {
   return (
     <Card className="self-start">
       <div className="flex items-center gap-6">
-        <div className="shrink-0">
-          <Clock value={now} size={120} />
+        <div className="shrink-0 hidden lg:block">
+          <Clock value={now} size={120}/>
         </div>
         <div className="flex flex-col">
           <p className="text-4xl font-black tracking-tighter text-foreground">
