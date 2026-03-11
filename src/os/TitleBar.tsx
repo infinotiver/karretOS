@@ -17,15 +17,17 @@ const TitleBar = ({
   onToggleMaximize,
   onClose,
 }: TitleBarProps) => (
-  <header className="flex items-center justify-between px-4 py-2 cursor-grab active:cursor-grabbing bg-gray-200/50">
-    {/* spacer — draggable area */}
+  <header className="flex items-center justify-between px-4 py-1.5 cursor-grab active:cursor-grabbing">
+    {/* Left: Title */}
+    <p className="select-none text-sm font-semibold text-muted-foreground">
+      {title}
+    </p>
+
+    {/* Center: spacer — draggable area */}
     <div className="flex-1" />
 
-    <div className="flex items-center gap-1.5 rounded-lg bg-gray-400/25 px-2 py-1">
-      <p className="mr-1 select-none text-sm font-semibold text-muted-foreground">
-        {title}
-      </p>
-
+    {/* Right: Control buttons */}
+    <div className="flex items-center gap-1.5 rounded-lg bg-gray-400/25 px-2 py-0.5">
       <button
         type="button"
         onClick={onToggleMaximize}
@@ -43,7 +45,7 @@ const TitleBar = ({
         type="button"
         onClick={onClose}
         onPointerDown={(e) => e.stopPropagation()}
-        className={`${ctrl} hover:!bg-red-500/20 hover:!text-red-600`}
+        className={`${ctrl} hover:bg-red-500/20! hover:text-red-600!`}
         aria-label={`Close ${title}`}
       >
         <X className="h-3.5 w-3.5" />
