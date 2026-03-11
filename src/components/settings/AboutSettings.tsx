@@ -14,31 +14,12 @@ import {
 
 export function AboutSettings() {
   const { username, setUsername } = useAppContext();
-
-  // 1. Sync local state with context if username changes elsewhere
   const [tempName, setTempName] = useState(username);
   const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState<Record<string, string | number>>({});
 
   useEffect(() => {
     setTempName(username);
   }, [username]);
-
-  // 2. Fetch system info safely
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const systemInfo = {
-        "User Agent": navigator.userAgent,
-        Platform:
-          (navigator as any).userAgentData?.platform || navigator.platform,
-        Language: navigator.language,
-        Screen: `${window.screen.width}x${window.screen.height}`,
-        "Color Depth": `${window.screen.colorDepth}-bit`,
-        Timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      };
-      setInfo(systemInfo);
-    }
-  }, []);
 
   const handleSave = () => {
     if (tempName.trim()) {
@@ -48,63 +29,69 @@ export function AboutSettings() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col items-start space-y-2 bg-accent/50 rounded-lg p-4">
-        <div className="text-sm font-medium text-muted-foreground">
-          Current Profile
+    <div className="space-y-4">
+      {/* Profile Section */}
+      <div className="p-4 bg-card rounded-lg border border-border/50">
+        <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+          Profile
         </div>
-        <div className="text-2xl font-bold tracking-tight">{username}</div>
+        <div className="text-2xl font-bold mb-3">{username}</div>
 
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button size="sm">Change Username</Button>
+            <Button size="sm" variant="secondary">
+              Change Username
+            </Button>
           </DialogTrigger>
 
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Edit Profile</DialogTitle>
               <DialogDescription>
-                This name will be displayed on your desktop greeting.
+                Update your username displayed on the desktop.
               </DialogDescription>
             </DialogHeader>
 
-            <div className="py-4">
-              <Input
-                value={tempName}
-                onChange={(e) => setTempName(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSave()}
-                placeholder="Enter new username..."
-                autoFocus
-              />
-            </div>
+            <Input
+              value={tempName}
+              onChange={(e) => setTempName(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSave()}
+              placeholder="Enter new username..."
+              autoFocus
+            />
 
             <DialogFooter>
               <Button variant="ghost" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
-              <Button onClick={handleSave}>Save Changes</Button>
+              <Button onClick={handleSave}>Save</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>
 
       {/* System Info Section */}
-      <div className="space-y-3 px-1">
-        <h3 className="text-sm font-semibold text-muted-foreground">
-          System Information
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-          {Object.entries(info).map(([key, value]) => (
-            <div
-              key={key}
-              className="flex flex-col p-2 border rounded-md bg-background/50"
-            >
-              <span className="text-xs text-muted-foreground">{key}</span>
-              <span className="font-mono truncate" title={value?.toString()}>
-                {value}
-              </span>
-            </div>
-          ))}
+      <div className="p-4 bg-card rounded-lg border border-border/50">
+        <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+          System
+        </div>
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Platform</span>
+            <span className="font-mono">{navigator.platform}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Screen</span>
+            <span className="font-mono">
+              {window.screen.width}×{window.screen.height}
+            </span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Timezone</span>
+            <span className="font-mono">
+              {Intl.DateTimeFormat().resolvedOptions().timeZone}
+            </span>
+          </div>
         </div>
       </div>
     </div>

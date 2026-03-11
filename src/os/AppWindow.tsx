@@ -38,7 +38,7 @@ export const AppWindow = ({
       <motion.div
         className={`pointer-events-auto h-full ${
           isWindowed
-            ? "max-w-4xl w-full flex flex-col rounded-2xl border-2 border-border bg-background/85 backdrop-blur-md min-h-[50vh] max-h-[75vh] transition-all"
+            ? "max-w-4xl w-full flex flex-col rounded-2xl border-2 border-border bg-background/80 backdrop-blur-md min-h-[50vh] max-h-[75vh] transition-all"
             : "flex flex-1 w-full flex-col rounded-xl border border-border bg-background overflow-hidden"
         } ${isWindowed && isFocused ? "shadow-2xl shadow-black/20" : ""} ${
           isWindowed && !isFocused ? "opacity-90 shadow-sm" : ""
@@ -58,7 +58,7 @@ export const AppWindow = ({
           onToggleMaximize={onToggleMaximize}
           onClose={onClose}
         />
-        <div className="flex-1 min-h-0 overflow-y-auto flex flex-col rounded-[inherit]">
+        <div className="flex-1 min-h-0 overflow-y-auto flex flex-col rounded-b-lg">
           <Component isActive={isFocused} />
         </div>
       </motion.div>

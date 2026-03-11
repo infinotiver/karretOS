@@ -1,8 +1,4 @@
-import {
-  useTheme,
-  type BackgroundStyle,
-  type OpacityLevel,
-} from "@/hooks/useTheme";
+import { useTheme, type OpacityLevel } from "@/hooks/useTheme";
 
 export function TransparencySettings() {
   const { backgroundStyle, setBackgroundStyle, opacityLevel, setOpacityLevel } =
