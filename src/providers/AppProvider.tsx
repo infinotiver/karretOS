@@ -12,15 +12,25 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [username, setUsername] = useState("User");
+  const [username, setUsername] = useState(() => {
+    try {
+      const usernameStored = localStorage.getItem("karretOS_username");
+      return usernameStored || "User";
+    } catch {
+      return "User";
+    }
+  });
+
   const [backgroundType, setBackgroundType] = useState<BackgroundType>(() => {
     try {
-      const stored = localStorage.getItem("karretOS_bg");
+      const backgroundStored = localStorage.getItem("karretOS_bg");
       if (
-        stored &&
-        ["default", "blur-minimal", "solid", "transparent"].includes(stored)
+        backgroundStored &&
+        ["default", "blur-minimal", "solid", "transparent"].includes(
+          backgroundStored,
+        )
       ) {
-        return stored as BackgroundType;
+        return backgroundStored as BackgroundType;
       }
       return "default";
     } catch {
@@ -28,12 +38,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
   });
 
+  const updateUsername = (name: string) => {
+    setUsername(name);
+    try {
+      localStorage.setItem("karretOS_username", name);
+    } catch {
+      console.log("An error occurred while saving username to localstorage");
+    }
+  };
+
   const updateBackground = (type: BackgroundType) => {
     setBackgroundType(type);
     try {
       localStorage.setItem("karretOS_bg", type);
     } catch {
-      // Silently fail if localStorage unavailable
+      console.log("An error occurred while saving background to localstorage");
     }
   };
 
@@ -41,7 +60,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     <AppContext.Provider
       value={{
         username,
-        setUsername,
+        setUsername: updateUsername, // 3. Use the new wrapper here
         backgroundType,
         setBackgroundType: updateBackground,
       }}
