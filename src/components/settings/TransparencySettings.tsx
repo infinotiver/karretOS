@@ -1,8 +1,12 @@
-import { useTheme, type OpacityLevel } from "@/hooks/useTheme";
+import { useTheme, type TransparencyMode } from "@/hooks/useTheme";
 
 export function TransparencySettings() {
-  const { backgroundStyle, setBackgroundStyle, opacityLevel, setOpacityLevel } =
-    useTheme();
+  const {
+    backgroundMode,
+    setBackgroundMode,
+    transparencyMode,
+    setTransparencyMode,
+  } = useTheme();
 
   return (
     <div className="space-y-6">
@@ -11,9 +15,9 @@ export function TransparencySettings() {
         <h3 className="mb-3 font-semibold text-foreground">Background Style</h3>
         <div className="flex gap-3">
           <button
-            onClick={() => setBackgroundStyle("mountain")}
+            onClick={() => setBackgroundMode("mountain")}
             className={`flex-1 p-4 rounded-lg border-2 transition-all ${
-              backgroundStyle === "mountain"
+              backgroundMode === "mountain"
                 ? "border-primary bg-primary/15"
                 : "border-border/40 hover:border-border"
             }`}
@@ -23,9 +27,9 @@ export function TransparencySettings() {
           </button>
 
           <button
-            onClick={() => setBackgroundStyle("solid")}
+            onClick={() => setBackgroundMode("solid")}
             className={`flex-1 p-4 rounded-lg border-2 transition-all ${
-              backgroundStyle === "solid"
+              backgroundMode === "solid"
                 ? "border-primary bg-primary/15"
                 : "border-border/40 hover:border-border"
             }`}
@@ -46,17 +50,17 @@ export function TransparencySettings() {
           {(
             [
               {
-                level: "default" as OpacityLevel,
+                level: "default" as TransparencyMode,
                 label: "Default",
                 desc: "Full opacity",
               },
               {
-                level: "light" as OpacityLevel,
+                level: "light" as TransparencyMode,
                 label: "Light",
                 desc: "60% opacity",
               },
               {
-                level: "none" as OpacityLevel,
+                level: "none" as TransparencyMode,
                 label: "Minimal",
                 desc: "30% opacity",
               },
@@ -64,9 +68,9 @@ export function TransparencySettings() {
           ).map(({ level, label, desc }) => (
             <button
               key={level}
-              onClick={() => setOpacityLevel(level)}
+              onClick={() => setTransparencyMode(level)}
               className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
-                opacityLevel === level
+                transparencyMode === level
                   ? "border-primary bg-primary/15"
                   : "border-border/40 hover:border-border"
               }`}

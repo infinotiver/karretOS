@@ -1,16 +1,16 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 
-export type BackgroundStyle = "mountain" | "solid";
-export type OpacityLevel = "default" | "light" | "none";
+export type BackgroundMode = "mountain" | "solid";
+export type TransparencyMode = "default" | "light" | "none";
 
 interface ThemeContextType {
   username: string;
   setUsername: (name: string) => void;
-  backgroundStyle: BackgroundStyle;
-  setBackgroundStyle: (style: BackgroundStyle) => void;
-  opacityLevel: OpacityLevel;
-  setOpacityLevel: (level: OpacityLevel) => void;
+  backgroundMode: BackgroundMode;
+  setBackgroundMode: (style: BackgroundMode) => void;
+  transparencyMode: TransparencyMode;
+  setTransparencyMode: (level: TransparencyMode) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -19,9 +19,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [username, setUsername] = useState(
     localStorage.getItem("karretOS_username") || "User",
   );
-  const [backgroundStyle, setBackgroundStyle] =
-    useState<BackgroundStyle>("mountain");
-  const [opacityLevel, setOpacityLevel] = useState<OpacityLevel>("default");
+  const [backgroundMode, setBackgroundMode] =
+    useState<BackgroundMode>("mountain");
+  const [transparencyMode, setTransparencyMode] =
+    useState<TransparencyMode>("default");
 
   const updateUsername = (name: string) => {
     setUsername(name);
@@ -33,10 +34,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       value={{
         username,
         setUsername: updateUsername,
-        backgroundStyle,
-        setBackgroundStyle,
-        opacityLevel,
-        setOpacityLevel,
+        backgroundMode,
+        setBackgroundMode,
+        transparencyMode,
+        setTransparencyMode,
       }}
     >
       {children}
