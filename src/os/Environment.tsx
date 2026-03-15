@@ -1,33 +1,32 @@
 import type { PropsWithChildren } from "react";
 import Noise from "@/components/Noise";
 import { useTheme } from "@/hooks/useTheme";
-import { getBlurOpacityConfig } from "@/lib/blurOpacityHelper";
+import { useVisualConfig } from "@/hooks/useVisualConfig";
+import { toBackgroundBlurClass } from "@/lib/visualConfig";
 import bg from "@/assets/assets/bg.png";
 
 const Environment = ({ children }: PropsWithChildren) => {
-  const { backgroundStyle, opacityLevel } = useTheme();
-  const config = getBlurOpacityConfig(backgroundStyle, opacityLevel);
+  const { backgroundMode } = useTheme();
+  const { blur, surfaceClass, opacityClass } = useVisualConfig();
 
   return (
     <div className="relative h-screen w-full overflow-hidden text-foreground">
       {/* Background image (hidden when solid) */}
-      {backgroundStyle !== "solid" && (
+      {backgroundMode !== "solid" && (
         <img
           src={bg}
           alt=""
           aria-hidden="true"
-          className={`pointer-events-none absolute inset-0 h-full w-full object-cover grayscale ${config.blur}`}
+          className={`pointer-events-none absolute inset-0 h-full w-full object-cover grayscale ${toBackgroundBlurClass(blur)}`}
         />
       )}
 
       {/* Background overlay */}
-      <div
-        className={`pointer-events-none absolute inset-0 ${config.bgOverlay}`}
-      />
+      <div className={`pointer-events-none absolute inset-0 ${surfaceClass}`} />
 
       {/* Gradient overlay */}
       <div
-        className={`pointer-events-none absolute inset-0 bg-linear-to-b from-black/8 via-transparent to-black/18 ${config.gradientOpacity}`}
+        className={`pointer-events-none absolute inset-0 bg-linear-to-b from-black/8 via-transparent to-black/18 ${opacityClass}`}
       />
 
       <Noise
@@ -35,7 +34,7 @@ const Environment = ({ children }: PropsWithChildren) => {
         patternScaleX={2}
         patternScaleY={2}
         patternRefreshInterval={2}
-        patternAlpha={config.noiseAlpha}
+        patternAlpha={8}
       />
       <div className="relative h-full w-full">{children}</div>
     </div>

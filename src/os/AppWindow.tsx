@@ -3,6 +3,8 @@ import TitleBar from "@/os/TitleBar";
 import { getApp } from "@/os/apps/registry";
 import type { AppId } from "@/os/apps/types";
 import type { WindowEntry } from "@/os/useSession";
+import { useVisualConfig } from "@/hooks/useVisualConfig";
+import { toBackdropBlurClass } from "@/lib/visualConfig";
 
 interface AppWindowProps {
   win: WindowEntry;
@@ -24,6 +26,7 @@ export const AppWindow = ({
   const appDef = getApp(win.id);
   const Component = appDef.component;
   const isWindowed = win.windowState === "windowed";
+  const { blur, surfaceClass } = useVisualConfig();
 
   return (
     <motion.div
@@ -39,10 +42,10 @@ export const AppWindow = ({
       transition={{ duration: 0.2, ease: "easeOut" }}
     >
       <motion.div
-        className={`pointer-events-auto h-full ${
+        className={`pointer-events-auto h-full ${toBackdropBlurClass(blur)} ${surfaceClass} ${
           isWindowed
-            ? "max-w-4xl w-full flex flex-col rounded-2xl border-2 border-border bg-background/80 backdrop-blur-md min-h-[50vh] max-h-[75vh] transition-all"
-            : "flex flex-1 w-full flex-col rounded-xl border border-border bg-background overflow-hidden"
+            ? "max-w-4xl w-full flex flex-col rounded-2xl border-2 border-border min-h-[50vh] max-h-[75vh] transition-all overflow-hidden"
+            : "flex flex-1 w-full flex-col rounded-xl border border-border overflow-hidden"
         } ${isWindowed && isFocused ? "shadow-2xl shadow-black/20" : ""} ${
           isWindowed && !isFocused ? "opacity-90 shadow-sm" : ""
         }`}
