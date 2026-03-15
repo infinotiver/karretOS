@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import TitleBar from "@/os/TitleBar";
 import { getApp } from "@/os/apps/registry";
+import type { AppId } from "@/os/apps/types";
 import type { WindowEntry } from "@/os/useSession";
 
 interface AppWindowProps {
@@ -9,6 +10,7 @@ interface AppWindowProps {
   onFocus: () => void;
   onToggleMaximize: () => void;
   onClose: () => void;
+  onOpenApp: (id: AppId) => void;
 }
 
 export const AppWindow = ({
@@ -17,6 +19,7 @@ export const AppWindow = ({
   onFocus,
   onToggleMaximize,
   onClose,
+  onOpenApp,
 }: AppWindowProps) => {
   const appDef = getApp(win.id);
   const Component = appDef.component;
@@ -59,7 +62,7 @@ export const AppWindow = ({
           onClose={onClose}
         />
         <div className="flex-1 min-h-0 overflow-y-auto flex flex-col rounded-b-lg">
-          <Component isActive={isFocused} />
+          <Component isActive={isFocused} onOpenApp={onOpenApp} />
         </div>
       </motion.div>
     </motion.div>

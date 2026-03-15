@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { WindowLayout } from "@/components/layouts/WindowLayout";
+import type { AppId, AppProps } from "../types";
 
-export default function TerminalApp() {
+export default function TerminalApp({ onOpenApp }: AppProps) {
   const [lines, setLines] = useState<string[]>([]);
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -21,7 +22,15 @@ export default function TerminalApp() {
     } else if (trimmed === "whoami") {
       newLines.push("root@karretOS");
     } else if (trimmed === "help") {
-      newLines.push("Available commands: clear, whoami, help");
+      newLines.push("Available commands: clear, whoami, help, open <app-id>");
+    } else if (trimmed.startsWith("open")) {
+      const appId = cmd.slice(5).trim() as AppId;
+      if (!appId) {
+        newLines.push("usage: open <app-id>");
+      } else if (onOpenApp) {
+        newLines.push(`Trying to open: ${appId}`);
+        onOpenApp(appId);
+      }
     } else {
       newLines.push(`command not found: ${cmd}`);
     }
@@ -62,5 +71,3 @@ export default function TerminalApp() {
     </WindowLayout>
   );
 }
-   
- 

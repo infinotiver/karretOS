@@ -44,6 +44,7 @@ const Shell = () => {
             onFocus={() => session.focus(win.id)}
             onToggleMaximize={() => session.toggleMaximize(win.id)}
             onClose={() => session.close(win.id)}
+            onOpenApp={session.open}
           />
         ))}
       </AnimatePresence>
