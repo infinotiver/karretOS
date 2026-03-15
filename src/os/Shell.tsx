@@ -5,6 +5,7 @@ import Dock from "@/os/Dock";
 import useSession from "@/os/useSession";
 import { Desktop } from "@/os/Desktop";
 import { AppWindow } from "@/os/AppWindow";
+import { useEffect, useRef } from "react";
 
 /* ── Shell ── */
 const Shell = () => {
@@ -12,7 +13,14 @@ const Shell = () => {
   const hasMaximized = session.windows.some(
     (w) => w.windowState === "maximized",
   );
+  const didOpenDefaultApp = useRef(false);
+  useEffect(() => {
+    // Prevent double-open in React StrictMode
+    if (didOpenDefaultApp.current) return;
+    didOpenDefaultApp.current = true;
 
+    session.open("portfolio");
+  }, [session]);
   return (
     <Environment>
       <div className="relative z-0 h-full w-full">
