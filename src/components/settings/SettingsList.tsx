@@ -1,5 +1,7 @@
+import type { LucideIcon } from "lucide-react";
+
 interface SettingsListProps {
-  settings: Array<{ icon: string; title: string; description: string }>;
+  settings: Array<{ icon: LucideIcon; title: string; description: string }>;
   active: string;
   onSelect: (title: string) => void;
 }
@@ -11,7 +13,7 @@ export function SettingsList({
 }: SettingsListProps) {
   return (
     <aside className="max-w-48 shrink-0 border-r border-border overflow-y-auto p-2 flex flex-col gap-1">
-      {settings.map(({ icon, title }) => (
+      {settings.map(({ icon: Icon, title }) => (
         <button
           key={title}
           onClick={() => onSelect(title)}
@@ -21,7 +23,7 @@ export function SettingsList({
               : "text-muted-foreground hover:bg-muted/50"
           }`}
         >
-          <span>{icon}</span>
+          <Icon className="size-4" aria-hidden="true" />
           <span className="hidden lg:inline">{title}</span>
         </button>
       ))}
