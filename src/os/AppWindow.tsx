@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
 import TitleBar from "@/os/TitleBar";
 import { getApp } from "@/os/apps/registry";
 import type { AppId } from "@/os/apps/types";
@@ -7,8 +6,6 @@ import type { WindowEntry } from "@/os/useSession";
 
 const APP_WINDOW_BLUR = "backdrop-blur-2xl";
 const APP_WINDOW_OPACITY = "bg-background/70/90";
-const TITLEBAR_BLUR = "backdrop-blur-xl";
-const TITLEBAR_OPACITY = "bg-background/80/90";
 
 interface AppWindowProps {
   win: WindowEntry;
@@ -64,7 +61,6 @@ export const AppWindow = ({
           windowState={win.windowState}
           onToggleMaximize={onToggleMaximize}
           onClose={onClose}
-          className={cn("border-b border-border/40")}
         />
         <div className="flex-1 min-h-0 overflow-y-auto flex flex-col rounded-b-lg">
           <Component isActive={isFocused} onOpenApp={onOpenApp} />

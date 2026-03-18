@@ -11,7 +11,7 @@ interface TitleBarProps {
 }
 
 const ctrl =
-  "inline-flex h-7 w-7 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-black/10 hover:text-foreground";
+  "inline-flex h-6 w-6 items-center justify-center rounded-full text-muted-foreground bg-gray-400/20 transition-colors hover:bg-black/10 hover:text-foreground";
 
 const TitleBar = ({
   title,
@@ -22,20 +22,13 @@ const TitleBar = ({
 }: TitleBarProps) => (
   <header
     className={cn(
-      "flex items-center justify-between px-4 py-1.5 cursor-grab active:cursor-grabbing",
+      "flex items-center justify-between px-3 py-0.5 cursor-grab active:cursor-grabbing backdrop-blur-md bg-background/10 border-b border-border/40",
       className,
     )}
   >
-    {/* Left: Title */}
-    <p className="select-none text-sm font-semibold text-muted-foreground">
-      {title}
-    </p>
-
-    {/* Center: spacer — draggable area */}
+    <p className="select-none text-sm font-semibold text-foreground">{title}</p>
     <div className="flex-1" />
-
-    {/* Right: Control buttons */}
-    <div className="flex items-center gap-1.5 rounded-lg bg-gray-400/25 px-2 py-0.5">
+    <div className="flex items-center gap-1.5 rounded-lg px-2 py-0.5">
       <button
         type="button"
         onClick={onToggleMaximize}
@@ -53,7 +46,7 @@ const TitleBar = ({
         type="button"
         onClick={onClose}
         onPointerDown={(e) => e.stopPropagation()}
-        className={`${ctrl} hover:bg-red-500/20! hover:text-red-600!`}
+        className={`${ctrl} hover:bg-red-500/20 hover:text-red-600`}
         aria-label={`Close ${title}`}
       >
         <X className="h-3.5 w-3.5" />
