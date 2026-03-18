@@ -7,13 +7,17 @@ interface BadgeProps {
   className?: string;
 }
 
-const VARIANT_STYLES: Record<BadgeProps["variant"], string> = {
+const VARIANT_STYLES: Record<"ghost" | "soft" | "accent", string> = {
   accent: "bg-primary/15 text-primary",
   ghost: "bg-muted/70 text-muted-foreground",
   soft: "bg-background/60 text-foreground",
 };
 
-export const Badge = ({ children, variant = "ghost", className }: BadgeProps) => (
+export const Badge = ({
+  children,
+  variant = "ghost",
+  className,
+}: BadgeProps) => (
   <span
     className={cn(
       "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-tight",

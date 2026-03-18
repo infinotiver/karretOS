@@ -2,8 +2,13 @@ import { cn } from "@/lib/utils";
 import { TRANSPARENCY_OPTIONS } from "@/lib/visualConfig";
 import { useTheme } from "@/hooks/useTheme";
 import { Panel } from "@/components/common/Panel";
+import type { BackgroundMode } from "@/hooks/useTheme";
 
-const backgroundOptions = [
+const backgroundOptions: Array<{
+  mode: BackgroundMode;
+  label: string;
+  desc: string;
+}> = [
   { mode: "mountain", label: "Mountain", desc: "With image blur" },
   { mode: "solid", label: "Solid", desc: "Flat color" },
 ];
@@ -36,7 +41,9 @@ export function TransparencySettings() {
                 <div className="text-sm font-semibold text-foreground">
                   {option.label}
                 </div>
-                <div className="text-xs text-muted-foreground">{option.desc}</div>
+                <div className="text-xs text-muted-foreground">
+                  {option.desc}
+                </div>
               </button>
             );
           })}
@@ -62,7 +69,9 @@ export function TransparencySettings() {
                 )}
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-semibold text-sm text-foreground">{label}</span>
+                  <span className="font-semibold text-sm text-foreground">
+                    {label}
+                  </span>
                   <span className="text-xs text-muted-foreground">{desc}</span>
                 </div>
               </button>

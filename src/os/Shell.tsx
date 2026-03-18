@@ -52,9 +52,6 @@ const Shell = () => {
       <Dock
         apps={apps}
         activeAppId={session.focusedId}
-        onShowDesktop={() => {
-          if (session.focusedId) session.close(session.focusedId);
-        }}
         onOpenApp={session.open}
       />
     </Environment>
