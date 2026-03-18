@@ -6,7 +6,8 @@ export type AppId =
   | "pomodoro"
   | "terminal"
   | "notes"
-  | "settings";
+  | "settings"
+  | "windows";
 
 export interface AppProps {
   isActive: boolean;

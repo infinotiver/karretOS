@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Palette, User } from "lucide-react";
 import { SettingsList } from "@/components/settings/SettingsList";
-import { TransparencySettings } from "@/components/settings/TransparencySettings";
+import { PersonalisationSettings } from "@/components/settings/PersonalisationSettings";
 import { AboutSettings } from "@/components/settings/AboutSettings";
 import { WindowLayout } from "@/components/layouts/WindowLayout";
 
 const SETTINGS = [
   {
     icon: Palette,
-    title: "Transparency",
-    description: "Configure background opacity",
+    title: "Personalisation",
+    description: "Choose how the desktop looks",
   },
   { icon: User, title: "About", description: "About karretOS & You" },
 ];
@@ -37,7 +37,7 @@ export default function SettingsApp() {
             {current.description}
           </p>
 
-          {active === "Transparency" && <TransparencySettings />}
+          {active === "Personalisation" && <PersonalisationSettings />}
           {active === "About" && <AboutSettings />}
         </section>
       </div>

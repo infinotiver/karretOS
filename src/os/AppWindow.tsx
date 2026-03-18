@@ -4,7 +4,11 @@ import TitleBar from "@/os/TitleBar";
 import { getApp } from "@/os/apps/registry";
 import type { AppId } from "@/os/apps/types";
 import type { WindowEntry } from "@/os/useSession";
-import { useVisualConfig } from "@/hooks/useVisualConfig";
+
+const APP_WINDOW_BLUR = "backdrop-blur-2xl";
+const APP_WINDOW_OPACITY = "bg-background/70/90";
+const TITLEBAR_BLUR = "backdrop-blur-xl";
+const TITLEBAR_OPACITY = "bg-background/80/90";
 
 interface AppWindowProps {
   win: WindowEntry;
@@ -26,9 +30,6 @@ export const AppWindow = ({
   const appDef = getApp(win.id);
   const Component = appDef.component;
   const isWindowed = win.windowState === "windowed";
-  const { blurLevel, opacity } = useVisualConfig();
-  const windowBlurClass = `backdrop-blur-${blurLevel}`;
-  const opacityClass = `bg-background/${opacity}`;
 
   return (
     <motion.div
@@ -43,20 +44,18 @@ export const AppWindow = ({
       exit={{ opacity: 0, y: 14, scale: 0.99 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
     >
-      <motion.div
-        className={`pointer-events-auto h-full ${windowBlurClass} ${opacityClass} ${
-          isWindowed
-            ? "max-w-4xl w-full flex flex-col rounded-2xl border-2 border-border min-h-[50vh] max-h-[75vh] transition-all overflow-hidden"
-            : "flex flex-1 w-full flex-col rounded-xl border border-border overflow-hidden"
-        } ${isWindowed && isFocused ? "shadow-2xl shadow-black/20" : ""} ${
-          isWindowed && !isFocused ? "opacity-90 shadow-sm" : ""
-        }`}
+        <motion.div
+          className={`pointer-events-auto h-full ${APP_WINDOW_BLUR} ${APP_WINDOW_OPACITY} ${
+            isWindowed
+              ? "max-w-4xl w-full flex flex-col rounded-2xl border-2 border-border min-h-[50vh] max-h-[75vh] transition-all overflow-hidden"
+              : "flex flex-1 w-full flex-col rounded-xl border border-border overflow-hidden"
+          } ${isWindowed && isFocused ? "shadow-2xl shadow-black/20" : ""} ${
+            isWindowed && !isFocused ? "opacity-90 shadow-sm" : ""
+          }`}
         drag={isWindowed}
         dragMomentum={false}
         dragElastic={0}
-        initial={
-          isWindowed ? { x: win.offset.x, y: win.offset.y } : { x: 0, y: 0 }
-        }
+        initial={isWindowed ? { x: win.offset.x, y: win.offset.y } : { x: 0, y: 0 }}
         animate={isWindowed ? {} : { x: 0, y: 0 }}
         onPointerDownCapture={onFocus}
       >
@@ -65,11 +64,7 @@ export const AppWindow = ({
           windowState={win.windowState}
           onToggleMaximize={onToggleMaximize}
           onClose={onClose}
-          className={cn(
-            "border-b border-border/40",
-            windowBlurClass,
-            opacityClass,
-          )}
+          className={cn("border-b border-border/40")}
         />
         <div className="flex-1 min-h-0 overflow-y-auto flex flex-col rounded-b-lg">
           <Component isActive={isFocused} onOpenApp={onOpenApp} />
