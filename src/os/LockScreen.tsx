@@ -35,9 +35,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
 
   const handleUnlock = () => {
     if (onUnlock) onUnlock();
-    if (window.location.pathname !== "/") {
-      navigate("/");
-    }
+    navigate("/desktop");
   };
 
   return (
