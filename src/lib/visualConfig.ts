@@ -17,11 +17,11 @@ export interface TransparencyOption {
 const VISUAL_CONFIGS: Record<TransparencyMode, VisualConfig> = {
   default: {
     blurLevel: "md",
-    opacity: "80",
+    opacity: "60",
   },
   light: {
     blurLevel: "md",
-    opacity: "60",
+    opacity: "40",
   },
   none: {
     blurLevel: "sm",
@@ -30,8 +30,8 @@ const VISUAL_CONFIGS: Record<TransparencyMode, VisualConfig> = {
 };
 
 export const TRANSPARENCY_OPTIONS: readonly TransparencyOption[] = [
-  { mode: "default", label: "Default", desc: "Blur md • 80% opacity" },
-  { mode: "light", label: "Light", desc: "Blur md • 60% opacity" },
+  { mode: "default", label: "Default", desc: "Blur md • 60% opacity" },
+  { mode: "light", label: "Light", desc: "Blur md • 40% opacity" },
   { mode: "none", label: "Minimal", desc: "Blur sm • 40% opacity" },
 ];
 export const getVisualConfig = (

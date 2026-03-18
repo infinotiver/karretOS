@@ -20,7 +20,7 @@ const Environment = ({ children }: PropsWithChildren) => {
           src={bg}
           alt=""
           aria-hidden="true"
-          className={`pointer-events-none absolute inset-0 h-full w-full object-cover grayscale-50 ${wallpaperBlurClass}`}
+          className={`pointer-events-none absolute inset-0 h-full w-full object-cover grayscale-25 ${wallpaperBlurClass}`}
         />
       )}
 
