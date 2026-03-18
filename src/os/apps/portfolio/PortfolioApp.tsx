@@ -23,7 +23,13 @@ const PortfolioApp = () => {
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
-                title: "Infinotiver's Portfolio",
+                title: "SlangType",
+                desc: "Test your typing speed in slangs and custom themes (using AI)",
+                href: "https://slangtype.vercel.app/",
+                tags: ["React", "NeonDB"],
+              },
+              {
+                title: "karretOS",
                 desc: "webOS Portfolio built with React & Tailwind",
                 href: "https://infinotiver.is-a.dev/",
                 tags: ["React", "Tailwind"],
