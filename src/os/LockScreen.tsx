@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import bg from "@/assets/assets/bg.png";
+import { useNavigate } from "react-router-dom";
 
 interface LockScreenProps {
   onUnlock: () => void;
@@ -8,6 +9,7 @@ interface LockScreenProps {
 
 export const LockScreen = ({ onUnlock }: LockScreenProps) => {
   const [now, setNow] = useState(new Date());
+  const navigate = useNavigate();
 
   useEffect(() => {
     const id = window.setInterval(() => setNow(new Date()), 1000);
@@ -33,7 +35,9 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
 
   const handleUnlock = () => {
     if (onUnlock) onUnlock();
-    window.location.href = "/";
+    if (window.location.pathname !== "/") {
+      navigate("/");
+    }
   };
 
   return (
