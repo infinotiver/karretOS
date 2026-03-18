@@ -1,5 +1,7 @@
 import type React from "react";
 import type { HomeStat } from "@/config/home";
+import { Panel } from "@/components/common/Panel";
+import { MetricPair } from "@/components/common/MetricPair";
 
 interface StatsPanelProps {
   stats: HomeStat[];
@@ -31,36 +33,51 @@ const StatsPanel: React.FC<StatsPanelProps> = ({ stats }) => {
   const totalCoding = findStat(stats, "Total Coding", "--");
   const topLanguage = findStat(stats, "Top Language", "N/A");
   const dailyAverage = findStat(stats, "Daily Average", "--");
-  const activityBreakdown = findStat(stats, "Activity Breakdown", "Coding -- | Browsing --");
+  const activityBreakdown = findStat(
+    stats,
+    "Activity Breakdown",
+    "Coding -- | Browsing --",
+  );
   const activitySegments = parseActivityBreakdown(activityBreakdown);
 
   return (
     <aside className="md:col-span-1 md:col-start-4 md:h-full">
-      <div className="rounded-2xl p-1 md:h-full">
-        <div className="mb-2">
-          <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground">Waka Stats</p>
-        </div>
-
-        <div className="space-y-1.5">
-          <div className="rounded-xl border border-border/60 bg-background/45 px-2.5 py-2">
-            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground">Daily</p>
-            <p className="mt-1 text-4xl font-black tracking-tight text-foreground">{dailyAverage}</p>
-          </div>
-
-          <div className="rounded-xl border border-border/60 px-2.5 py-2 text-[11px] leading-tight text-muted-foreground">
-            <p>
-              <span className="font-bold">Total:</span> <span className="font-bold text-foreground">{totalCoding}</span>
+      <Panel
+        title="Waka Stats"
+        description="Live coding metrics from WakaTime"
+        className="md:h-full"
+      >
+        <div className="space-y-3">
+          <div className="rounded-xl border border-border/60 bg-background/45 px-3 py-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+              Daily
             </p>
-            <p>
-              <span className="font-bold">Lang:</span> <span className="font-bold text-foreground">{topLanguage}</span>
+            <p className="mt-1 text-4xl font-black tracking-tight text-foreground">
+              {dailyAverage}
             </p>
           </div>
 
-          <div className="rounded-xl border border-border/60 px-2.5 py-2 text-[11px] leading-tight text-muted-foreground">
-            <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.12em]">Activity</p>
-            {activitySegments.length > 0 ? (
-              <div className="space-y-1.5">
-                <div className="flex h-4 w-full gap-px overflow-hidden rounded-full border border-border/60 bg-white/40 p-[2px]">
+          <div className="space-y-2">
+            <MetricPair
+              label="Total"
+              value={<span className="font-black text-foreground">{totalCoding}</span>}
+            />
+            <MetricPair
+              label="Top Language"
+              value={<span className="font-black text-foreground">{topLanguage}</span>}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <MetricPair
+              label="Activity"
+              value={<span className="text-[11px] text-muted-foreground">{activityBreakdown}</span>}
+              className="text-[11px]"
+            />
+
+            {activitySegments.length > 0 && (
+              <div className="space-y-2">
+                <div className="flex h-4 w-full gap-px overflow-hidden rounded-full border border-border/60 bg-white/30 p-[2px]">
                   {activitySegments.map((segment, index) => (
                     <span
                       key={segment.name}
@@ -70,27 +87,29 @@ const StatsPanel: React.FC<StatsPanelProps> = ({ stats }) => {
                     />
                   ))}
                 </div>
-                <div className="space-y-0.5">
+                <div className="space-y-1">
                   {activitySegments.map((segment, index) => (
-                    <p key={segment.name} className="flex items-center justify-between gap-2">
-                      <span className="inline-flex items-center gap-1">
-                        <span
-                          className={`h-2 w-2 rounded-sm ${shadeClasses[index % shadeClasses.length]}`}
-                          aria-hidden="true"
-                        />
-                        <span className="font-semibold text-foreground">{segment.name}</span>
-                      </span>
-                      <span className="font-bold text-foreground">{Math.round(segment.percent)}%</span>
-                    </p>
+                    <MetricPair
+                      key={`${segment.name}-${segment.percent}`}
+                      label={
+                        <span className="flex items-center gap-1 text-[11px] font-semibold text-muted-foreground">
+                          <span
+                            aria-hidden="true"
+                            className={`h-2 w-2 rounded-sm ${shadeClasses[index % shadeClasses.length]}`}
+                          />
+                          {segment.name}
+                        </span>
+                      }
+                      value={`${Math.round(segment.percent)}%`}
+                      className="text-[11px]"
+                    />
                   ))}
                 </div>
               </div>
-            ) : (
-              <p className="font-semibold text-foreground">{activityBreakdown}</p>
             )}
           </div>
         </div>
-      </div>
+      </Panel>
     </aside>
   );
 };

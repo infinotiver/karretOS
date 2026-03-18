@@ -1,5 +1,6 @@
 import Hero from "@/components/portfolio/hero/hero";
 import StatsPanel from "@/components/portfolio/home/widgets/StatsPanel";
+import { Badge } from "@/components/common/Badge";
 import useWakaTimeStats from "@/hooks/useWakaTimeStats";
 import { WindowLayout } from "@/components/layouts/WindowLayout";
 
@@ -88,14 +89,11 @@ const PortfolioApp = () => {
                 <p className="text-xs text-muted-foreground leading-relaxed">
                   {desc}
                 </p>
-                <div className="mt-auto flex flex-wrap gap-1 pt-1">
+                <div className="mt-auto flex flex-wrap gap-2 pt-1">
                   {tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground"
-                    >
+                    <Badge key={tag} className="bg-muted/60 text-muted-foreground">
                       {tag}
-                    </span>
+                    </Badge>
                   ))}
                 </div>
               </a>
