@@ -1,4 +1,5 @@
 import { Briefcase, Clock, TimerIcon, TerminalIcon, Paperclip, Settings2Icon } from "lucide-react";
+import { SquaresFourIcon } from "@phosphor-icons/react";
 import ClockApp from "@/os/apps/clock/ClockApp";
 import PortfolioApp from "@/os/apps/portfolio/PortfolioApp";
 import PomodoroApp from "./pomodoro/PomodoroApp";
@@ -6,6 +7,7 @@ import TerminalApp from "./terminal/TerminalApp";
 import NotesApp from "./notes/NotesApp";
 import SettingsApp from "./settings/SettingsApp";
 import type { AppDefinition, AppId } from "@/os/apps/types";
+import WindowsApp from "./windows/WindowsApp";
 
 export const apps: AppDefinition[] = [
   {
@@ -49,6 +51,13 @@ export const apps: AppDefinition[] = [
     description: "Make karretOS all yours",
     component: SettingsApp,
     icon: Settings2Icon
+  },
+  {
+    id: "windows",
+    title: "Windows",
+    description: "Windows sucks as usual",
+    component: WindowsApp,
+    icon: SquaresFourIcon
   }
 ];
 
