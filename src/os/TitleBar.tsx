@@ -1,4 +1,5 @@
 import { Maximize2, Minimize2, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 import type { WindowState } from "@/os/useSession";
 
 interface TitleBarProps {
@@ -6,18 +7,25 @@ interface TitleBarProps {
   windowState: WindowState;
   onToggleMaximize: () => void;
   onClose: () => void;
+  className?: string;
 }
 
 const ctrl =
-  "inline-flex h-7 w-7 items-center justify-center rounded-full text-gray-900 transition-colors hover:bg-black/10";
+  "inline-flex h-7 w-7 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-black/10 hover:text-foreground";
 
 const TitleBar = ({
   title,
   windowState,
   onToggleMaximize,
   onClose,
+  className,
 }: TitleBarProps) => (
-  <header className="flex items-center justify-between px-4 py-1.5 cursor-grab active:cursor-grabbing">
+  <header
+    className={cn(
+      "flex items-center justify-between px-4 py-1.5 cursor-grab active:cursor-grabbing",
+      className,
+    )}
+  >
     {/* Left: Title */}
     <p className="select-none text-sm font-semibold text-muted-foreground">
       {title}

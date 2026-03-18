@@ -2,12 +2,15 @@ import type { PropsWithChildren } from "react";
 import Noise from "@/components/Noise";
 import { useTheme } from "@/hooks/useTheme";
 import { useVisualConfig } from "@/hooks/useVisualConfig";
-import { toBackgroundBlurClass } from "@/lib/visualConfig";
-import bg from "@/assets/assets/bg.png";
+import bg from "@/assets/assets/bg2.png";
 
 const Environment = ({ children }: PropsWithChildren) => {
   const { backgroundMode } = useTheme();
-  const { blur, surfaceClass, opacityClass } = useVisualConfig();
+  const { blurLevel, opacity } = useVisualConfig();
+
+  const wallpaperBlurClass = `blur-${blurLevel}`;
+  const windowBlurClass = `backdrop-blur-${blurLevel}`;
+  const opacityClass = `bg-background/${opacity}`;
 
   return (
     <div className="relative h-screen w-full overflow-hidden text-foreground">
@@ -17,17 +20,17 @@ const Environment = ({ children }: PropsWithChildren) => {
           src={bg}
           alt=""
           aria-hidden="true"
-          className={`pointer-events-none absolute inset-0 h-full w-full object-cover grayscale ${toBackgroundBlurClass(blur)}`}
+          className={`pointer-events-none absolute inset-0 h-full w-full object-cover grayscale-50 ${wallpaperBlurClass}`}
         />
       )}
 
       {/* Background overlay */}
-      <div className={`pointer-events-none absolute inset-0 ${surfaceClass}`} />
+      <div
+        className={`pointer-events-none absolute inset-0 ${opacityClass} ${windowBlurClass}`}
+      />
 
       {/* Gradient overlay */}
-      <div
-        className={`pointer-events-none absolute inset-0 bg-linear-to-b from-black/8 via-transparent to-black/18 ${opacityClass}`}
-      />
+      <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/8 via-transparent to-black/18 opacity-60" />
 
       <Noise
         patternSize={200}

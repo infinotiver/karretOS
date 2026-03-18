@@ -1,4 +1,12 @@
-import { useTheme, type TransparencyMode } from "@/hooks/useTheme";
+import { cn } from "@/lib/utils";
+import { TRANSPARENCY_OPTIONS } from "@/lib/visualConfig";
+import { useTheme } from "@/hooks/useTheme";
+import { Panel } from "@/components/common/Panel";
+
+const backgroundOptions = [
+  { mode: "mountain", label: "Mountain", desc: "With image blur" },
+  { mode: "solid", label: "Solid", desc: "Flat color" },
+];
 
 export function TransparencySettings() {
   const {
@@ -9,80 +17,59 @@ export function TransparencySettings() {
   } = useTheme();
 
   return (
-    <div className="space-y-6">
-      {/* Background Style Choice */}
-      <div>
-        <h3 className="mb-3 font-semibold text-foreground">Background Style</h3>
+    <div className="space-y-4">
+      <Panel title="Background Style">
         <div className="flex gap-3">
-          <button
-            onClick={() => setBackgroundMode("mountain")}
-            className={`flex-1 p-4 rounded-lg border-2 transition-all ${
-              backgroundMode === "mountain"
-                ? "border-primary bg-primary/15"
-                : "border-border/40 hover:border-border"
-            }`}
-          >
-            <div className="text-sm font-medium">Mountain</div>
-            <div className="text-xs text-muted-foreground">With image blur</div>
-          </button>
-
-          <button
-            onClick={() => setBackgroundMode("solid")}
-            className={`flex-1 p-4 rounded-lg border-2 transition-all ${
-              backgroundMode === "solid"
-                ? "border-primary bg-primary/15"
-                : "border-border/40 hover:border-border"
-            }`}
-          >
-            <div className="text-sm font-medium">Solid</div>
-            <div className="text-xs text-muted-foreground">Flat color</div>
-          </button>
+          {backgroundOptions.map((option) => {
+            const isActive = backgroundMode === option.mode;
+            return (
+              <button
+                key={option.mode}
+                onClick={() => setBackgroundMode(option.mode)}
+                className={cn(
+                  "flex-1 rounded-lg border-2 px-4 py-3 text-left text-sm font-medium transition",
+                  isActive
+                    ? "border-primary bg-primary/15"
+                    : "border-border/40 hover:border-border",
+                )}
+              >
+                <div className="text-sm font-semibold text-foreground">
+                  {option.label}
+                </div>
+                <div className="text-xs text-muted-foreground">{option.desc}</div>
+              </button>
+            );
+          })}
         </div>
-      </div>
+      </Panel>
 
-      {/* Opacity Level */}
-      <div>
-        <h3 className="mb-3 font-semibold text-foreground">Opacity Level</h3>
-        <p className="text-xs text-muted-foreground mb-3">
-          Controls transparency of background and UI elements
-        </p>
+      <Panel
+        title="Opacity Level"
+        description="Controls transparency for wallpapers, windows, and widgets"
+      >
         <div className="space-y-2">
-          {(
-            [
-              {
-                level: "default" as TransparencyMode,
-                label: "Default",
-                desc: "Full opacity",
-              },
-              {
-                level: "light" as TransparencyMode,
-                label: "Light",
-                desc: "60% opacity",
-              },
-              {
-                level: "none" as TransparencyMode,
-                label: "Minimal",
-                desc: "30% opacity",
-              },
-            ] as const
-          ).map(({ level, label, desc }) => (
-            <button
-              key={level}
-              onClick={() => setTransparencyMode(level)}
-              className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
-                transparencyMode === level
-                  ? "border-primary bg-primary/15"
-                  : "border-border/40 hover:border-border"
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-medium text-sm">{label}</span>
-                <span className="text-xs text-muted-foreground">{desc}</span>
-              </div>
-            </button>
-          ))}
+          {TRANSPARENCY_OPTIONS.map(({ mode, label, desc }) => {
+            const isActive = transparencyMode === mode;
+            return (
+              <button
+                key={mode}
+                onClick={() => setTransparencyMode(mode)}
+                className={cn(
+                  "w-full rounded-lg border-2 px-4 py-3 text-left transition",
+                  isActive
+                    ? "border-primary bg-primary/15"
+                    : "border-border/40 hover:border-border",
+                )}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-sm text-foreground">{label}</span>
+                  <span className="text-xs text-muted-foreground">{desc}</span>
+                </div>
+              </button>
+            );
+          })}
         </div>
-      </div>
+      </Panel>
     </div>
   );
 }

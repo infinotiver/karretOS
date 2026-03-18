@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 import TitleBar from "@/os/TitleBar";
 import { getApp } from "@/os/apps/registry";
 import type { AppId } from "@/os/apps/types";
 import type { WindowEntry } from "@/os/useSession";
 import { useVisualConfig } from "@/hooks/useVisualConfig";
-import { toBackdropBlurClass } from "@/lib/visualConfig";
 
 interface AppWindowProps {
   win: WindowEntry;
@@ -26,7 +26,9 @@ export const AppWindow = ({
   const appDef = getApp(win.id);
   const Component = appDef.component;
   const isWindowed = win.windowState === "windowed";
-  const { blur, surfaceClass } = useVisualConfig();
+  const { blurLevel, opacity } = useVisualConfig();
+  const windowBlurClass = `backdrop-blur-${blurLevel}`;
+  const opacityClass = `bg-background/${opacity}`;
 
   return (
     <motion.div
@@ -42,7 +44,7 @@ export const AppWindow = ({
       transition={{ duration: 0.2, ease: "easeOut" }}
     >
       <motion.div
-        className={`pointer-events-auto h-full ${toBackdropBlurClass(blur)} ${surfaceClass} ${
+        className={`pointer-events-auto h-full ${windowBlurClass} ${opacityClass} ${
           isWindowed
             ? "max-w-4xl w-full flex flex-col rounded-2xl border-2 border-border min-h-[50vh] max-h-[75vh] transition-all overflow-hidden"
             : "flex flex-1 w-full flex-col rounded-xl border border-border overflow-hidden"
@@ -63,6 +65,11 @@ export const AppWindow = ({
           windowState={win.windowState}
           onToggleMaximize={onToggleMaximize}
           onClose={onClose}
+          className={cn(
+            "border-b border-border/40",
+            windowBlurClass,
+            opacityClass,
+          )}
         />
         <div className="flex-1 min-h-0 overflow-y-auto flex flex-col rounded-b-lg">
           <Component isActive={isFocused} onOpenApp={onOpenApp} />

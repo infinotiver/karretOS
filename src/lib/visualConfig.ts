@@ -1,66 +1,39 @@
-import type { BackgroundMode, TransparencyMode } from "@/hooks/useTheme";
+import type { TransparencyMode } from "@/hooks/useTheme";
 
-export type BlurLevel = "none" | "sm" | "md";
+export type BlurLevel = "sm" | "md" | "lg" | "xl";
+export type OpacityValue = "40" | "60" | "80";
 
 export interface VisualConfig {
-  blur: BlurLevel;
-  surfaceClass: "bg-background/80" | "bg-background/60" | "bg-background/40";
-  opacityClass: "opacity-80" | "opacity-60" | "opacity-40";
+  blurLevel: BlurLevel;
+  opacity: OpacityValue;
 }
 
-const VISUAL_CONFIGS: Record<
-  BackgroundMode,
-  Record<TransparencyMode, VisualConfig>
-> = {
-  mountain: {
-    default: {
-      blur: "md",
-      surfaceClass: "bg-background/80",
-      opacityClass: "opacity-80",
-    },
-    light: {
-      blur: "sm",
-      surfaceClass: "bg-background/60",
-      opacityClass: "opacity-60",
-    },
-    none: {
-      blur: "none",
-      surfaceClass: "bg-background/40",
-      opacityClass: "opacity-40",
-    },
+export interface TransparencyOption {
+  mode: TransparencyMode;
+  label: string;
+  desc: string;
+}
+
+const VISUAL_CONFIGS: Record<TransparencyMode, VisualConfig> = {
+  default: {
+    blurLevel: "md",
+    opacity: "80",
   },
-  solid: {
-    default: {
-      blur: "none",
-      surfaceClass: "bg-background/80",
-      opacityClass: "opacity-80",
-    },
-    light: {
-      blur: "none",
-      surfaceClass: "bg-background/60",
-      opacityClass: "opacity-60",
-    },
-    none: {
-      blur: "none",
-      surfaceClass: "bg-background/40",
-      opacityClass: "opacity-40",
-    },
+  light: {
+    blurLevel: "md",
+    opacity: "60",
+  },
+  none: {
+    blurLevel: "sm",
+    opacity: "40",
   },
 };
 
+export const TRANSPARENCY_OPTIONS: readonly TransparencyOption[] = [
+  { mode: "default", label: "Default", desc: "Blur md • 80% opacity" },
+  { mode: "light", label: "Light", desc: "Blur md • 60% opacity" },
+  { mode: "none", label: "Minimal", desc: "Blur sm • 40% opacity" },
+];
 export const getVisualConfig = (
-  backgroundMode: BackgroundMode,
   transparencyMode: TransparencyMode,
-): VisualConfig => VISUAL_CONFIGS[backgroundMode][transparencyMode];
-
-export const toBackgroundBlurClass = (blur: BlurLevel): string => {
-  if (blur === "md") return "blur-md";
-  if (blur === "sm") return "blur-sm";
-  return "blur-none";
-};
-
-export const toBackdropBlurClass = (blur: BlurLevel): string => {
-  if (blur === "md") return "backdrop-blur-md";
-  if (blur === "sm") return "backdrop-blur-sm";
-  return "backdrop-blur-none";
-};
+): VisualConfig => VISUAL_CONFIGS[transparencyMode];
