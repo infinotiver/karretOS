@@ -29,11 +29,12 @@ const VISUAL_CONFIGS: Record<TransparencyMode, VisualConfig> = {
   },
 };
 
-export const TRANSPARENCY_OPTIONS: readonly TransparencyOption[] = [
-  { mode: "default", label: "Default", desc: "Blur md • 60% opacity" },
-  { mode: "light", label: "Light", desc: "Blur md • 40% opacity" },
-  { mode: "none", label: "Minimal", desc: "Blur sm • 40% opacity" },
-];
+export const TRANSPARENCY_OPTIONS: readonly TransparencyOption[] =
+  Object.entries(VISUAL_CONFIGS).map(([mode, config]) => ({
+    mode: mode as TransparencyMode,
+    label: mode.charAt(0).toUpperCase() + mode.slice(1),
+    desc: `Blur ${config.blurLevel} • ${config.opacity}% opacity`,
+  }));
 export const getVisualConfig = (
   transparencyMode: TransparencyMode,
 ): VisualConfig => VISUAL_CONFIGS[transparencyMode];
