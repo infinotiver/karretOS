@@ -1,31 +1,40 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-
+import { Button } from "@/components/ui/button";
+import { UnlockIcon } from "lucide-react";
 interface BootScreenProps {
   onBootComplete: () => void;
 }
 
 export const BootScreen = ({ onBootComplete }: BootScreenProps) => {
   const [progress, setProgress] = useState(0);
+  const [ready, setReady] = useState(false);
+  const [unlocked, setUnlocked] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
     const bootSequence = async () => {
-      // Simulate boot sequence: 0 -> 100% over 2 seconds
       const steps = 20;
-      const stepDuration = 100; 
-
+      const stepDuration = 100;
       for (let i = 0; i <= steps; i++) {
         await new Promise((resolve) => setTimeout(resolve, stepDuration));
-        setProgress((i / steps) * 100);
+        if (!cancelled) setProgress((i / steps) * 100);
       }
-
-      // Wait a bit longer before transitioning
       await new Promise((resolve) => setTimeout(resolve, 400));
-      onBootComplete();
+      if (!cancelled) setReady(true);
     };
-
     bootSequence();
-  }, [onBootComplete]);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const handleUnlock = () => {
+    setUnlocked(true);
+    onBootComplete();
+  };
+
+  if (unlocked) return null;
 
   return (
     <motion.div
@@ -42,24 +51,32 @@ export const BootScreen = ({ onBootComplete }: BootScreenProps) => {
         <h1 className="text-5xl font-black tracking-tighter text-foreground md:text-7xl">
           karretOS
         </h1>
-       
       </motion.div>
 
-      {/* Progress bar */}
-      <div className="w-64 space-y-3">
-        <div className="h-1 w-full overflow-hidden rounded-full bg-muted">
-          <motion.div
-            className="h-full bg-linear-to-r from-foreground to-foreground/60"
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ ease: "linear" }}
-          />
+      {!ready ? (
+        <div className="w-64 space-y-3">
+          <div className="h-1 w-full overflow-hidden rounded-full bg-muted">
+            <motion.div
+              className="h-full bg-linear-to-r from-foreground to-foreground/60"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ ease: "linear" }}
+            />
+          </div>
+          <p className="text-right text-xs font-mono text-muted-foreground">
+            {Math.round(progress)}%
+          </p>
         </div>
-        <p className="text-right text-xs font-mono text-muted-foreground">
-          {Math.round(progress)}%
-        </p>
-      </div>
-
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          onClick={handleUnlock}
+        >
+          <Button className="text-2xl p-6"><UnlockIcon/>unlock</Button>
+        </motion.div>
+      )}
     </motion.div>
   );
 };

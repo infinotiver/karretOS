@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import "./index.css";
 import "./globals.css";
 import { BootRoute } from "@/os/routes/BootRoute";
-import { LockScreen } from "@/os/LockScreen";
+// import { LockScreen } from "@/os/LockScreen";
 import Shell from "@/os/Shell";
 import { AppProvider } from "@/providers/AppProvider";
 
@@ -12,7 +12,6 @@ import { useState } from "react";
 
 const App = () => {
   const [booted, setBooted] = useState(false);
-  const [unlocked, setUnlocked] = useState(false);
 
   return (
     <TooltipProvider>
@@ -24,8 +23,6 @@ const App = () => {
               element={
                 !booted ? (
                   <BootRoute onBootComplete={() => setBooted(true)} />
-                ) : !unlocked ? (
-                  <LockScreen onUnlock={() => setUnlocked(true)} />
                 ) : (
                   <Navigate to="/desktop" replace />
                 )
