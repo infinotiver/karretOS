@@ -1,119 +1,85 @@
-import { useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { ChevronUp, Pin, PinOff } from "lucide-react";
-import useMediaQuery from "@/hooks/useMediaQuery";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronUp, ChevronDown } from "lucide-react";
 import type { AppDefinition, AppId } from "@/os/apps/types";
-
-/* ── dock style tokens ── */
-const style = {
-  base: "glass-ui flex h-10 shrink-0 items-center gap-2 rounded-full !bg-black/85 px-4 text-sm !text-white transition-colors border-2",
-  idle: "border-white/30 !bg-transparent !text-white/70 hover:!text-white hover:border-white/50",
-  active: "border-white !bg-white/15 !text-white",
-  rail: "glass-ui flex items-center gap-2 overflow-x-auto rounded-full border border-white/20 !bg-black/80 p-1.5",
-  wrap: "flex items-center gap-2 p-1",
-  pill: "glass-ui flex h-10 w-14 items-center justify-center rounded-full border border-white/20 !bg-black/85 text-white/90 transition-colors hover:border-white/40 hover:!bg-black hover:text-white",
-} as const;
-
-const btn = (active: boolean) =>
-  `${style.base} ${active ? style.active : style.idle}`;
 
 interface DockProps {
   apps: AppDefinition[];
   activeAppId: AppId | null;
-  onShowDesktop: () => void;
   onOpenApp: (id: AppId) => void;
 }
 
-const HIDE_DELAY = 600;
-
-const Dock = ({ apps, activeAppId, onShowDesktop, onOpenApp }: DockProps) => {
-  const [hovered, setHovered] = useState(false);
-  const [pinned, setPinned] = useState(false);
-  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const isMobile = useMediaQuery("(max-width: 768px)");
-  const expanded = isMobile || pinned || hovered;
-
-  const handleMouseEnter = () => {
-    if (hideTimer.current) clearTimeout(hideTimer.current);
-    setHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    hideTimer.current = setTimeout(() => setHovered(false), HIDE_DELAY);
-  };
+const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2">
-      <motion.nav
-        className="relative"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <AnimatePresence mode="wait">
-          {expanded ? (
-            <motion.div
-              key="expanded"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 8 }}
-              transition={{ duration: 0.18, ease: "easeOut" }}
-              className={style.wrap}
-            >
-              <div className={style.rail}>
-                {apps.map((app) => {
-                  const Icon = app.icon;
-                  const isActive = activeAppId === app.id;
-                  return (
-                    <button
-                      key={app.id}
-                      type="button"
-                      onClick={() =>
-                        isActive ? onShowDesktop() : onOpenApp(app.id)
-                      }
-                      className={btn(isActive)}
-                      aria-label={isActive ? `Close ${app.title}` : app.title}
-                    >
-                      <Icon className="h-4 w-4 shrink-0" />
-                      <span className="hidden md:inline">{app.title}</span>
-                    </button>
-                  );
-                })}
-              </div>
+    <div className="fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center gap-3">
+      <AnimatePresence>
+        {isOpen && (
+          <motion.nav
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            className="flex items-center gap-2 rounded-[2rem] border border-white/10 bg-black/90 p-2 backdrop-blur-2xl shadow-2xl"
+          >
+            {apps.map((app) => (
+              <DockIcon
+                key={app.id}
+                app={app}
+                isActive={activeAppId === app.id}
+                onClick={() => onOpenApp(app.id)}
+              />
+            ))}
+          </motion.nav>
+        )}
+      </AnimatePresence>
 
-              <button
-                type="button"
-                onClick={() => setPinned((p) => !p)}
-                className={`${btn(pinned)} hidden lg:inline`}
-                aria-label={pinned ? "Unpin dock" : "Pin dock"}
-              >
-                {pinned ? (
-                  <PinOff className="h-4 w-4" />
-                ) : (
-                  <Pin className="h-4 w-4" />
-                )}
-              </button>
-            </motion.div>
-          ) : (
-            <motion.button
-              key="collapsed"
-              type="button"
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 4 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
-              className={style.pill}
-              onMouseEnter={handleMouseEnter}
-              onFocus={() => setHovered(true)}
-              onClick={() => setPinned(true)}
-              aria-label="Expand dock"
-            >
-              <ChevronUp className="h-4 w-4" />
-            </motion.button>
-          )}
-        </AnimatePresence>
-      </motion.nav>
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex h-9 w-10 items-center justify-center rounded-full border border-white/15 bg-black text-white shadow-lg transition-colors hover:border-white/40"
+      >
+        {isOpen ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
+      </motion.button>
     </div>
   );
 };
+
+function DockIcon({
+  app,
+  isActive,
+  onClick,
+}: {
+  app: AppDefinition;
+  isActive: boolean;
+  onClick: () => void;
+}) {
+  const Icon = app.icon;
+
+  return (
+    <motion.div
+      onClick={onClick}
+      whileHover={{ scale: 1.15, y: -2 }}
+      transition={{ type: "spring", stiffness: 400, damping: 28 }}
+      className={`
+        group relative flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border transition-all duration-200
+        ${
+          isActive
+            ? "border-gray-300 bg-white/20 shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+            : "border-gray-800 bg-neutral-800/40 hover:bg-neutral-700/60"
+        }
+      `}
+    >
+      <Icon
+        className={`h-6 w-6 transition-colors ${isActive ? "text-white" : "text-white/70 group-hover:text-white"}`}
+      />
+
+      <div className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 rounded-md bg-black border border-white/10 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-white opacity-0 transition-opacity group-hover:opacity-100">
+        {app.title}
+      </div>
+    </motion.div>
+  );
+}
 
 export default Dock;
