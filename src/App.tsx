@@ -1,3 +1,4 @@
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { AnimatePresence } from "framer-motion";
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./index.css";
@@ -14,26 +15,28 @@ const App = () => {
   const [unlocked, setUnlocked] = useState(false);
 
   return (
-    <AppProvider>
-      <AnimatePresence mode="wait">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              !booted ? (
-                <BootRoute onBootComplete={() => setBooted(true)} />
-              ) : !unlocked ? (
-                <LockScreen onUnlock={() => setUnlocked(true)} />
-              ) : (
-                <Navigate to="/desktop" replace />
-              )
-            }
-          />
-          <Route path="/desktop" element={<Shell />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </AnimatePresence>
-    </AppProvider>
+    <TooltipProvider>
+      <AppProvider>
+        <AnimatePresence mode="wait">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                !booted ? (
+                  <BootRoute onBootComplete={() => setBooted(true)} />
+                ) : !unlocked ? (
+                  <LockScreen onUnlock={() => setUnlocked(true)} />
+                ) : (
+                  <Navigate to="/desktop" replace />
+                )
+              }
+            />
+            <Route path="/desktop" element={<Shell />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </AnimatePresence>
+      </AppProvider>
+    </TooltipProvider>
   );
 };
 

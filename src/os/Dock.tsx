@@ -14,14 +14,14 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center gap-3">
+    <div className="fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center gap-2">
       <AnimatePresence>
         {isOpen && (
           <motion.nav
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="flex items-center gap-2 rounded-4xl border border-white/10 bg-black/90 p-4 backdrop-blur-2xl shadow-2xl"
+            className="flex items-center gap-2 rounded-4xl border border-white/10 bg-black/90 p-2 backdrop-blur-2xl shadow-2xl"
           >
             {apps.map((app) => (
               <DockIcon
