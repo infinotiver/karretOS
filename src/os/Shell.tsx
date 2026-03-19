@@ -6,7 +6,7 @@ import useSession from "@/os/useSession";
 import { Desktop } from "@/os/Desktop";
 import { AppWindow } from "@/os/AppWindow";
 import { useEffect, useRef } from "react";
-
+import TopBar from "@/os/TopBar";
 /* ── Shell ── */
 const Shell = () => {
   const session = useSession();
@@ -21,10 +21,11 @@ const Shell = () => {
 
     session.open("portfolio");
   }, [session]);
-  
+
   return (
     <Environment>
       <div className="relative z-0 h-full w-full">
+        <TopBar />
         {!hasMaximized && (
           <div className="relative z-0 h-full px-6 py-6 pb-20 md:px-12 md:py-10 md:pb-20">
             {!hasMaximized && (
