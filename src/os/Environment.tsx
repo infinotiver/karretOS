@@ -13,12 +13,12 @@ const Environment = ({ children }: PropsWithChildren) => {
           src={bg}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover grayscale-25 blur-lg"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover grayscale-25"
         />
       )}
 
       {/* Background overlay */}
-      <div className="pointer-events-none absolute inset-0 bg-background/85" />
+      <div className="pointer-events-none absolute inset-0 bg-background/20 backdrop-blur-sm" />
 
       {/* Gradient overlay */}
       <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/8 via-transparent to-black/18 opacity-60" />

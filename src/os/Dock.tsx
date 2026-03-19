@@ -39,7 +39,7 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="flex h-9 w-10 items-center justify-center rounded-full border border-white/15 bg-black text-white shadow-lg transition-colors hover:border-white/40"
+        className="flex h-8 w-10 items-center justify-center rounded-full border border-white/15 bg-black text-white shadow-lg transition-colors hover:border-white/40"
       >
         {isOpen ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
       </motion.button>

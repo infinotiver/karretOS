@@ -22,11 +22,11 @@ const TitleBar = ({
 }: TitleBarProps) => (
   <header
     className={cn(
-      "flex items-center justify-between px-3 py-0.5 cursor-grab active:cursor-grabbing backdrop-blur-md bg-background/10 border-b border-border/40",
+      "flex items-center justify-between px-3 py-0.5 cursor-grab active:cursor-grabbing bg-background border-b border-border/40",
       className,
     )}
   >
-    <p className="select-none text-sm font-semibold text-foreground">{title}</p>
+    <p className="select-none text-xs font-semibold text-muted-foreground">{title}</p>
     <div className="flex-1" />
     <div className="flex items-center gap-1.5 rounded-lg px-2 py-0.5">
       <button

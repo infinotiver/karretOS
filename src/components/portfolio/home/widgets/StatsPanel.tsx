@@ -15,7 +15,12 @@ interface ActivitySegment {
   percent: number;
 }
 
-const shadeClasses = ["bg-black", "bg-zinc-700", "bg-zinc-500", "bg-zinc-400"];
+const shadeClasses = [
+  "bg-black",
+  "bg-neutral-700",
+  "bg-neutral-500",
+  "bg-neutral-400",
+];
 
 const parseActivityBreakdown = (value: string): ActivitySegment[] =>
   value
@@ -60,18 +65,30 @@ const StatsPanel: React.FC<StatsPanelProps> = ({ stats }) => {
           <div className="space-y-2">
             <MetricPair
               label="Total"
-              value={<span className="font-black text-foreground">{totalCoding}</span>}
+              value={
+                <span className="font-black text-foreground">
+                  {totalCoding}
+                </span>
+              }
             />
             <MetricPair
               label="Top Language"
-              value={<span className="font-black text-foreground">{topLanguage}</span>}
+              value={
+                <span className="font-black text-foreground">
+                  {topLanguage}
+                </span>
+              }
             />
           </div>
 
           <div className="space-y-2">
             <MetricPair
               label="Activity"
-              value={<span className="text-[11px] text-muted-foreground">{activityBreakdown}</span>}
+              value={
+                <span className="text-[11px] text-muted-foreground">
+                  {activityBreakdown}
+                </span>
+              }
               className="text-[11px]"
             />
 
