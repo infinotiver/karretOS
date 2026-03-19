@@ -21,12 +21,17 @@ const Shell = () => {
 
     session.open("portfolio");
   }, [session]);
+  
   return (
     <Environment>
       <div className="relative z-0 h-full w-full">
         {!hasMaximized && (
           <div className="relative z-0 h-full px-6 py-6 pb-20 md:px-12 md:py-10 md:pb-20">
-            <Desktop />
+            {!hasMaximized && (
+              <div className="relative z-0 h-full px-6 py-6 pb-20 md:px-12 md:py-10 md:pb-20">
+                <Desktop enableMotion={!hasMaximized} />
+              </div>
+            )}
           </div>
         )}
       </div>
