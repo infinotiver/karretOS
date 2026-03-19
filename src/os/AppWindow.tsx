@@ -5,7 +5,7 @@ import type { AppId } from "@/os/apps/types";
 import type { WindowEntry } from "@/os/useSession";
 
 const APP_WINDOW_BLUR = "backdrop-blur-2xl";
-const APP_WINDOW_OPACITY = "bg-background/70/90";
+const APP_WINDOW_OPACITY = "bg-background/40";
 
 interface AppWindowProps {
   win: WindowEntry;
@@ -46,7 +46,7 @@ export const AppWindow = ({
       <motion.div
         className={`pointer-events-auto h-full ${APP_WINDOW_BLUR} ${APP_WINDOW_OPACITY} ${
           isWindowed
-            ? "max-w-4xl w-full flex flex-col rounded-2xl border-2 border-border min-h-[50vh] max-h-[75vh] transition-all overflow-hidden"
+            ? "max-w-4xl w-full flex flex-col rounded-2xl border-2 border-border max-h-[75vh] transition-all overflow-hidden"
             : "flex flex-1 w-full flex-col rounded-xl border border-border overflow-hidden"
         } ${isWindowed && isFocused ? "shadow-2xl shadow-black/20" : ""} ${
           isWindowed && !isFocused ? "opacity-90 shadow-sm" : ""
