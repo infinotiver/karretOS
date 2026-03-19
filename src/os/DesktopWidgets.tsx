@@ -26,7 +26,7 @@ const widgets = [
 const DesktopWidgets = () => {
   return (
     <motion.div
-      className="flex flex-col gap-3 overflow-y-auto max-h-screen h-full scrollbar-none"
+      className="flex flex-col gap-3 max-h-screen h-full scrollbar-none"
       initial="initial"
       animate="animate"
       variants={{
@@ -38,12 +38,6 @@ const DesktopWidgets = () => {
           {Widget}
         </motion.div>
       ))}
-
-      <motion.div variants={popIn} className="mt-auto pt-4">
-        <p className="text-right text-4xl font-black tracking-tighter text-muted-foreground/20 lg:text-5xl">
-          karretOS
-        </p>
-      </motion.div>
     </motion.div>
   );
 };

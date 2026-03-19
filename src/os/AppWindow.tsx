@@ -4,7 +4,7 @@ import { getApp } from "@/os/apps/registry";
 import type { AppId } from "@/os/apps/types";
 import type { WindowEntry } from "@/os/useSession";
 
-const APP_WINDOW_BLUR = "backdrop-blur-2xl";
+const APP_WINDOW_BLUR = "backdrop-blur-xl";
 const APP_WINDOW_OPACITY = "bg-background/40";
 
 interface AppWindowProps {

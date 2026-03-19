@@ -19,7 +19,7 @@ export const WindowLayout: React.FC<WindowLayoutProps> = ({
   return (
     <div
       className={cn(
-        "flex flex-col h-full bg-background/40 backdrop-blur-sm text-foreground",
+        "flex flex-col h-full bg-background/20 backdrop-blur-sm text-foreground",
         className,
       )}
     >
