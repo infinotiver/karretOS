@@ -7,11 +7,13 @@ export type AppId =
   | "terminal"
   | "notes"
   | "settings"
-  | "windows";
+  | "windows"
+  | "launcher";
 
 export interface AppProps {
   isActive: boolean;
   onOpenApp?: (id: AppId) => void;
+  onCloseApp?: () => void;
 }
 
 export interface AppDefinition {
@@ -20,4 +22,5 @@ export interface AppDefinition {
   description: string;
   icon: React.ComponentType<{ className?: string }>;
   component: React.ComponentType<AppProps>;
+  titleBar?: boolean; // Optional: override default title bar behavior
 }

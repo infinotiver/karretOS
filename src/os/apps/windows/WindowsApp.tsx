@@ -1,7 +1,7 @@
 export default function WindowsApp() {
   return (
     <div className="min-h-screen bg-[#3973aa] text-[#fefeff] font-sans flex items-center justify-center p-4">
-      <div className="max-w-[800px] w-full md:w-[80%] -mt-2">
+      <div className="max-w-200 w-full md:w-[80%] -mt-2">
         {/* Emoticon */}
         <h1 className="text-[8rem] md:text-[10rem] font-light leading-none mb-4">
           :(

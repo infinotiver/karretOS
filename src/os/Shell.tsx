@@ -26,27 +26,27 @@ const Shell = () => {
       <div className="relative z-0 h-full w-full">
         {!hasMaximized && (
           <div className="relative z-0 h-full px-6 py-6 pb-20 md:px-12 md:py-10 md:pb-20">
-            <Desktop
-              selectedId={session.selectedId}
-              onSelect={session.select}
-              onOpen={session.open}
-            />
+            <Desktop />
           </div>
         )}
       </div>
 
       <AnimatePresence>
-        {session.windows.map((win) => (
-          <AppWindow
-            key={win.id}
-            win={win}
-            isFocused={session.focusedId === win.id}
-            onFocus={() => session.focus(win.id)}
-            onToggleMaximize={() => session.toggleMaximize(win.id)}
-            onClose={() => session.close(win.id)}
-            onOpenApp={session.open}
-          />
-        ))}
+        {session.windows.map((win) => {
+          const appDef = apps.find((a) => a.id === win.id);
+          return (
+            <AppWindow
+              key={win.id}
+              win={win}
+              isFocused={session.focusedId === win.id}
+              onFocus={() => session.focus(win.id)}
+              onToggleMaximize={() => session.toggleMaximize(win.id)}
+              onClose={() => session.close(win.id)}
+              onOpenApp={session.open}
+              titleBar={appDef?.titleBar !== false}
+            />
+          );
+        })}
       </AnimatePresence>
 
       <Dock
