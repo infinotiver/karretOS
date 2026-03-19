@@ -1,33 +1,19 @@
-import { useMemo, useState } from "react";
-import { Search, X } from "lucide-react";
+import { useState } from "react";
+import { X } from "lucide-react";
 import { WindowLayout } from "@/components/layouts/WindowLayout";
 import { apps } from "@/os/apps/registry";
 import type { AppId, AppProps } from "@/os/apps/types";
 
 export default function AppLauncherApp({ onOpenApp, onCloseApp }: AppProps) {
   const [selectedId, setSelectedId] = useState<AppId | null>(null);
-  const [query, setQuery] = useState("");
-
-  const visibleApps = useMemo(() => {
-    const term = query.trim().toLowerCase();
-    if (!term) return apps;
-    return apps.filter(
-      (app) =>
-        app.title.toLowerCase().includes(term) ||
-        app.description.toLowerCase().includes(term),
-    );
-  }, [query]);
 
   return (
     <WindowLayout>
-      <section className="flex h-full flex-col gap-6 p-6">
+      <section className="flex h-full flex-col gap-4 p-6">
         <header className="flex items-center justify-between">
-          <div>
-            
-            <h1 className="text-2xl font-black tracking-tight text-foreground">
-              App Grid
-            </h1>
-          </div>
+          <h1 className="text-2xl font-black tracking-tight text-foreground">
+            App Grid
+          </h1>
           <button
             type="button"
             onClick={() => onCloseApp?.()}
@@ -38,18 +24,8 @@ export default function AppLauncherApp({ onOpenApp, onCloseApp }: AppProps) {
           </button>
         </header>
 
-        <div className="flex items-center gap-3 rounded-2xl border border-border/40 bg-background/70 px-4 py-3 backdrop-blur-xl">
-          <Search className="h-4 w-4 text-muted-foreground" />
-          <input
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search apps"
-            className="w-full bg-transparent text-sm font-semibold text-foreground placeholder:text-muted-foreground focus:outline-none"
-          />
-        </div>
-
         <div className="flex flex-wrap gap-5">
-          {visibleApps.map((app) => {
+          {apps.map((app) => {
             const Icon = app.icon;
             const isSelected = selectedId === app.id;
             return (
@@ -72,11 +48,17 @@ export default function AppLauncherApp({ onOpenApp, onCloseApp }: AppProps) {
                   }`}
                 >
                   <Icon
-                    className={`h-7 w-7 transition-colors ${isSelected ? "text-primary" : "text-muted-foreground group-hover:text-foreground"}`}
+                    className={`h-7 w-7 transition-colors ${
+                      isSelected
+                        ? "text-primary"
+                        : "text-muted-foreground group-hover:text-foreground"
+                    }`}
                   />
                 </span>
                 <p
-                  className={`w-full truncate text-center text-xs font-semibold leading-tight ${isSelected ? "text-foreground" : "text-muted-foreground"}`}
+                  className={`w-full truncate text-center text-xs font-semibold leading-tight ${
+                    isSelected ? "text-foreground" : "text-muted-foreground"
+                  }`}
                 >
                   {app.title}
                 </p>
@@ -88,4 +70,3 @@ export default function AppLauncherApp({ onOpenApp, onCloseApp }: AppProps) {
     </WindowLayout>
   );
 }
-
