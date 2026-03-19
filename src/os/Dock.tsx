@@ -14,7 +14,7 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center gap-2">
+    <div className="fixed bottom-6 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-2">
       <AnimatePresence>
         {isOpen && (
           <motion.nav

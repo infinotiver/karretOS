@@ -22,7 +22,7 @@ interface Session {
   focus: (id: AppId) => void;
 }
 
-let zCounter = 10;
+let zCounter = 30;
 
 const useSession = (): Session => {
   const [selectedId, setSelectedId] = useState<AppId | null>(null);

@@ -22,7 +22,7 @@ const TitleBar = ({
 }: TitleBarProps) => (
   <header
     className={cn(
-      "flex items-center justify-between px-3 py-0.5 cursor-grab active:cursor-grabbing bg-background border-b border-border/40",
+      "flex items-center justify-between px-3 py-0.5 cursor-grab active:cursor-grabbing bg-background/60 border-b border-border/40",
       className,
     )}
   >
