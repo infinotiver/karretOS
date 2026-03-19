@@ -29,8 +29,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
 
-  "include": ["src"]
+  "include": ["src/**/*", "vite.config.ts"]
 }
