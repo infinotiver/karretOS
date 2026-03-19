@@ -1,5 +1,4 @@
 import type { PropsWithChildren } from "react";
-import Noise from "@/components/Noise";
 import { useTheme } from "@/hooks/useTheme";
 import bg from "@/assets/assets/bg2.png";
 
@@ -23,13 +22,7 @@ const Environment = ({ children }: PropsWithChildren) => {
       {/* Gradient overlay */}
       <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/8 via-transparent to-black/18 opacity-60" />
 
-      <Noise
-        patternSize={200}
-        patternScaleX={2}
-        patternScaleY={2}
-        patternRefreshInterval={2}
-        patternAlpha={8}
-      />
+      
       <div className="relative h-full w-full">{children}</div>
     </div>
   );
