@@ -25,7 +25,7 @@ const Shell = () => {
     <Environment>
       <div className="relative z-0 h-full w-full">
         {!hasMaximized && (
-          <div className="relative z-0 h-full overflow-y-auto px-6 py-6 pb-20 md:px-12 md:py-10 md:pb-20">
+          <div className="relative z-0 h-full px-6 py-6 pb-20 md:px-12 md:py-10 md:pb-20">
             <Desktop
               selectedId={session.selectedId}
               onSelect={session.select}

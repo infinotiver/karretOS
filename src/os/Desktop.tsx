@@ -3,14 +3,6 @@ import { apps } from "@/os/apps/registry";
 import AppGrid from "@/os/AppGrid";
 import DesktopWidgets from "@/os/DesktopWidgets";
 import type { AppId } from "@/os/apps/types";
-import { useAppContext } from "@/hooks/useAppContext";
-
-const getGreeting = () => {
-  const h = new Date().getHours();
-  if (h < 12) return "Good morning";
-  if (h < 18) return "Good afternoon";
-  return "Good evening";
-};
 
 /* ── Spring pop-in variant ── */
 const popIn = {
@@ -30,8 +22,6 @@ interface DesktopProps {
 }
 
 export const Desktop = ({ selectedId, onSelect, onOpen }: DesktopProps) => {
-  const { username } = useAppContext();
-
   return (
     <motion.div
       className="flex flex-row gap-6 lg:gap-10"
@@ -42,16 +32,6 @@ export const Desktop = ({ selectedId, onSelect, onOpen }: DesktopProps) => {
       }}
     >
       <motion.div variants={popIn} className="flex-1 space-y-6">
-        <motion.div variants={popIn} className="space-y-1.5">
-          <div className="flex flex-col font-black gap-0 tracking-tighter text-foreground">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl">
-              {getGreeting()},
-            </h1>
-            <h2 className="text-2xl font-semibold opacity-50 sm:text-3xl md:text-4xl">
-              {username}
-            </h2>
-          </div>
-        </motion.div>
         <motion.div variants={popIn}>
           <AppGrid
             apps={apps}

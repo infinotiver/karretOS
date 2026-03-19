@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ClockWidget } from "@/components/widgets/ClockWidget";
 import { WeatherWidget } from "@/components/widgets/WeatherWidget";
-import { QuickControls } from "@/components/widgets/QuickControls";
+import { Greeting } from "@/components/widgets/GreetingWidget";
 
 /* ── pop-in spring variant used by each card ── */
 const popIn = {
@@ -16,27 +16,28 @@ const popIn = {
 };
 
 /* ── Widget Island ── */
+
+const widgets = [
+  <Greeting key="greeting" />,
+  <ClockWidget key="clock" />,
+  <WeatherWidget key="weather" />,
+];
+
 const DesktopWidgets = () => {
   return (
     <motion.div
-      className="flex h-full flex-col gap-3"
+      className="flex flex-col gap-3 overflow-y-auto max-h-screen h-full scrollbar-none"
       initial="initial"
       animate="animate"
       variants={{
         animate: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
       }}
     >
-      <motion.div variants={popIn}>
-        <ClockWidget />
-      </motion.div>
-
-      <motion.div variants={popIn}>
-        <WeatherWidget />
-      </motion.div>
-
-      <motion.div variants={popIn}>
-        <QuickControls />
-      </motion.div>
+      {widgets.map((Widget, i) => (
+        <motion.div variants={popIn} key={Widget.key ?? i}>
+          {Widget}
+        </motion.div>
+      ))}
 
       <motion.div variants={popIn} className="mt-auto pt-4">
         <p className="text-right text-4xl font-black tracking-tighter text-muted-foreground/20 lg:text-5xl">
