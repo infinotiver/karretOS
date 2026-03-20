@@ -6,33 +6,26 @@ interface DesktopProps {
 }
 
 export const Desktop = ({ enableMotion = true }: DesktopProps) => {
-  if (!enableMotion) {
-    return (
-        <div className="flex flex-row gap-6 lg:gap-10">
-          <aside className="shrink-0 h-auto w-40 sm:w-48 md:w-56 lg:w-80 lg:h-screen lg:max-h-150 grid grid-cols-1 gap-4 auto-rows-max">
-            <DesktopWidgets />
-          </aside>
-        </div>
-    );
-  }
+  // Responsive layout: main area + side widgets
+  const Content = (
+    <div className="h-full w-full flex flex-row">
+      <aside className="block min-w-100 w-full lg:w-auto h-full">
+        <DesktopWidgets />
+      </aside>
+    </div>
+  );
 
+  if (!enableMotion) {
+    return Content;
+  }
   return (
-      <motion.div
-        className="flex flex-row gap-6 lg:gap-10"
-        initial="initial"
-        animate="animate"
-        variants={{
-          animate: {
-            transition: { staggerChildren: 0.1, delayChildren: 0.08 },
-          },
-        }}
-      >
-        <motion.aside
-          variants={springPopIn}
-          className="shrink-0 h-auto w-40 sm:w-48 md:w-56 lg:w-80 lg:h-screen lg:max-h-150 grid grid-cols-1 gap-4 auto-rows-max"
-        >
-          <DesktopWidgets />
-        </motion.aside>
-      </motion.div>
+    <motion.div
+      className="h-full w-full"
+      initial="initial"
+      animate="animate"
+      variants={springPopIn}
+    >
+      {Content}
+    </motion.div>
   );
 };

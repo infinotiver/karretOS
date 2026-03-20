@@ -24,15 +24,11 @@ const Shell = () => {
 
   return (
     <Environment>
-      <div className="relative z-0 h-full w-full">
+      <div className="relative z-0 flex h-full w-full flex-col">
         <TopBar />
         {!hasMaximized && (
-          <div className="relative z-0 h-full p-2 pb-20 md:px-12 md:py-10 md:pb-20">
-            {!hasMaximized && (
-              <div className="relative z-0 h-full p-2 pb-20 md:px-12 md:py-10 md:pb-20">
-                <Desktop enableMotion={!hasMaximized} />
-              </div>
-            )}
+          <div className="flex-1 p-2 pb-20 md:px-12 md:py-10 md:pb-20">
+            <Desktop enableMotion={!hasMaximized} />
           </div>
         )}
       </div>

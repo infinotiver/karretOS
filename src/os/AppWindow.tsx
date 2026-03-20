@@ -53,7 +53,8 @@ export const AppWindow = ({
         }`}
         drag={isWindowed}
         dragMomentum={false}
-        dragElastic={0}
+        dragElastic={0.2}
+
         initial={
           isWindowed ? { x: win.offset.x, y: win.offset.y } : { x: 0, y: 0 }
         }
