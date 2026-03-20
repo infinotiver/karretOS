@@ -2,18 +2,7 @@ import { motion } from "framer-motion";
 import { ClockWidget } from "@/components/widgets/ClockWidget";
 import { WeatherWidget } from "@/components/widgets/WeatherWidget";
 import { Greeting } from "@/components/widgets/GreetingWidget";
-
-/* ── pop-in spring variant used by each card ── */
-const popIn = {
-  initial: { opacity: 0, y: 18, scale: 0.93 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { type: "spring" as const, stiffness: 380, damping: 26 },
-  },
-  exit: { opacity: 0, y: -10, scale: 0.95, transition: { duration: 0.14 } },
-};
+import { springPopIn } from "@/lib/spring";
 
 /* ── Widget Island ── */
 
@@ -34,7 +23,7 @@ const DesktopWidgets = () => {
       }}
     >
       {widgets.map((Widget, i) => (
-        <motion.div variants={popIn} key={Widget.key ?? i}>
+        <motion.div variants={springPopIn} key={Widget.key ?? i}>
           {Widget}
         </motion.div>
       ))}
