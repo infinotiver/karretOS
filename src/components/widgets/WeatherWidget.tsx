@@ -24,7 +24,7 @@ export const WeatherWidget = () => {
         </p>
       </Card>
     );
-  
+
   return (
     <Card className="p-4">
       {/* Top Section: Main Temperature */}
@@ -51,19 +51,19 @@ export const WeatherWidget = () => {
         {/* Wind */}
         <div className="flex flex-col items-center">
           <Wind className="h-3.5 w-3.5 text-muted-foreground/70" />
-          <span className="mt-1 text-[10px] font-bold">{data.wind}km/h</span>
+          <span className="mt-1 text-xs font-bold">{data.wind}km/h</span>
         </div>
 
         {/* Humidity */}
         <div className="flex flex-col items-center">
           <Droplets className="h-3.5 w-3.5 text-muted-foreground/70" />
-          <span className="mt-1 text-[10px] font-bold">{data.humidity}%</span>
+          <span className="mt-1 text-xs font-bold">{data.humidity}%</span>
         </div>
 
         {/* Feels Like */}
         <div className="flex flex-col items-center">
           <Thermometer className="h-3.5 w-3.5 text-muted-foreground/70" />
-          <span className="mt-1 text-[10px] font-bold">{data.feelsLike}°</span>
+          <span className="mt-1 text-xs font-bold">{data.feelsLike}°</span>
         </div>
       </div>
     </Card>

@@ -18,10 +18,10 @@ const shadeClasses = [
   "bg-blue-300",
   "bg-green-300",
   "bg-yellow-300",
-  "bg-pink3400",
+  "bg-pink-300",
   "bg-purple-300",
   "bg-orange-300",
-  "bg-teal3500",
+  "bg-teal-300",
   "bg-red-300",
 ];
 
@@ -53,68 +53,75 @@ const StatsPanel: React.FC<StatsPanelProps> = ({ stats }) => {
       <Panel
         title="Waka Stats"
         description="Live coding metrics from WakaTime"
-        className="md:h-full p-2 bg-card/40 border-border shadow-none"
+        className="md:h-full"
       >
-        <div className="flex flex-col gap-2">
-          {/* Stats row */}
-          <div className="flex items-end justify-between gap-4 text-xs">
-            <div className="flex flex-col items-center flex-1 min-w-0">
-              <span className="font-bold text-[10px] text-muted-foreground uppercase tracking-widest">
-                Daily
-              </span>
-              <span className="font-black text-foreground text-lg leading-tight">
-                {dailyAverage}
-              </span>
-            </div>
-            <div className="flex flex-col items-center flex-1 min-w-0">
-              <span className="font-bold text-[10px] text-muted-foreground uppercase tracking-widest">
-                Total
-              </span>
-              <span className="font-bold text-foreground text-lg leading-tight">
-                {totalCoding}
-              </span>
-            </div>
-            <div className="flex flex-col items-center flex-1 min-w-0">
-              <span className="font-bold text-[10px] text-muted-foreground uppercase tracking-widest">
-                Top Lang
-              </span>
-              <span className="font-bold text-foreground text-lg leading-tight truncate max-w-20">
-                {topLanguage}
-              </span>
+        <div className="space-y-2">
+          <div className="space-y-1">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-xl border border-border/40 bg-background/40 p-2">
+                <p className="text-xs font-semibold  tracking-widest text-muted-foreground">
+                  Daily Avg
+                </p>
+                <p className="mt-1 text-lg font-black text-foreground">
+                  {dailyAverage}
+                </p>
+              </div>
+              <div className="rounded-xl border border-border/40 bg-background/40 p-2">
+                <p className="text-xs font-semibold  tracking-widest text-muted-foreground">
+                  Total
+                </p>
+                <p className="mt-1 text-lg font-black text-foreground">
+                  {totalCoding}
+                </p>
+              </div>
+              <div className="col-span-2 rounded-xl border border-border/40 bg-background/40 p-2">
+                <p className="text-xs font-semibold  tracking-widest text-muted-foreground">
+                  Top Language
+                </p>
+                <p className="mt-1 truncate text-lg font-black text-foreground">
+                  {topLanguage}
+                </p>
+              </div>
             </div>
           </div>
-          {/* Activity bar and legend */}
-          {activitySegments.length > 0 && (
-            <div className="flex flex-col gap-1 mt-1">
-              <div className="flex h-2 w-full gap-px overflow-hidden rounded">
-                {activitySegments.map((segment, index) => (
-                  <span
-                    key={segment.name}
-                    className={`h-full ${shadeClasses[index % shadeClasses.length]}`}
-                    style={{ width: `${segment.percent}%` }}
-                    aria-hidden="true"
-                  />
-                ))}
-              </div>
-              <div className="flex flex-wrap gap-1 mt-1">
-                {activitySegments.map((segment, index) => (
-                  <span
-                    key={segment.name}
-                    className="flex items-center gap-1 text-[10px] text-muted-foreground"
-                  >
+
+          <div className="space-y-2">
+            <p className="text-[11px] font-semibold  tracking-[0.2em] text-muted-foreground">
+              Activity
+            </p>
+            {activitySegments.length > 0 ? (
+              <div className="space-y-3">
+                <div className="flex h-2 w-full overflow-hidden rounded-full bg-muted/40">
+                  {activitySegments.map((segment, index) => (
                     <span
+                      key={segment.name}
+                      className={shadeClasses[index % shadeClasses.length]}
+                      style={{ width: `${segment.percent}%` }}
                       aria-hidden="true"
-                      className={`inline-block h-2 w-2 rounded-sm ${shadeClasses[index % shadeClasses.length]}`}
                     />
-                    {segment.name}{" "}
-                    <span className="font-semibold">
-                      {Math.round(segment.percent)}%
-                    </span>
-                  </span>
-                ))}
+                  ))}
+                </div>
+                <div className="space-y-1 text-[11px] text-muted-foreground">
+                  {activitySegments.map((segment, index) => (
+                    <div key={segment.name} className="flex items-center gap-2">
+                      <span
+                        aria-hidden="true"
+                        className={`h-2 w-2 rounded-sm ${shadeClasses[index % shadeClasses.length]}`}
+                      />
+                      <span className="flex-1 truncate">{segment.name}</span>
+                      <span className="font-semibold text-foreground">
+                        {Math.round(segment.percent)}%
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            ) : (
+              <p className="text-xs text-muted-foreground">
+                {activityBreakdown}
+              </p>
+            )}
+          </div>
         </div>
       </Panel>
     </aside>

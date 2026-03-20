@@ -7,7 +7,7 @@ export const QuickControls = () => {
 
   return (
     <Card>
-      <p className="mb-3 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+      <p className="mb-3 text-xs font-black uppercase tracking-widest text-muted-foreground">
         Controls
       </p>
       <button

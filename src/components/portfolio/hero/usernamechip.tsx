@@ -31,7 +31,9 @@ interface UsernameChipProps {
   onActiveIdentityChange?: (identity: ChipIdentity) => void;
 }
 
-const UsernameChip: React.FC<UsernameChipProps> = ({ onActiveIdentityChange }) => {
+const UsernameChip: React.FC<UsernameChipProps> = ({
+  onActiveIdentityChange,
+}) => {
   const [activeId, setActiveId] = useState(identities[0].id);
   const [tooltipId, setTooltipId] = useState<string | null>(null);
   const activeIdentity =
@@ -90,7 +92,7 @@ const UsernameChip: React.FC<UsernameChipProps> = ({ onActiveIdentityChange }) =
                 className="h-10 w-10 rounded-full object-cover md:h-12 md:w-12"
               />
             ) : (
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-[10px] font-bold md:h-12 md:w-12 md:text-xs">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-xs font-bold md:h-12 md:w-12 md:text-xs">
                 {item.initials}
               </span>
             )}
