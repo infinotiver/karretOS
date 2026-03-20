@@ -1,7 +1,6 @@
 import type React from "react";
 import type { HomeStat } from "@/config/home";
 import { Panel } from "@/components/common/Panel";
-import { MetricPair } from "@/components/common/MetricPair";
 
 interface StatsPanelProps {
   stats: HomeStat[];
@@ -16,10 +15,14 @@ interface ActivitySegment {
 }
 
 const shadeClasses = [
-  "bg-black",
-  "bg-neutral-700",
-  "bg-neutral-500",
-  "bg-neutral-400",
+  "bg-blue-300",
+  "bg-green-300",
+  "bg-yellow-300",
+  "bg-pink3400",
+  "bg-purple-300",
+  "bg-orange-300",
+  "bg-teal3500",
+  "bg-red-300",
 ];
 
 const parseActivityBreakdown = (value: string): ActivitySegment[] =>
@@ -50,85 +53,73 @@ const StatsPanel: React.FC<StatsPanelProps> = ({ stats }) => {
       <Panel
         title="Waka Stats"
         description="Live coding metrics from WakaTime"
-        className="md:h-full"
+        className="md:h-full p-2 bg-card/40 border-border shadow-none"
       >
-        <div className="space-y-3">
-          <div className="rounded-xl border border-border/60 bg-background/45 px-3 py-3">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              Daily
-            </p>
-            <p className="mt-1 text-4xl font-black tracking-tight text-foreground">
-              {dailyAverage}
-            </p>
+        <div className="flex flex-col gap-2">
+          {/* Stats row */}
+          <div className="flex items-end justify-between gap-4 text-xs">
+            <div className="flex flex-col items-center flex-1 min-w-0">
+              <span className="font-bold text-[10px] text-muted-foreground uppercase tracking-widest">
+                Daily
+              </span>
+              <span className="font-black text-foreground text-lg leading-tight">
+                {dailyAverage}
+              </span>
+            </div>
+            <div className="flex flex-col items-center flex-1 min-w-0">
+              <span className="font-bold text-[10px] text-muted-foreground uppercase tracking-widest">
+                Total
+              </span>
+              <span className="font-bold text-foreground text-lg leading-tight">
+                {totalCoding}
+              </span>
+            </div>
+            <div className="flex flex-col items-center flex-1 min-w-0">
+              <span className="font-bold text-[10px] text-muted-foreground uppercase tracking-widest">
+                Top Lang
+              </span>
+              <span className="font-bold text-foreground text-lg leading-tight truncate max-w-20">
+                {topLanguage}
+              </span>
+            </div>
           </div>
-
-          <div className="space-y-2">
-            <MetricPair
-              label="Total"
-              value={
-                <span className="font-black text-foreground">
-                  {totalCoding}
-                </span>
-              }
-            />
-            <MetricPair
-              label="Top Language"
-              value={
-                <span className="font-black text-foreground">
-                  {topLanguage}
-                </span>
-              }
-            />
-          </div>
-
-          <div className="space-y-2">
-            <MetricPair
-              label="Activity"
-              value={
-                <span className="text-[11px] text-muted-foreground">
-                  {activityBreakdown}
-                </span>
-              }
-              className="text-[11px]"
-            />
-
-            {activitySegments.length > 0 && (
-              <div className="space-y-2">
-                <div className="flex h-4 w-full gap-px overflow-hidden rounded-full border border-border/60 bg-white/30 p-[2px]">
-                  {activitySegments.map((segment, index) => (
-                    <span
-                      key={segment.name}
-                      className={`h-full ${shadeClasses[index % shadeClasses.length]}`}
-                      style={{ width: `${segment.percent}%` }}
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
-                <div className="space-y-1">
-                  {activitySegments.map((segment, index) => (
-                    <MetricPair
-                      key={`${segment.name}-${segment.percent}`}
-                      label={
-                        <span className="flex items-center gap-1 text-[11px] font-semibold text-muted-foreground">
-                          <span
-                            aria-hidden="true"
-                            className={`h-2 w-2 rounded-sm ${shadeClasses[index % shadeClasses.length]}`}
-                          />
-                          {segment.name}
-                        </span>
-                      }
-                      value={`${Math.round(segment.percent)}%`}
-                      className="text-[11px]"
-                    />
-                  ))}
-                </div>
+          {/* Activity bar and legend */}
+          {activitySegments.length > 0 && (
+            <div className="flex flex-col gap-1 mt-1">
+              <div className="flex h-2 w-full gap-px overflow-hidden rounded">
+                {activitySegments.map((segment, index) => (
+                  <span
+                    key={segment.name}
+                    className={`h-full ${shadeClasses[index % shadeClasses.length]}`}
+                    style={{ width: `${segment.percent}%` }}
+                    aria-hidden="true"
+                  />
+                ))}
               </div>
-            )}
-          </div>
+              <div className="flex flex-wrap gap-1 mt-1">
+                {activitySegments.map((segment, index) => (
+                  <span
+                    key={segment.name}
+                    className="flex items-center gap-1 text-[10px] text-muted-foreground"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={`inline-block h-2 w-2 rounded-sm ${shadeClasses[index % shadeClasses.length]}`}
+                    />
+                    {segment.name}{" "}
+                    <span className="font-semibold">
+                      {Math.round(segment.percent)}%
+                    </span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </Panel>
     </aside>
   );
+  // ...existing code...
 };
 
 export default StatsPanel;

@@ -18,7 +18,7 @@ export const Panel = ({
 }: PanelProps) => (
   <div
     className={cn(
-      "w-full rounded-lg border border-border bg-card",
+      "w-full rounded-lg border border-border bg-card/40",
       className,
     )}
   >

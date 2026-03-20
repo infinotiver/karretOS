@@ -6,8 +6,9 @@ export default function TopBar() {
       <span className="font-bold text-foreground">KarretOS</span>
       <div className="flex-1" />
       <div className="flex items-center gap-3 text-muted-foreground">
-      <a href="https://github.com/infinotiver/karretos">
-        <GithubLogoIcon /></a>
+        <a href="https://github.com/infinotiver/karretos">
+          <GithubLogoIcon />
+        </a>
       </div>
     </div>
   );
