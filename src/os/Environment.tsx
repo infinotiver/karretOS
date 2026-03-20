@@ -17,7 +17,7 @@ const Environment = ({ children }: PropsWithChildren) => {
       )}
 
       {/* Background overlay */}
-      <div className="pointer-events-none absolute inset-0 bg-background/20 backdrop-blur-xs" />
+      <div className="pointer-events-none absolute inset-0 bg-white/20 backdrop-blur-xs" />
 
       {/* Gradient overlay */}
       <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/8 via-transparent to-black/18 opacity-60" />

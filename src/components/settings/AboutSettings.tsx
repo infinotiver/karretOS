@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppContext } from "@/hooks/useAppContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +12,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Panel } from "@/components/common/Panel";
-import { MetricPair } from "@/components/common/MetricPair";
 
 export function AboutSettings() {
   const { username, setUsername } = useAppContext();
@@ -62,42 +61,35 @@ export function AboutSettings() {
                 <Button variant="ghost" onClick={() => setOpen(false)}>
                   Cancel
                 </Button>
-                <Button onClick={handleSave}>Save</Button>
+                <Button variant="default" onClick={handleSave}>
+                  Save
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </div>
       </Panel>
 
-      <Panel
-        title="System"
-        description="Device metadata pulled from the browser"
-      >
-        <div className="space-y-2 text-sm">
-          <MetricPair
-            label="Platform"
-            value={
-              <span className="font-mono text-foreground">
-                {navigator.platform}
-              </span>
-            }
-          />
-          <MetricPair
-            label="Screen"
-            value={
-              <span className="font-mono text-foreground">
-                {window.screen.width}×{window.screen.height}
-              </span>
-            }
-          />
-          <MetricPair
-            label="Timezone"
-            value={
-              <span className="font-mono text-foreground">
-                {Intl.DateTimeFormat().resolvedOptions().timeZone}
-              </span>
-            }
-          />
+      <Panel title="System" description="Device metadata pulled from the browser">
+        <div className="space-y-1 text-sm">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-muted-foreground">Platform</span>
+            <span className="font-mono text-foreground">
+              {navigator.platform}
+            </span>
+          </div>
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-muted-foreground">Screen</span>
+            <span className="font-mono text-foreground">
+              {window.screen.width}x{window.screen.height}
+            </span>
+          </div>
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-muted-foreground">Timezone</span>
+            <span className="font-mono text-foreground">
+              {Intl.DateTimeFormat().resolvedOptions().timeZone}
+            </span>
+          </div>
         </div>
       </Panel>
     </div>
