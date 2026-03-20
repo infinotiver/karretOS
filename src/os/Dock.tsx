@@ -18,9 +18,9 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
       <AnimatePresence>
         {isOpen && (
           <motion.nav
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            initial={{ opacity: 0, y: 10, scale: 0.75 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            exit={{ opacity: 0, y: 10, scale: 0.75 }}
             className="flex items-center gap-2 rounded-4xl border border-white/10 bg-black/90 p-2 backdrop-blur-2xl shadow-2xl"
           >
             {apps.map((app) => (

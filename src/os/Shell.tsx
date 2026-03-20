@@ -26,8 +26,9 @@ const Shell = () => {
     <Environment>
       <div className="relative z-0 flex h-full w-full flex-col">
         <TopBar />
+        
         {!hasMaximized && (
-          <div className="flex-1 p-2 pb-20 md:px-12 md:py-10 md:pb-20">
+          <div className="flex-1 p-16">
             <Desktop enableMotion={!hasMaximized} />
           </div>
         )}

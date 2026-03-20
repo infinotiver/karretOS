@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useRef } from "react";
 import TitleBar from "@/os/TitleBar";
 import { getApp } from "@/os/apps/registry";
 import type { AppId } from "@/os/apps/types";
@@ -26,17 +27,19 @@ export const AppWindow = ({
   onOpenApp,
   titleBar = true,
 }: AppWindowProps) => {
+  const constraintsRef = useRef<HTMLDivElement>(null);
   const appDef = getApp(win.id);
   const Component = appDef.component;
   const isWindowed = win.windowState === "windowed";
 
   return (
     <motion.div
-      style={{ zIndex: win.zIndex }}
-      className={`fixed inset-0 pointer-events-none ${
+      ref={constraintsRef}
+      style={{ zIndex: win.zIndex, top: "2rem" }}
+      className={`fixed left-0 right-0 bottom-0 pointer-events-none ${
         isWindowed
-          ? "flex items-center justify-center p-4 pb-24"
-          : "flex flex-col p-2"
+          ? "flex items-center justify-center p-4"
+          : "flex flex-col p-0.5"
       }`}
       initial={{ opacity: 0, y: 20, scale: 0.985 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -53,8 +56,8 @@ export const AppWindow = ({
         }`}
         drag={isWindowed}
         dragMomentum={false}
-        dragElastic={0.2}
-
+        dragElastic={0}
+        dragConstraints={isWindowed ? constraintsRef : undefined}
         initial={
           isWindowed ? { x: win.offset.x, y: win.offset.y } : { x: 0, y: 0 }
         }
