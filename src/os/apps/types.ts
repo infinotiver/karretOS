@@ -23,4 +23,5 @@ export interface AppDefinition {
   icon: React.ComponentType<{ className?: string }>;
   component: React.ComponentType<AppProps>;
   titleBar?: boolean; // Optional: override default title bar behavior
+  resizable?: boolean; // Optional: configure resizing
 }

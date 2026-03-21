@@ -25,6 +25,8 @@
     "react": "^19.2.0",
     "react-clock": "^6.0.0",
     "react-dom": "^19.2.0",
+    "react-resizable-panels": "^4.7.4",
+    "react-rnd": "^10.5.3",
     "react-router-dom": "^7.13.1",
     "simple-icons": "^16.9.0",
     "tailwind-merge": "^3.4.0",

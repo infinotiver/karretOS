@@ -3,8 +3,8 @@ import {
   Clock,
   TimerIcon,
   TerminalIcon,
-  Paperclip,
-  Settings2Icon,
+  NotebookPenIcon,
+  SettingsIcon,
   Search,
 } from "lucide-react";
 import { SquaresFourIcon } from "@phosphor-icons/react";
@@ -52,7 +52,7 @@ export const apps: AppDefinition[] = [
     title: "kNotes",
     description: "Take Notes",
     component: NotesApp,
-    icon: Paperclip,
+    icon: NotebookPenIcon,
   },
   {
     id: "terminal",
@@ -66,7 +66,7 @@ export const apps: AppDefinition[] = [
     title: "Settings",
     description: "Make karretOS all yours",
     component: SettingsApp,
-    icon: Settings2Icon,
+    icon: SettingsIcon,
   },
   {
     id: "windows",

@@ -3,12 +3,12 @@ import { useTime } from "@/hooks/useTime";
 export default function TopBar() {
   const { minutes, hours, formattedDate } = useTime({});
   return (
-    <div className="fixed top-0 left-0 right-0 z-1000 h-8 bg-background/80 backdrop-blur-sm shadow-md flex items-center px-6 text-sm border-b-lg">
+    <div className="fixed top-0 left-0 right-0 z-1000 h-8 bg-background/80 backdrop-blur-xl shadow-md flex items-center px-6 text-sm rounded-b-lg">
       <span className="font-bold text-foreground">KarretOS</span>
       <div className="flex-1" />
       <div className="flex items-center gap-4 text-muted-foreground">
         <span className="flex items-center gap-2 h-8">
-          <span className="text-muted-foreground flex items-center h-full">
+          <span className="text-foreground flex items-center h-full">
             {formattedDate} {hours}:{minutes.toString().padStart(2, "0")}
           </span>
         </span>
