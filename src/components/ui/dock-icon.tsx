@@ -19,7 +19,7 @@ const DockIcon = ({ app, isActive, onClick }: DockIconProps) => {
       <TooltipTrigger asChild>
         <motion.div
           onClick={onClick}
-          layout
+          // layout
           whileHover={{ 
             scale: 1.2, 
             y: -10,
