@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { UnlockIcon } from "lucide-react";
+import bg from "@/assets/assets/bg2.png";
+import { prefetchWeather } from "@/hooks/useWeather";
 interface BootScreenProps {
   onBootComplete: () => void;
 }
@@ -13,7 +15,18 @@ export const BootScreen = ({ onBootComplete }: BootScreenProps) => {
 
   useEffect(() => {
     let cancelled = false;
+    const preload = async () => {
+      try {
+        const img = new Image();
+        img.src = bg;
+        await img.decode?.();
+      } catch {
+        // ignore preload failures
+      }
+      prefetchWeather();
+    };
     const bootSequence = async () => {
+      preload();
       const steps = 20;
       const stepDuration = 100;
       for (let i = 0; i <= steps; i++) {
