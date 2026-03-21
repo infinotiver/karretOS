@@ -25,6 +25,9 @@ export const apps: AppDefinition[] = [
     icon: Search,
     component: AppLauncherApp,
     titleBar: false, // Hide title bar for launcher
+    defaultSize: { w: 600, h: 280 },
+    centerOnOpen: true,
+    closeOnOutside: true,
   },
   {
     id: "portfolio",
@@ -67,6 +70,7 @@ export const apps: AppDefinition[] = [
     description: "Make karretOS all yours",
     component: SettingsApp,
     icon: SettingsIcon,
+    defaultSize: { w: 860, h: 560 },
   },
   {
     id: "windows",

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { X } from "lucide-react";
-import { WindowLayout } from "@/components/layouts/WindowLayout";
 import { apps } from "@/os/apps/registry";
 import type { AppId, AppProps } from "@/os/apps/types";
 
@@ -8,11 +7,10 @@ export default function AppLauncherApp({ onOpenApp, onCloseApp }: AppProps) {
   const [selectedId, setSelectedId] = useState<AppId | null>(null);
 
   return (
-    <WindowLayout>
       <section className="flex h-full flex-col gap-4 p-6">
         <header className="flex items-center justify-between">
           <h1 className="text-2xl font-black tracking-tight text-foreground">
-            App Grid
+            App Launcher
           </h1>
           <button
             type="button"
@@ -69,6 +67,5 @@ export default function AppLauncherApp({ onOpenApp, onCloseApp }: AppProps) {
             })}
         </div>
       </section>
-    </WindowLayout>
   );
 }

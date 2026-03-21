@@ -24,4 +24,8 @@ export interface AppDefinition {
   component: React.ComponentType<AppProps>;
   titleBar?: boolean; // Optional: override default title bar behavior
   resizable?: boolean; // Optional: configure resizing
+  defaultSize?: { w: number; h: number };
+  defaultOffset?: { x: number; y: number };
+  centerOnOpen?: boolean;
+  closeOnOutside?: boolean;
 }

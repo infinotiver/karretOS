@@ -44,6 +44,13 @@ const getDefaultWindowOffset = (size: { w: number; h: number }) => {
   };
 };
 
+const getCenteredOffset = (size: { w: number; h: number }) => {
+  if (typeof window === "undefined") return { x: 0, y: 0 };
+  const x = Math.max(0, Math.round((window.innerWidth - size.w) / 2));
+  const y = Math.max(0, Math.round((window.innerHeight - size.h) / 2));
+  return { x, y };
+};
+
 const useSession = (): Session => {
   const [selectedId, setSelectedId] = useState<AppId | null>(null);
   const [windows, setWindows] = useState<WindowEntry[]>([]);
@@ -64,12 +71,14 @@ const useSession = (): Session => {
 
   const open = useCallback((id: AppId) => {
     // Validate app exists
-    getApp(id);
+    const appDef = getApp(id);
     setSelectedId(id);
     zCounter += 1;
     const z = zCounter;
-    const size = getDefaultWindowSize();
-    const offset = getDefaultWindowOffset(size);
+    const size = appDef.defaultSize ?? getDefaultWindowSize();
+    const offset =
+      appDef.defaultOffset ??
+      (appDef.centerOnOpen ? getCenteredOffset(size) : getDefaultWindowOffset(size));
     setWindows((prev) => {
       const existing = prev.find((w) => w.id === id);
       if (existing) {
