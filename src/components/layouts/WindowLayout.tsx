@@ -40,7 +40,7 @@ export const WindowLayout: React.FC<WindowLayoutProps> = ({
 
       {/* Footer */}
       {footer && (
-        <div className="px-4 py-2 border-t border-border/40 bg-card/20 text-xs text-muted-foreground">
+        <div className="px-2 py-1.5 border-t border-border/40 text-xs text-muted-foreground backdrop-blur-sm rounded-[inherit]">
           {footer}
         </div>
       )}
