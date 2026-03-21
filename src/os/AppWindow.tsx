@@ -1,10 +1,9 @@
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { Rnd } from "react-rnd";
 import TitleBar from "@/os/TitleBar";
 import { getApp } from "@/os/apps/registry";
 import type { AppId } from "@/os/apps/types";
 import type { WindowEntry } from "@/os/useSession";
-
 const APP_WINDOW_BLUR = "backdrop-blur-sm";
 const APP_WINDOW_OPACITY = "bg-background/40";
 
@@ -15,6 +14,8 @@ interface AppWindowProps {
   onToggleMaximize: () => void;
   onClose: () => void;
   onOpenApp: (id: AppId) => void;
+  onMove: (offset: { x: number; y: number }) => void;
+  onResize: (size: { w: number; h: number }, offset: { x: number; y: number }) => void;
   titleBar: boolean;
 }
 
@@ -25,16 +26,17 @@ export const AppWindow = ({
   onToggleMaximize,
   onClose,
   onOpenApp,
+  onMove,
+  onResize,
   titleBar = true,
 }: AppWindowProps) => {
-  const constraintsRef = useRef<HTMLDivElement>(null);
   const appDef = getApp(win.id);
   const Component = appDef.component;
   const isWindowed = win.windowState === "windowed";
+  const isResizable = appDef.resizable ?? true;
 
   return (
     <motion.div
-      ref={constraintsRef}
       style={{ zIndex: win.zIndex, top: "2rem" }}
       className={`fixed left-0 right-0 bottom-0 pointer-events-none ${
         isWindowed
@@ -46,40 +48,72 @@ export const AppWindow = ({
       exit={{ opacity: 0, y: 14, scale: 0.99 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
     >
-      <motion.div
-        className={`pointer-events-auto h-full ${APP_WINDOW_BLUR} ${APP_WINDOW_OPACITY} ${
-          isWindowed
-            ? "max-w-4xl w-full flex flex-col rounded-2xl border-2 border-border max-h-[75vh] transition-all overflow-hidden"
-            : "flex flex-1 w-full flex-col rounded-xl border border-border overflow-hidden"
-        } ${isWindowed && isFocused ? "shadow-2xl shadow-black/20" : ""} ${
-          isWindowed && !isFocused ? "opacity-90 shadow-sm" : ""
-        }`}
-        drag={isWindowed}
-        dragMomentum={false}
-        dragElastic={0}
-        dragConstraints={isWindowed ? constraintsRef : undefined}
-        initial={
-          isWindowed ? { x: win.offset.x, y: win.offset.y } : { x: 0, y: 0 }
-        }
-        animate={isWindowed ? {} : { x: 0, y: 0 }}
-        onPointerDownCapture={onFocus}
-      >
-        {titleBar && (
-          <TitleBar
-            title={appDef.title}
-            windowState={win.windowState}
-            onToggleMaximize={onToggleMaximize}
-            onClose={onClose}
-          />
-        )}
-        <div className="flex-1 min-h-0 overflow-y-auto flex flex-col rounded-b-lg">
-          <Component
-            isActive={isFocused}
-            onOpenApp={onOpenApp}
-            onCloseApp={onClose}
-          />
-        </div>
-      </motion.div>
+      {isWindowed ? (
+        <Rnd
+          bounds="parent"
+          size={{ width: win.size.w, height: win.size.h }}
+          position={{ x: win.offset.x, y: win.offset.y }}
+          minWidth={360}
+          minHeight={260}
+          dragHandleClassName="window-drag-handle"
+          enableResizing={isResizable}
+          onDragStart={onFocus}
+          onDragStop={(_, data) => onMove({ x: data.x, y: data.y })}
+          onResizeStart={onFocus}
+          onResizeStop={(_, __, ref, ___, position) =>
+            onResize(
+              { w: Math.round(ref.offsetWidth), h: Math.round(ref.offsetHeight) },
+              { x: position.x, y: position.y },
+            )
+          }
+          className={`pointer-events-auto ${isFocused ? "z-10" : "z-0"}`}
+        >
+          <div
+            className={`h-full ${APP_WINDOW_BLUR} ${APP_WINDOW_OPACITY} flex flex-col rounded-2xl border-2 border-border transition-all overflow-hidden ${
+              isFocused ? "shadow-2xl shadow-black/20" : "opacity-90 shadow-sm"
+            }`}
+            onPointerDownCapture={onFocus}
+          >
+            {titleBar && (
+              <TitleBar
+                title={appDef.title}
+                windowState={win.windowState}
+                onToggleMaximize={onToggleMaximize}
+                onClose={onClose}
+                className="window-drag-handle"
+              />
+            )}
+            <div className="flex-1 min-h-0 overflow-y-auto flex flex-col rounded-b-lg">
+              <Component
+                isActive={isFocused}
+                onOpenApp={onOpenApp}
+                onCloseApp={onClose}
+              />
+            </div>
+          </div>
+        </Rnd>
+      ) : (
+        <motion.div
+          className={`pointer-events-auto h-full ${APP_WINDOW_BLUR} ${APP_WINDOW_OPACITY} flex flex-1 w-full flex-col rounded-xl border border-border overflow-hidden`}
+          onPointerDownCapture={onFocus}
+        >
+          {titleBar && (
+            <TitleBar
+              title={appDef.title}
+              windowState={win.windowState}
+              onToggleMaximize={onToggleMaximize}
+              onClose={onClose}
+            />
+          )}
+          <div className="flex-1 min-h-0 overflow-y-auto flex flex-col rounded-b-lg">
+            <Component
+              isActive={isFocused}
+              onOpenApp={onOpenApp}
+              onCloseApp={onClose}
+            />
+          </div>
+        </motion.div>
+      )}
     </motion.div>
   );
 };

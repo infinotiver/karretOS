@@ -46,6 +46,11 @@ const Shell = () => {
               onToggleMaximize={() => session.toggleMaximize(win.id)}
               onClose={() => session.close(win.id)}
               onOpenApp={session.open}
+              onMove={(offset) => session.move(win.id, offset)}
+              onResize={(size, offset) => {
+                session.resize(win.id, size);
+                session.move(win.id, offset);
+              }}
               titleBar={appDef?.titleBar !== false}
             />
           );
