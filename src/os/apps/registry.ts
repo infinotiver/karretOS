@@ -8,6 +8,9 @@ import {
   Search,
 } from "lucide-react";
 import { SquaresFourIcon } from "@phosphor-icons/react";
+import { Wrench } from "lucide-react";
+import DevToolsApp from "./devtools/DevToolsApp";
+
 import ClockApp from "@/os/apps/clock/ClockApp";
 import PortfolioApp from "@/os/apps/portfolio/PortfolioApp";
 import PomodoroApp from "./pomodoro/PomodoroApp";
@@ -78,6 +81,14 @@ export const apps: AppDefinition[] = [
     description: "Windows sucks as usual",
     component: WindowsApp,
     icon: SquaresFourIcon,
+  },
+  {
+    id: "devtools",
+    title: "DevTools",
+    description: "Developer tools: formatters, converters, and more.",
+    icon: Wrench,
+    component: DevToolsApp,
+    defaultSize: { w: 800, h: 540 },
   },
 ];
 

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Palette, User } from "lucide-react";
-import { SettingsList } from "@/components/settings/SettingsList";
 import { PersonalisationSettings } from "@/components/settings/PersonalisationSettings";
 import { AboutSettings } from "@/components/settings/AboutSettings";
 import { WindowLayout } from "@/components/layouts/WindowLayout";
+import { SidebarNav } from "@/components/common/SidebarNav";
 
 const SETTINGS = [
   {
@@ -13,6 +13,11 @@ const SETTINGS = [
   },
   { icon: User, title: "About", description: "About karretOS & You" },
 ];
+const SIDEBAR_ITEMS = SETTINGS.map((item) => ({
+  id: item.title,
+  label: item.title,
+  icon: item.icon,
+}));
 
 export default function SettingsApp() {
   const [active, setActive] = useState(SETTINGS[0].title);
@@ -22,9 +27,10 @@ export default function SettingsApp() {
   return (
     <WindowLayout footer="karretOS - made with love by infinotiver">
       <div className="flex h-full">
-        <SettingsList
-          settings={SETTINGS}
-          active={active}
+        <SidebarNav
+          title="Settings"
+          items={SIDEBAR_ITEMS}
+          activeId={active}
           onSelect={setActive}
         />
 

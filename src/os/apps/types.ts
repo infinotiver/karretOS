@@ -8,7 +8,8 @@ export type AppId =
   | "notes"
   | "settings"
   | "windows"
-  | "launcher";
+  | "launcher"
+  | "devtools";
 
 export interface AppProps {
   isActive: boolean;
