@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { UnlockIcon } from "lucide-react";
 import bg from "@/assets/assets/bg2.png";
@@ -56,9 +56,9 @@ export const BootScreen = ({ onBootComplete }: BootScreenProps) => {
     >
       {/* Logo/Title */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
+        initial={{ opacity: 0, scale: 0.92 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         className="mb-12 text-center"
       >
         <h1 className="text-5xl font-black tracking-tighter text-foreground md:text-7xl">
@@ -66,30 +66,47 @@ export const BootScreen = ({ onBootComplete }: BootScreenProps) => {
         </h1>
       </motion.div>
 
-      {!ready ? (
-        <div className="w-64 space-y-3">
-          <div className="h-1 w-full overflow-hidden rounded-full bg-muted">
-            <motion.div
+      <AnimatePresence mode="wait">
+        {!ready ? (
+          <motion.div
+            key="boot-progress"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="w-72"
+          >
+            <div className="h-1 w-full overflow-hidden rounded-full bg-muted">
+              <motion.div
               className="h-full bg-linear-to-r from-foreground to-foreground/60"
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ ease: "linear" }}
-            />
-          </div>
-          <p className="text-right text-xs font-mono text-muted-foreground">
-            {Math.round(progress)}%
-          </p>
-        </div>
-      ) : (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          onClick={handleUnlock}
-        >
-          <Button className="text-2xl p-6"><UnlockIcon/>unlock</Button>
-        </motion.div>
-      )}
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+              />
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="boot-unlock"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+          >
+            <Button
+              onClick={handleUnlock}
+              className="group text-base px-5 py-4 rounded-full bg-foreground text-background hover:bg-foreground/90"
+            >
+              <UnlockIcon className="mr-2 h-4 w-4 transition-transform group-hover:-translate-y-0.5" />
+              Unlock
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <footer className="pointer-events-none absolute bottom-6 text-xs text-muted-foreground">
+        Original distribution, created by infinotiver
+      </footer>
     </motion.div>
   );
 };

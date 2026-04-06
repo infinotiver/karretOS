@@ -19,7 +19,7 @@ export const WindowLayout: React.FC<WindowLayoutProps> = ({
   return (
     <div
       className={cn(
-        "flex flex-col h-full bg-background/20 backdrop-blur-sm text-foreground",
+        "flex flex-col h-full bg-background/20 text-foreground",
         className,
       )}
     >
@@ -40,7 +40,7 @@ export const WindowLayout: React.FC<WindowLayoutProps> = ({
 
       {/* Footer */}
       {footer && (
-        <div className="px-2 py-1.5 border-t border-border/40 text-xs text-muted-foreground backdrop-blur-sm rounded-[inherit]">
+        <div className="px-2 py-1.5 border-t border-border/40 text-xs text-muted-foreground rounded-[inherit]">
           {footer}
         </div>
       )}
