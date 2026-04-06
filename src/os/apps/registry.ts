@@ -13,7 +13,6 @@ import { Wrench } from "lucide-react";
 
 import ClockApp from "@/os/apps/clock/ClockApp";
 
-import PomodoroApp from "./pomodoro/PomodoroApp";
 import TerminalApp from "./terminal/TerminalApp";
 import NotesApp from "./notes/NotesApp";
 import SettingsApp from "./settings/SettingsApp";
@@ -21,6 +20,7 @@ import type { AppDefinition, AppId } from "@/os/apps/types";
 import WindowsApp from "./windows/WindowsApp";
 import AppLauncherApp from "./applauncher/AppLauncherApp";
 
+const PomodoroApp = lazy(() => import("./pomodoro/PomodoroApp"));
 const PortfolioApp = lazy(() => import("@/os/apps/portfolio/PortfolioApp"));
 const DevToolsApp = lazy(() => import("./devtools/DevToolsApp"));
 
