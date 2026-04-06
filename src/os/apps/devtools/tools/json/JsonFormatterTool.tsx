@@ -1,25 +1,32 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { Copy } from "lucide-react";
 
 export default function JsonFormatterTool() {
   const [input, setInput] = useState("");
-  const [output, setOutput] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
-  const formatJson = (pretty: boolean) => {
-    try {
-      setError(null);
-      const parsed = JSON.parse(input || "{}");
-      setOutput(JSON.stringify(parsed, null, pretty ? 2 : 0));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Invalid JSON");
-      setOutput("");
+  const { output, error } = useMemo(() => {
+    if (!input.trim()) {
+      return { output: "", error: null as string | null };
     }
-  };
+
+    try {
+      const parsed = JSON.parse(input);
+      return { output: JSON.stringify(parsed, null, 2), error: null };
+    } catch (err) {
+      return {
+        output: "",
+        error: err instanceof Error ? err.message : "Invalid JSON",
+      };
+    }
+  }, [input]);
 
   const copyOutput = async () => {
     if (!output) return;
     try {
       await navigator.clipboard.writeText(output);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1200);
     } catch {
       // ignore clipboard failures
     }
@@ -33,30 +40,19 @@ export default function JsonFormatterTool() {
             JSON Formatter
           </h2>
           <p className="text-xs text-muted-foreground">
-            Paste JSON, format or minify instantly.
+            Real-time JSON formatting.
           </p>
         </div>
         <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={() => formatJson(true)}
-            className="rounded-lg border border-border/50 bg-background/70 px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted/50"
-          >
-            Format
-          </button>
-          <button
-            type="button"
-            onClick={() => formatJson(false)}
-            className="rounded-lg border border-border/50 bg-background/70 px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted/50"
-          >
-            Minify
-          </button>
-          <button
-            type="button"
             onClick={copyOutput}
-            className="rounded-lg border border-border/50 bg-background/70 px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted/50"
+            disabled={!output}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-background/70 text-foreground transition hover:bg-muted/50 disabled:cursor-not-allowed disabled:opacity-50"
+            aria-label="Copy formatted JSON"
+            title={copied ? "Copied" : "Copy"}
           >
-            Copy
+            <Copy className="h-4 w-4" />
           </button>
         </div>
       </header>
@@ -67,7 +63,7 @@ export default function JsonFormatterTool() {
             Input
           </p>
           <textarea
-            className="min-h-[240px] flex-1 resize-none rounded-xl border border-border/50 bg-background/60 p-3 text-xs leading-relaxed text-foreground outline-none focus:border-primary/50"
+            className="min-h-60 flex-1 resize-none rounded-xl border border-border/50 bg-background/60 p-3 text-xs leading-relaxed text-foreground outline-none focus:border-primary/50"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Paste JSON here..."
@@ -78,7 +74,7 @@ export default function JsonFormatterTool() {
             Output
           </p>
           <textarea
-            className="min-h-[240px] flex-1 resize-none rounded-xl border border-border/50 bg-background/60 p-3 text-xs leading-relaxed text-foreground outline-none"
+            className="min-h-60 flex-1 resize-none rounded-xl border border-border/50 bg-background/60 p-3 text-xs leading-relaxed text-foreground outline-none"
             value={output}
             readOnly
             placeholder="Formatted JSON will appear here..."

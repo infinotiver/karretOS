@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Wrench, Braces } from "lucide-react";
+import { Wrench, Braces, Fingerprint } from "lucide-react";
 import JsonFormatterTool from "./tools/json/JsonFormatterTool";
+import HashGenerator from "./tools/json/HashGenerator";
 import { SidebarNav } from "@/components/common/SidebarNav";
 
 const TOOLS = [
@@ -10,7 +11,12 @@ const TOOLS = [
     label: "JSON Formatter",
     component: JsonFormatterTool,
   },
-  // Add more tools here
+  {
+    id: "hash-generator",
+    icon: Fingerprint,
+    label: "Hash Generator",
+    component: HashGenerator,
+  },
 ];
 const SIDEBAR_ITEMS = TOOLS.map((tool) => ({
   id: tool.id,
