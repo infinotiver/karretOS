@@ -23,6 +23,7 @@ export interface AppDefinition {
   description: string;
   icon: React.ComponentType<{ className?: string }>;
   component: React.ComponentType<AppProps>;
+  hasSidebar?: boolean; // Sidebar-style apps keep glass effect
   titleBar?: boolean; // Optional: override default title bar behavior
   resizable?: boolean; // Optional: configure resizing
   defaultSize?: { w: number; h: number };

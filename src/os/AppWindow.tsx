@@ -5,7 +5,8 @@ import { getApp } from "@/os/apps/registry";
 import type { AppId } from "@/os/apps/types";
 import type { WindowEntry } from "@/os/useSession";
 const APP_WINDOW_BLUR = "backdrop-blur-sm";
-const APP_WINDOW_OPACITY = "bg-background/40";
+const APP_WINDOW_OPACITY = "bg-background/60";
+const APP_WINDOW_SOLID = "bg-muted";
 
 interface AppWindowProps {
   win: WindowEntry;
@@ -35,6 +36,9 @@ export const AppWindow = ({
   const isWindowed = win.windowState === "windowed";
   const isResizable = appDef.resizable ?? true;
   const closeOnOutside = appDef.closeOnOutside ?? false;
+  const windowSurface = appDef.hasSidebar
+    ? `${APP_WINDOW_BLUR} ${APP_WINDOW_OPACITY}`
+    : APP_WINDOW_SOLID;
 
   return (
     <motion.div
@@ -79,7 +83,7 @@ export const AppWindow = ({
             className={`pointer-events-auto ${isFocused ? "z-10" : "z-0"}`}
           >
             <div
-              className={`h-full ${APP_WINDOW_BLUR} ${APP_WINDOW_OPACITY} flex flex-col rounded-2xl transition-all overflow-hidden ${
+              className={`h-full ${windowSurface} flex flex-col rounded-2xl transition-all overflow-hidden ${
                 isFocused ? "shadow-2xl shadow-black/20" : "opacity-90 shadow-sm"
               }`}
               onPointerDownCapture={(e) => {
@@ -108,7 +112,7 @@ export const AppWindow = ({
         </>
       ) : (
         <motion.div
-          className={`pointer-events-auto h-full ${APP_WINDOW_BLUR} ${APP_WINDOW_OPACITY} flex flex-1 w-full flex-col rounded-xl overflow-hidden`}
+          className={`pointer-events-auto h-full ${windowSurface} flex flex-1 w-full flex-col rounded-xl overflow-hidden`}
           onPointerDownCapture={onFocus}
         >
           {titleBar && (

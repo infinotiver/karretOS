@@ -73,6 +73,7 @@ export const apps: AppDefinition[] = [
     description: "Make karretOS all yours",
     component: SettingsApp,
     icon: SettingsIcon,
+    hasSidebar: true,
     defaultSize: { w: 860, h: 560 },
   },
   {
@@ -88,6 +89,7 @@ export const apps: AppDefinition[] = [
     description: "Developer tools: formatters, converters, and more.",
     icon: Wrench,
     component: DevToolsApp,
+    hasSidebar: true,
     defaultSize: { w: 800, h: 540 },
   },
 ];
