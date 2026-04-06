@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import {
   Briefcase,
   Clock,
@@ -9,10 +10,9 @@ import {
 } from "lucide-react";
 import { SquaresFourIcon } from "@phosphor-icons/react";
 import { Wrench } from "lucide-react";
-import DevToolsApp from "./devtools/DevToolsApp";
 
 import ClockApp from "@/os/apps/clock/ClockApp";
-import PortfolioApp from "@/os/apps/portfolio/PortfolioApp";
+
 import PomodoroApp from "./pomodoro/PomodoroApp";
 import TerminalApp from "./terminal/TerminalApp";
 import NotesApp from "./notes/NotesApp";
@@ -20,6 +20,10 @@ import SettingsApp from "./settings/SettingsApp";
 import type { AppDefinition, AppId } from "@/os/apps/types";
 import WindowsApp from "./windows/WindowsApp";
 import AppLauncherApp from "./applauncher/AppLauncherApp";
+
+const PortfolioApp = lazy(() => import("@/os/apps/portfolio/PortfolioApp"));
+const DevToolsApp = lazy(() => import("./devtools/DevToolsApp"));
+
 export const apps: AppDefinition[] = [
   {
     id: "launcher",

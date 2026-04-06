@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Suspense } from "react";
 import { Rnd } from "react-rnd";
 import TitleBar from "@/os/TitleBar";
 import { getApp } from "@/os/apps/registry";
@@ -76,7 +77,10 @@ export const AppWindow = ({
             onResizeStart={onFocus}
             onResizeStop={(_, __, ref, ___, position) =>
               onResize(
-                { w: Math.round(ref.offsetWidth), h: Math.round(ref.offsetHeight) },
+                {
+                  w: Math.round(ref.offsetWidth),
+                  h: Math.round(ref.offsetHeight),
+                },
                 { x: position.x, y: position.y },
               )
             }
@@ -84,7 +88,9 @@ export const AppWindow = ({
           >
             <div
               className={`h-full ${windowSurface} flex flex-col rounded-2xl transition-all overflow-hidden ${
-                isFocused ? "shadow-2xl shadow-black/20" : "opacity-90 shadow-sm"
+                isFocused
+                  ? "shadow-2xl shadow-black/20"
+                  : "opacity-90 shadow-sm"
               }`}
               onPointerDownCapture={(e) => {
                 e.stopPropagation();
@@ -101,11 +107,19 @@ export const AppWindow = ({
                 />
               )}
               <div className="flex-1 min-h-0 overflow-y-auto flex flex-col rounded-b-lg">
-                <Component
-                  isActive={isFocused}
-                  onOpenApp={onOpenApp}
-                  onCloseApp={onClose}
-                />
+                <Suspense
+                  fallback={
+                    <div className="p-6 text-sm text-muted-foreground">
+                      Loading…
+                    </div>
+                  }
+                >
+                  <Component
+                    isActive={isFocused}
+                    onOpenApp={onOpenApp}
+                    onCloseApp={onClose}
+                  />
+                </Suspense>
               </div>
             </div>
           </Rnd>
