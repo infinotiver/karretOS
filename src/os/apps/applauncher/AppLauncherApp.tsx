@@ -2,9 +2,16 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import { apps } from "@/os/apps/registry";
 import type { AppId, AppProps } from "@/os/apps/types";
-
-export default function AppLauncherApp({ onOpenApp, onCloseApp }: AppProps) {
+import { Button } from "@/components/ui/button";
+export default function AppLauncherApp({
+  onOpenApp,
+  onCloseApp,
+  installedApps,
+  onInstallApp,
+  onUninstallApp,
+}: AppProps) {
   const [selectedId, setSelectedId] = useState<AppId | null>(null);
+  const installed = new Set<AppId>(installedApps ?? apps.map((app) => app.id));
 
   return (
     <section className="flex h-full flex-col gap-4 p-6">
@@ -28,47 +35,77 @@ export default function AppLauncherApp({ onOpenApp, onCloseApp }: AppProps) {
           .map((app) => {
             const Icon = app.icon;
             const isSelected = selectedId === app.id;
+            const isInstalled = installed.has(app.id);
+            const isSystem = app.system ?? false;
             return (
-              <button
+              <div
                 key={app.id}
-                type="button"
-                onClick={() => setSelectedId(app.id)}
-                onDoubleClick={() => {
-                  onOpenApp?.(app.id);
-                  onCloseApp?.();
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
+                className="group flex w-24 flex-col items-center gap-3 rounded-lg p-2 transition-all duration-200 hover:bg-muted/50"
+              >
+                <button
+                  type="button"
+                  onClick={() => setSelectedId(app.id)}
+                  onDoubleClick={() => {
+                    if (!isInstalled) return;
                     onOpenApp?.(app.id);
                     onCloseApp?.();
-                  }
-                }}
-                className="group flex w-20 flex-col items-center gap-2"
-                title={`${app.title} — double-click to open`}
-              >
-                <span
-                  className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl transition-all duration-200 group-hover:scale-105 group-hover:shadow-md ${
-                    isSelected
-                      ? "bg-primary/15 ring-2 ring-primary/40 shadow-primary/10"
-                      : "bg-muted/70 group-hover:bg-primary/10"
-                  }`}
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      if (!isInstalled) return;
+                      onOpenApp?.(app.id);
+                      onCloseApp?.();
+                    }
+                  }}
+                  className="flex w-full flex-col items-center gap-2"
+                  title={`${app.title} — double-click to open`}
                 >
-                  <Icon
-                    className={`h-7 w-7 transition-colors ${
+                  <span
+                    className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl transition-all duration-200 group-hover:scale-110 group-hover:shadow-lg ${
                       isSelected
-                        ? "text-primary"
+                        ? "bg-primary/15 ring-2 ring-primary/40 shadow-primary/10"
+                        : "bg-muted/70 group-hover:bg-primary/10"
+                    } ${!isInstalled ? "opacity-50 group-hover:opacity-70" : ""}`}
+                  >
+                    <Icon
+                      className={`h-7 w-7 transition-colors ${
+                        isSelected
+                          ? "text-primary"
+                          : "text-muted-foreground group-hover:text-foreground"
+                      }`}
+                    />
+                  </span>
+                  <p
+                    className={`w-full truncate text-center text-xs font-semibold leading-tight ${
+                      isSelected
+                        ? "text-foreground"
                         : "text-muted-foreground group-hover:text-foreground"
                     }`}
-                  />
-                </span>
-                <p
-                  className={`w-full truncate text-center text-xs font-semibold leading-tight ${
-                    isSelected ? "text-foreground" : "text-muted-foreground"
-                  }`}
-                >
-                  {app.title}
-                </p>
-              </button>
+                  >
+                    {app.title}
+                  </p>
+                </button>
+                {!isInstalled ? (
+                  <Button
+                    size="sm"
+                    className="w-full"
+                    onClick={() => onInstallApp?.(app.id)}
+                  >
+                    Install
+                  </Button>
+                ) : !isSystem ? (
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    className="w-full"
+                    onClick={() => onUninstallApp?.(app.id)}
+                  >
+                    Uninstall
+                  </Button>
+                ) : (
+                  <span className="text-xs text-muted-foreground">System</span>
+                )}
+              </div>
             );
           })}
       </div>

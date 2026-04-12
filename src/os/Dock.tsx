@@ -21,7 +21,7 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
             initial={{ opacity: 0, y: 10, scale: 0.75 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.75 }}
-            className="flex items-center gap-2 rounded-4xl border border-white/10 bg-black/90 px-2 py-1 shadow-2xl"
+            className="flex items-center gap-2 rounded-3xl border border-white/10 bg-black/90 px-2 py-1 shadow-2xl"
           >
             {apps.map((app) => (
               <DockIcon

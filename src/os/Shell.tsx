@@ -21,12 +21,13 @@ const Shell = () => {
 
     session.open("portfolio");
   }, [session]);
+  const installed = apps.filter((a) => session.installedApps.includes(a.id));
 
   return (
     <Environment>
       <div className="relative z-0 flex h-full w-full flex-col">
         <TopBar />
-        
+
         {!hasMaximized && (
           <div className="flex-1 p-16">
             <Desktop enableMotion={!hasMaximized} />
@@ -46,6 +47,9 @@ const Shell = () => {
               onToggleMaximize={() => session.toggleMaximize(win.id)}
               onClose={() => session.close(win.id)}
               onOpenApp={session.open}
+              installedApps={session.installedApps}
+              onInstallApp={session.install}
+              onUninstallApp={session.uninstall}
               onMove={(offset) => session.move(win.id, offset)}
               onResize={(size, offset) => {
                 session.resize(win.id, size);
@@ -58,7 +62,7 @@ const Shell = () => {
       </AnimatePresence>
 
       <Dock
-        apps={apps}
+        apps={installed}
         activeAppId={session.focusedId}
         onOpenApp={session.open}
       />

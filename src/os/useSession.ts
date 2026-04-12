@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { getApp } from "@/os/apps/registry";
 import type { AppId } from "@/os/apps/types";
+import { loadInstalledApps, installApp, uninstallApp } from "@/os/apps/store";
 
 export type WindowState = "maximized" | "windowed";
 
@@ -16,6 +17,7 @@ interface Session {
   selectedId: AppId | null;
   windows: WindowEntry[];
   focusedId: AppId | null;
+  installedApps: AppId[];
   select: (id: AppId) => void;
   open: (id: AppId) => void;
   close: (id: AppId) => void;
@@ -23,6 +25,8 @@ interface Session {
   focus: (id: AppId) => void;
   move: (id: AppId, offset: { x: number; y: number }) => void;
   resize: (id: AppId, size: { w: number; h: number }) => void;
+  install: (id: AppId) => void;
+  uninstall: (id: AppId) => void;
 }
 
 let zCounter = 30;
@@ -54,12 +58,21 @@ const getCenteredOffset = (size: { w: number; h: number }) => {
 const useSession = (): Session => {
   const [selectedId, setSelectedId] = useState<AppId | null>(null);
   const [windows, setWindows] = useState<WindowEntry[]>([]);
-
+  const [installedApps, setInstalledApps] =
+    useState<AppId[]>(loadInstalledApps());
   // Derived: window with highest zIndex is focused
   const focusedId = useMemo<AppId | null>(() => {
     if (windows.length === 0) return null;
     return windows.reduce((best, w) => (w.zIndex > best.zIndex ? w : best)).id;
   }, [windows]);
+
+  const install = useCallback((id: AppId) => {
+    setInstalledApps((prev) => installApp(prev, id));
+  }, []);
+
+  const uninstall = useCallback((id: AppId) => {
+    setInstalledApps((prev) => uninstallApp(prev, id));
+  }, []);
 
   const focus = useCallback((id: AppId) => {
     zCounter += 1;
@@ -70,6 +83,7 @@ const useSession = (): Session => {
   }, []);
 
   const open = useCallback((id: AppId) => {
+    if (!installedApps.includes(id)) return;
     // Validate app exists
     const appDef = getApp(id);
     setSelectedId(id);
@@ -78,7 +92,9 @@ const useSession = (): Session => {
     const size = appDef.defaultSize ?? getDefaultWindowSize();
     const offset =
       appDef.defaultOffset ??
-      (appDef.centerOnOpen ? getCenteredOffset(size) : getDefaultWindowOffset(size));
+      (appDef.centerOnOpen
+        ? getCenteredOffset(size)
+        : getDefaultWindowOffset(size));
     setWindows((prev) => {
       const existing = prev.find((w) => w.id === id);
       if (existing) {
@@ -90,7 +106,7 @@ const useSession = (): Session => {
         { id, windowState: "windowed", zIndex: z, offset, size },
       ];
     });
-  }, []);
+  }, [installedApps]);
 
   const close = useCallback((id: AppId) => {
     setWindows((prev) => prev.filter((w) => w.id !== id));
@@ -111,21 +127,18 @@ const useSession = (): Session => {
   }, []);
 
   const move = useCallback((id: AppId, offset: { x: number; y: number }) => {
-    setWindows((prev) =>
-      prev.map((w) => (w.id === id ? { ...w, offset } : w)),
-    );
+    setWindows((prev) => prev.map((w) => (w.id === id ? { ...w, offset } : w)));
   }, []);
 
   const resize = useCallback((id: AppId, size: { w: number; h: number }) => {
-    setWindows((prev) =>
-      prev.map((w) => (w.id === id ? { ...w, size } : w)),
-    );
+    setWindows((prev) => prev.map((w) => (w.id === id ? { ...w, size } : w)));
   }, []);
 
   return {
     selectedId,
     windows,
     focusedId,
+    installedApps,
     select: setSelectedId,
     open,
     close,
@@ -133,6 +146,8 @@ const useSession = (): Session => {
     focus,
     move,
     resize,
+    install,
+    uninstall,
   };
 };
 

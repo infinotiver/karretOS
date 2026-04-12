@@ -32,9 +32,11 @@ export const apps: AppDefinition[] = [
     icon: Search,
     component: AppLauncherApp,
     titleBar: false, // Hide title bar for launcher
-    defaultSize: { w: 600, h: 280 },
+    defaultSize: { w: 800, h: 400 },
     centerOnOpen: true,
     closeOnOutside: true,
+    system: true,
+    preinstalled: true,
   },
   {
     id: "portfolio",
@@ -42,6 +44,8 @@ export const apps: AppDefinition[] = [
     description: "Your personal site as an app inside the OS shell.",
     icon: Briefcase,
     component: PortfolioApp,
+    system: true,
+    preinstalled: true,
   },
   {
     id: "clock",
@@ -79,6 +83,8 @@ export const apps: AppDefinition[] = [
     icon: SettingsIcon,
     hasSidebar: true,
     defaultSize: { w: 860, h: 560 },
+    system: true,
+    preinstalled: true,
   },
   {
     id: "windows",

@@ -16,6 +16,9 @@ interface AppWindowProps {
   onToggleMaximize: () => void;
   onClose: () => void;
   onOpenApp: (id: AppId) => void;
+  installedApps?: AppId[];
+  onInstallApp?: (id: AppId) => void;
+  onUninstallApp?: (id: AppId) => void;
   onMove: (offset: { x: number; y: number }) => void;
   onResize: (size: { w: number; h: number }, offset: { x: number; y: number }) => void;
   titleBar: boolean;
@@ -28,6 +31,9 @@ export const AppWindow = ({
   onToggleMaximize,
   onClose,
   onOpenApp,
+  installedApps,
+  onInstallApp,
+  onUninstallApp,
   onMove,
   onResize,
   titleBar = true,
@@ -118,6 +124,9 @@ export const AppWindow = ({
                     isActive={isFocused}
                     onOpenApp={onOpenApp}
                     onCloseApp={onClose}
+                    installedApps={installedApps}
+                    onInstallApp={onInstallApp}
+                    onUninstallApp={onUninstallApp}
                   />
                 </Suspense>
               </div>
@@ -142,6 +151,9 @@ export const AppWindow = ({
               isActive={isFocused}
               onOpenApp={onOpenApp}
               onCloseApp={onClose}
+              installedApps={installedApps}
+              onInstallApp={onInstallApp}
+              onUninstallApp={onUninstallApp}
             />
           </div>
         </motion.div>

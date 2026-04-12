@@ -86,7 +86,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({ stats }) => {
           </div>
 
           <div className="space-y-2">
-            <p className="text-[11px] font-semibold  tracking-[0.2em] text-muted-foreground">
+            <p className="text-xs font-semibold  tracking-[0.2em] text-muted-foreground">
               Activity
             </p>
             {activitySegments.length > 0 ? (
@@ -101,7 +101,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({ stats }) => {
                     />
                   ))}
                 </div>
-                <div className="space-y-1 text-[11px] text-muted-foreground">
+                <div className="space-y-1 text-xs text-muted-foreground">
                   {activitySegments.map((segment, index) => (
                     <div key={segment.name} className="flex items-center gap-2">
                       <span

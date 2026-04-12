@@ -15,6 +15,9 @@ export interface AppProps {
   isActive: boolean;
   onOpenApp?: (id: AppId) => void;
   onCloseApp?: () => void;
+  installedApps?: AppId[];
+  onInstallApp?: (id: AppId) => void;
+  onUninstallApp?: (id: AppId) => void;
 }
 
 export interface AppDefinition {
@@ -30,4 +33,6 @@ export interface AppDefinition {
   defaultOffset?: { x: number; y: number };
   centerOnOpen?: boolean;
   closeOnOutside?: boolean;
+  system?: boolean;
+  preinstalled?: boolean;
 }
