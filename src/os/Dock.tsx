@@ -13,7 +13,7 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
   const centerApps = apps.filter((app) => app.id !== "launcher");
 
   const pillClass =
-    "inline-flex items-center rounded-3xl border border-white/10 bg-black/50 px-1.5 py-1 backdrop-blur-md";
+    "inline-flex items-center rounded-3xl border border-border/40 bg-background/60 px-1.5 py-1 shadow-xl shadow-black/20 backdrop-blur-sm";
 
   return (
     <div className="fixed inset-x-0 bottom-2 z-10 flex justify-center px-3">
@@ -34,7 +34,7 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
           ) : null}
         </div>
 
-        <div className="ml-2 flex items-center gap-1.5 pl-2">
+        <div className="ml-2 flex items-center gap-1.5 border-l border-border/40 pl-2">
           {centerApps.map((app) => (
             <DockIcon
               key={app.id}

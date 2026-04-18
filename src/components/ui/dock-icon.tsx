@@ -32,8 +32,8 @@ const DockIcon = ({
         >
           <motion.div
             whileHover={{
-              scale: 1.25,
-              y: -8,
+              scale: 1.06,
+              y: -2,
             }}
             whileTap={{ scale: 0.95 }}
             transition={{
@@ -45,25 +45,25 @@ const DockIcon = ({
               flex h-full cursor-pointer items-center rounded-2xl border px-3 transition-colors duration-300
               ${
                 isActive
-                  ? "border-white/30 bg-white/10 shadow-lg"
-                  : "border-white/5 bg-neutral-800/80 backdrop-blur-3xl hover:bg-neutral-700/50"
+                  ? "border-border/70 bg-background/80 shadow-md shadow-black/20"
+                  : "border-border/40 bg-background/45 hover:bg-background/65"
               }
             `}
           >
             <Icon
               className={`h-6 w-6 transition-colors duration-300 ${
                 isActive
-                  ? "text-white"
-                  : "text-neutral-400 group-hover:text-white"
+                  ? "text-foreground"
+                  : "text-muted-foreground group-hover:text-foreground"
               }`}
             />
 
             {showLabel && (
               <span
-                className={`ml-2 space-nowrap text-sm font-semibold transition-colors duration-300 ${
+                className={`ml-2 whitespace-nowrap text-sm font-semibold transition-colors duration-300 ${
                   isActive
-                    ? "text-white"
-                    : "text-neutral-300 group-hover:text-white"
+                    ? "text-foreground"
+                    : "text-muted-foreground group-hover:text-foreground"
                 }`}
               >
                 {app.title}
@@ -73,7 +73,7 @@ const DockIcon = ({
         </div>
       </TooltipTrigger>
       <TooltipContent side="top" sideOffset={10}>
-        <span className="text-[10px] font-bold tracking-tight">
+        <span className="text-xs font-bold tracking-tight">
           {app.title}
         </span>
       </TooltipContent>
