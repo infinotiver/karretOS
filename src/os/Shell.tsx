@@ -6,7 +6,6 @@ import useSession from "@/os/useSession";
 import { Desktop } from "@/os/Desktop";
 import { AppWindow } from "@/os/AppWindow";
 import { useEffect, useRef } from "react";
-import TopBar from "@/os/TopBar";
 /* ── Shell ── */
 const Shell = () => {
   const session = useSession();
@@ -26,7 +25,6 @@ const Shell = () => {
   return (
     <Environment>
       <div className="relative z-0 flex h-full w-full flex-col">
-        <TopBar />
 
         {!hasMaximized && (
           <div className="flex-1 p-16">

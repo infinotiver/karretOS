@@ -49,7 +49,7 @@ export const AppWindow = ({
 
   return (
     <motion.div
-      style={{ zIndex: win.zIndex, top: "2rem" }}
+      style={{ zIndex: win.zIndex, top: "0" }}
       className={`fixed left-0 right-0 bottom-0 pointer-events-none ${
         isWindowed
           ? "flex items-center justify-center p-4"

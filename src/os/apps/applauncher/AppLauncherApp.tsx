@@ -14,7 +14,7 @@ export default function AppLauncherApp({
   const installed = new Set<AppId>(installedApps ?? apps.map((app) => app.id));
 
   return (
-    <section className="flex h-full flex-col gap-4 p-6">
+    <section className="flex h-full flex-col gap-4 p-6 bg-secondary/20! backdrop-blur-sm!">
       <header className="flex items-center justify-between">
         <h1 className="text-2xl font-black tracking-tight text-foreground">
           App Launcher
