@@ -24,3 +24,27 @@ export const ClockWidget = () => {
     </Card>
   );
 };
+
+export const TimeMini = () => {
+  const { time } = useTime({
+    updateInterval: 1000,
+  });
+  const shortTime = time.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  return (
+    <div className="group relative inline-flex">
+      <div className="inline-flex h-12 items-center rounded-2xl border border-border/40 bg-background/45 px-3 transition-colors duration-300 hover:bg-background/65">
+        <span className="text-xs font-semibold text-foreground">
+          {shortTime}
+        </span>
+      </div>
+
+      <div className="pointer-events-none absolute bottom-full right-0 mb-10 w-max origin-bottom-right opacity-0 scale-95 translate-y-1 transition-all duration-200 ease-out group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0">
+        <ClockWidget />
+      </div>
+    </div>
+  );
+};

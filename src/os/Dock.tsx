@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import type { AppDefinition, AppId } from "@/os/apps/types";
 import DockIcon from "../components/ui/dock-icon";
+// import { UserPill } from "@/components/widgets/GreetingWidget";
+import { WeatherMini } from "@/components/widgets/WeatherWidget";
+import { TimeMini } from "@/components/widgets/ClockWidget";
 
 interface DockProps {
   apps: AppDefinition[];
@@ -13,7 +16,7 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
   const centerApps = apps.filter((app) => app.id !== "launcher");
 
   const pillClass =
-    "inline-flex items-center rounded-3xl border border-border/40 bg-background/60 px-1.5 py-1 shadow-xl shadow-black/20 backdrop-blur-sm";
+    "inline-grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-2 rounded-3xl border border-border bg-background/60 px-2 py-1 shadow-xl shadow-black/20 backdrop-blur-sm";
 
   return (
     <div className="fixed inset-x-0 bottom-2 z-10 flex justify-center px-3">
@@ -23,18 +26,19 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
         transition={{ duration: 0.2, ease: "easeOut" }}
         className={pillClass}
       >
-        <div className="flex items-center shrink-0">
+        <div className="flex items-center gap-2 pl-1 pr-1.5">
+          {/* <UserPill /> */}
           {launcherApp ? (
             <DockIcon
               app={launcherApp}
               isActive={activeAppId === launcherApp.id}
               onClick={() => onOpenApp(launcherApp.id)}
-              // showLabel={true}
+              // showLabel
             />
           ) : null}
         </div>
 
-        <div className="ml-2 flex items-center gap-1 pl-2">
+        <div className="flex min-w-0 items-center justify-center gap-0.5 px-1.5">
           {centerApps.map((app) => (
             <DockIcon
               key={app.id}
@@ -44,6 +48,11 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
               showLabel={activeAppId === app.id}
             />
           ))}
+        </div>
+
+        <div className="flex items-center gap-2 pl-1.5 pr-1">
+          <WeatherMini />
+          <TimeMini />
         </div>
       </motion.nav>
     </div>

@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/hooks/useTheme";
 import { Panel } from "@/components/common/Panel";
-
+import { CheckCircleIcon } from "@phosphor-icons/react";
 export function PersonalisationSettings() {
   const { backgroundMode, setBackgroundMode, backgroundOptions } = useTheme();
 
@@ -26,14 +26,10 @@ export function PersonalisationSettings() {
                   <div className="text-xs font-semibold text-foreground">
                     {option.label}
                   </div>
-                  
                 </div>
-                <div
-                  className={cn(
-                    "h-2 w-2 rounded-full transition-colors",
-                    isActive ? "bg-primary" : "bg-muted-foreground/50",
-                  )}
-                />
+                {isActive && (
+                  <CheckCircleIcon className="h-5 w-5 text-primary" />
+                )}
               </div>
 
               <div className="px-3 pb-3 pt-2">
