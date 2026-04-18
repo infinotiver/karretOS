@@ -6,9 +6,10 @@ import {
   TerminalIcon,
   NotebookPenIcon,
   SettingsIcon,
-  Search,
+  // Search,
+  CarrotIcon
 } from "lucide-react";
-import { SquaresFourIcon } from "@phosphor-icons/react";
+import { WindowsLogoIcon } from "@phosphor-icons/react";
 import { Wrench } from "lucide-react";
 
 import ClockApp from "@/os/apps/clock/ClockApp";
@@ -29,7 +30,7 @@ export const apps: AppDefinition[] = [
     id: "launcher",
     title: "App Launcher",
     description: "Start any app",
-    icon: Search,
+    icon: CarrotIcon,
     component: AppLauncherApp,
     titleBar: false, // Hide title bar for launcher
     defaultSize: { w: 800, h: 400 },
@@ -91,7 +92,7 @@ export const apps: AppDefinition[] = [
     title: "Windows",
     description: "Windows sucks as usual",
     component: WindowsApp,
-    icon: SquaresFourIcon,
+    icon: WindowsLogoIcon,
   },
   {
     id: "devtools",
