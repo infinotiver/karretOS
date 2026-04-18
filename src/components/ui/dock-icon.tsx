@@ -10,17 +10,24 @@ interface DockIconProps {
   app: AppDefinition;
   isActive: boolean;
   onClick: () => void;
+  showLabel?: boolean;
 }
 
-const DockIcon = ({ app, isActive, onClick }: DockIconProps) => {
+const DockIcon = ({
+  app,
+  isActive,
+  onClick,
+  showLabel = false,
+}: DockIconProps) => {
   const Icon = app.icon;
 
   return (
     <Tooltip delayDuration={0}>
       <TooltipTrigger asChild>
-        
         <div
-          className="group relative flex h-14 w-14 items-center justify-center p-1"
+          className={`group relative flex h-14 items-center p-1 ${
+            showLabel ? "w-auto" : "w-14 justify-center"
+          }`}
           onClick={onClick}
         >
           <motion.div
@@ -35,11 +42,11 @@ const DockIcon = ({ app, isActive, onClick }: DockIconProps) => {
               damping: 20,
             }}
             className={`
-              flex h-full w-full cursor-pointer items-center justify-center rounded-2xl border transition-colors duration-300
+              flex h-full cursor-pointer items-center rounded-2xl border px-3 transition-colors duration-300
               ${
                 isActive
                   ? "border-white/30 bg-white/10 shadow-lg"
-                  : "border-white/5 bg-neutral-800 hover:bg-neutral-700/50"
+                  : "border-white/5 bg-neutral-800/80 backdrop-blur-3xl hover:bg-neutral-700/50"
               }
             `}
           >
@@ -50,6 +57,18 @@ const DockIcon = ({ app, isActive, onClick }: DockIconProps) => {
                   : "text-neutral-400 group-hover:text-white"
               }`}
             />
+
+            {showLabel && (
+              <span
+                className={`ml-2 space-nowrap text-sm font-semibold transition-colors duration-300 ${
+                  isActive
+                    ? "text-white"
+                    : "text-neutral-300 group-hover:text-white"
+                }`}
+              >
+                {app.title}
+              </span>
+            )}
           </motion.div>
         </div>
       </TooltipTrigger>
