@@ -11,12 +11,15 @@ export const Greeting = () => {
   const { username } = useAppContext();
   return (
     <Card>
-      <h1 className="text-xl font-bold tracking-tight">
-        {getGreeting()},
-      </h1>
-      <h2 className="text-lg font-semibold opacity-50">
-        {username}
-      </h2>
+      <div className="space-y-0.5">
+        <div className="flex items-start justify-between gap-3">
+          <h1 className="text-xl font-bold tracking-tight">{getGreeting()},</h1>
+          <p className="text-right text-sm font-semibold tracking-tight text-primary/50">
+            karretOS
+          </p>
+        </div>
+        <h2 className="text-lg font-semibold opacity-50">{username}</h2>
+      </div>
     </Card>
   );
 };
