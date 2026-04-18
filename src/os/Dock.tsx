@@ -52,7 +52,7 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
 
         <div className="flex items-center gap-2 pl-1.5 pr-1">
           <WeatherMini />
-          <TimeMini />
+          <TimeMini onOpenApp={onOpenApp} />
         </div>
       </motion.nav>
     </div>

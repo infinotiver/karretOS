@@ -54,6 +54,8 @@ export const apps: AppDefinition[] = [
     description: "Full-screen clock display.",
     icon: Clock,
     component: ClockApp,
+    preinstalled: true,
+    system: true,
   },
   {
     id: "pomodoro",
