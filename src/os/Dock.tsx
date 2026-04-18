@@ -29,18 +29,19 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
               app={launcherApp}
               isActive={activeAppId === launcherApp.id}
               onClick={() => onOpenApp(launcherApp.id)}
-              showLabel={true}
+              // showLabel={true}
             />
           ) : null}
         </div>
 
-        <div className="ml-2 flex items-center gap-1.5 border-l border-border/40 pl-2">
+        <div className="ml-2 flex items-center gap-1 pl-2">
           {centerApps.map((app) => (
             <DockIcon
               key={app.id}
               app={app}
               isActive={activeAppId === app.id}
               onClick={() => onOpenApp(app.id)}
+              showLabel={activeAppId === app.id}
             />
           ))}
         </div>

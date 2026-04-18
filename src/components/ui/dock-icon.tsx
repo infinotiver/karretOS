@@ -25,9 +25,7 @@ const DockIcon = ({
     <Tooltip delayDuration={0}>
       <TooltipTrigger asChild>
         <div
-          className={`group relative flex h-14 items-center p-1 ${
-            showLabel ? "w-auto" : "w-14 justify-center"
-          }`}
+          className="group relative flex h-14 items-center p-1"
           onClick={onClick}
         >
           <motion.div
@@ -58,24 +56,20 @@ const DockIcon = ({
               }`}
             />
 
-            {showLabel && (
-              <span
-                className={`ml-2 whitespace-nowrap text-sm font-semibold transition-colors duration-300 ${
-                  isActive
-                    ? "text-foreground"
-                    : "text-muted-foreground group-hover:text-foreground"
-                }`}
-              >
-                {app.title}
-              </span>
-            )}
+            <span
+              className={`overflow-hidden whitespace-nowrap text-sm font-semibold transition-[max-width,opacity,margin] duration-200 ease-out ${
+                isActive
+                  ? "text-foreground"
+                  : "text-muted-foreground group-hover:text-foreground"
+              } ${showLabel ? "ml-2 max-w-32 opacity-100" : "ml-0 max-w-0 opacity-0"}`}
+            >
+              {app.title}
+            </span>
           </motion.div>
         </div>
       </TooltipTrigger>
       <TooltipContent side="top" sideOffset={10}>
-        <span className="text-xs font-bold tracking-tight">
-          {app.title}
-        </span>
+        <span className="text-xs font-bold tracking-tight">{app.title}</span>
       </TooltipContent>
     </Tooltip>
   );
