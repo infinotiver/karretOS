@@ -75,6 +75,8 @@ export const apps: AppDefinition[] = [
     description: "Interactive shell",
     component: TerminalApp,
     icon: TerminalIcon,
+    system: true,
+    preinstalled: true,
   },
   {
     id: "settings",
