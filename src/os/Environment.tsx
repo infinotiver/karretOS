@@ -1,17 +1,19 @@
 import type { PropsWithChildren } from "react";
 import { useTheme } from "@/hooks/useTheme";
-// import bg from "@/assets/assets/bg.png";
-import bg from "@/assets/assets/bg3.png";
 
 const Environment = ({ children }: PropsWithChildren) => {
-  const { backgroundMode } = useTheme();
+  const { backgroundMode, backgroundOptions } = useTheme();
+  const activeBackground = backgroundOptions.find(
+    (option) => option.mode === backgroundMode,
+  );
+  const isSolid = backgroundMode === "solid";
 
   return (
     <div className="relative h-screen w-full overflow-hidden text-foreground">
-      {backgroundMode !== "solid" && (
+      {!isSolid && activeBackground?.image && (
         <>
           <img
-            src={bg}
+            src={activeBackground.image}
             alt=""
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 h-full w-full object-cover grayscale-25"
@@ -19,7 +21,7 @@ const Environment = ({ children }: PropsWithChildren) => {
         </>
       )}
 
-      {backgroundMode === "solid" && (
+      {isSolid && (
         <>
           <div className="pointer-events-none absolute inset-0 bg-white/20" />
 
