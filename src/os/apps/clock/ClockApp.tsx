@@ -25,32 +25,40 @@ const ClockApp = () => {
   });
 
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const unix = Math.floor(now.getTime() / 1000);
+  const iso = now.toISOString();
 
   return (
     <WindowLayout>
-      <div className="flex h-full w-full items-center justify-center p-6">
-        <div className="w-full max-w-3xl">
-          <div className="flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between">
-           
+      <div className="h-full p-4 sm:p-6">
+        <div className="mx-auto flex h-full flex-col items-center gap-2">
+          <section className="flex-1 p-5 flex flex-col justify-center items-center">
+            <h1 className="mt-2 text-4xl font-bold text-foreground sm:text-6xl md:text-8xl">
+              {time}
+            </h1>
+            <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+              {date}
+            </p>
+            <p className="text-sm text-muted-foreground sm:text-base">
+              {timezone}
+            </p>
+          </section>
 
-            <div className="min-w-0 text-center md:text-left">
-              <h1 className="text-5xl font-black tracking-tighter text-foreground md:text-6xl">
-                {time}
-              </h1>
-              <p className="mt-2 text-base font-semibold text-muted-foreground">
-                {date}
+          <section className="flex w-full gap-3 md:w-80">
+            <div className="rounded-xl border border-border/40 bg-background/35 p-3">
+              <p className="text-xs text-muted-foreground">UNIX</p>
+              <p className="mt-1 text-sm font-semibold text-foreground">
+                {unix}
               </p>
-
-              <div className="mt-4 flex flex-wrap items-center justify-center gap-2 md:justify-start">
-                <span className="inline-flex items-center rounded-xl border border-border/40 bg-background/45 px-2.5 py-1 text-xs font-semibold text-foreground">
-                  Local Time
-                </span>
-                <span className="inline-flex items-center rounded-xl border border-border/40 bg-background/45 px-2.5 py-1 text-xs text-muted-foreground">
-                  {timezone}
-                </span>
-              </div>
             </div>
-          </div>
+
+            <div className="rounded-xl border border-border/40 bg-background/35 p-3">
+              <p className="text-xs text-muted-foreground">ISO</p>
+              <p className="mt-1 truncate text-sm font-semibold text-foreground">
+                {iso}
+              </p>
+            </div>
+          </section>
         </div>
       </div>
     </WindowLayout>

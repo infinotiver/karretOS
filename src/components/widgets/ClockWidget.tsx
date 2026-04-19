@@ -2,11 +2,11 @@ import "react-clock/dist/Clock.css";
 import { useTime } from "@/hooks/useTime";
 import type { AppId } from "@/os/apps/types";
 
-interface TimeMiniProps {
+interface ClockWidgetProps {
   onOpenApp?: (id: AppId) => void;
 }
 
-export const TimeMini = ({ onOpenApp }: TimeMiniProps) => {
+export const ClockWidget = ({ onOpenApp }: ClockWidgetProps) => {
   const { time } = useTime({
     updateInterval: 1000,
   });

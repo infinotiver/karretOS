@@ -3,7 +3,7 @@ import type { AppDefinition, AppId } from "@/os/apps/types";
 import DockIcon from "../components/ui/dock-icon";
 // import { UserPill } from "@/components/widgets/GreetingWidget";
 import { WeatherMini } from "@/components/widgets/WeatherWidget";
-import { TimeMini } from "@/components/widgets/ClockWidget";
+import { ClockWidget } from "@/components/widgets/ClockWidget";
 
 interface DockProps {
   apps: AppDefinition[];
@@ -52,7 +52,7 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
 
         <div className="flex items-center gap-2 pl-1.5 pr-1">
           <WeatherMini />
-          <TimeMini onOpenApp={onOpenApp} />
+          <ClockWidget onOpenApp={onOpenApp} />
         </div>
       </motion.nav>
     </div>
