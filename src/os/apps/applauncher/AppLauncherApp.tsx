@@ -45,9 +45,10 @@ export default function AppLauncherApp({
           <AppTile
             key={app.id}
             app={app}
+            showDescription={false}
             selected={selectedId === app.id}
             layout="vertical"
-            title={`${app.title} — double-click to open`}
+            title={`${app.title}`}
             onSelect={() => setSelectedId(app.id)}
             onOpen={() => openInstalledApp(app.id)}
             footer={
