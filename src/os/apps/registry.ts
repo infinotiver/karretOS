@@ -7,7 +7,8 @@ import {
   NotebookPenIcon,
   SettingsIcon,
   // Search,
-  CarrotIcon
+  CarrotIcon,
+  StoreIcon,
 } from "lucide-react";
 import { WindowsLogoIcon } from "@phosphor-icons/react";
 import { Wrench } from "lucide-react";
@@ -20,6 +21,7 @@ import SettingsApp from "./settings/SettingsApp";
 import type { AppDefinition, AppId } from "@/os/apps/types";
 import WindowsApp from "./windows/WindowsApp";
 import AppLauncherApp from "./applauncher/AppLauncherApp";
+import AppStoreApp from "./store/AppStore";
 
 const PomodoroApp = lazy(() => import("./pomodoro/PomodoroApp"));
 const PortfolioApp = lazy(() => import("@/os/apps/portfolio/PortfolioApp"));
@@ -106,6 +108,14 @@ export const apps: AppDefinition[] = [
     component: DevToolsApp,
     hasSidebar: true,
     defaultSize: { w: 800, h: 540 },
+  },
+  {
+    id: "appstore",
+    title: "App Store",
+    description: "Browse and manage apps",
+    icon: StoreIcon,
+    component: AppStoreApp,
+    system: true,
   },
 ];
 

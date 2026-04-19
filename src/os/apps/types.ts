@@ -9,7 +9,8 @@ export type AppId =
   | "settings"
   | "windows"
   | "launcher"
-  | "devtools";
+  | "devtools"
+  | "appstore";
 
 export interface AppProps {
   isActive: boolean;
