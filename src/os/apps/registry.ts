@@ -9,6 +9,7 @@ import {
   // Search,
   CarrotIcon,
   StoreIcon,
+  BrushIcon
 } from "lucide-react";
 import { WindowsLogoIcon } from "@phosphor-icons/react";
 import { Wrench } from "lucide-react";
@@ -24,6 +25,7 @@ import AppLauncherApp from "./applauncher/AppLauncherApp";
 import AppStoreApp from "./store/AppStore";
 
 const PomodoroApp = lazy(() => import("./pomodoro/PomodoroApp"));
+const ExcalidrawApp = lazy(() => import("./excalidraw/ExcalidrawApp"));
 const PortfolioApp = lazy(() => import("@/os/apps/portfolio/PortfolioApp"));
 const DevToolsApp = lazy(() => import("./devtools/DevToolsApp"));
 
@@ -65,6 +67,13 @@ export const apps: AppDefinition[] = [
     description: "Aesthetic pomodoro [iframe app]",
     component: PomodoroApp,
     icon: TimerIcon,
+  },
+  {
+    id: "excalidraw",
+    title: "Excalidraw",
+    description: "Draw and build diagrams [iframe app]",
+    component: ExcalidrawApp,
+    icon: BrushIcon,
   },
   {
     id: "notes",

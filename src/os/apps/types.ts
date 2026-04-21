@@ -10,7 +10,8 @@ export type AppId =
   | "windows"
   | "launcher"
   | "devtools"
-  | "appstore";
+  | "appstore"
+  |"excalidraw";
 
 export interface AppProps {
   isActive: boolean;
