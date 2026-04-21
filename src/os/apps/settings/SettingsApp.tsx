@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Palette, User } from "lucide-react";
+import { Palette, User, LineChart } from "lucide-react";
 import { PersonalisationSettings } from "@/components/settings/PersonalisationSettings";
 import { AboutSettings } from "@/components/settings/AboutSettings";
 import { WindowLayout } from "@/components/layouts/WindowLayout";
@@ -11,7 +11,12 @@ const SETTINGS = [
     title: "Personalisation",
     description: "Choose how the desktop looks",
   },
-  { icon: User, title: "About", description: "About karretOS & You" },
+  {
+    icon: LineChart,
+    title: "Performance",
+    description: "Performance and optimization",
+  },
+  { icon: User, title: "About", description: "Information about karretOS" },
 ];
 const SIDEBAR_ITEMS = SETTINGS.map((item) => ({
   id: item.title,

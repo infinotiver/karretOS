@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useAppContext } from "@/hooks/useAppContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +17,51 @@ export function AboutSettings() {
   const { username, setUsername } = useAppContext();
   const [tempName, setTempName] = useState(username);
   const [open, setOpen] = useState(false);
+const [isOnline, setIsOnline] = useState(navigator.onLine);
+const [uptimeSec, setUptimeSec] = useState(0);
+const [battery, setBattery] = useState<string>("N/A");
+
+useEffect(() => {
+  const onOnline = () => setIsOnline(true);
+  const onOffline = () => setIsOnline(false);
+
+  window.addEventListener("online", onOnline);
+  window.addEventListener("offline", onOffline);
+
+  const uptimeTimer = window.setInterval(
+    () => setUptimeSec((s) => s + 1),
+    1000,
+  );
+
+  // Battery API (optional support)
+  const nav = navigator as Navigator & {
+    getBattery?: () => Promise<{ level: number; charging: boolean }>;
+  };
+
+  if (nav.getBattery) {
+    nav.getBattery().then((b) => {
+      const pct = Math.round(b.level * 100);
+      setBattery(`${pct}%${b.charging ? " (charging)" : ""}`);
+    });
+  }
+
+  return () => {
+    window.removeEventListener("online", onOnline);
+    window.removeEventListener("offline", onOffline);
+    window.clearInterval(uptimeTimer);
+  };
+}, []);
+
+const uptime = useMemo(() => {
+  const h = Math.floor(uptimeSec / 3600);
+  const m = Math.floor((uptimeSec % 3600) / 60);
+  const s = uptimeSec % 60;
+  return `${h}h ${m}m ${s}s`;
+}, [uptimeSec]);
+
+  const deviceMemory = (navigator as Navigator & { deviceMemory?: number })
+    .deviceMemory;
+  const cores = navigator.hardwareConcurrency ?? "N/A";
 
   useEffect(() => {
     setTempName(username);
@@ -70,24 +115,36 @@ export function AboutSettings() {
         </div>
       </Panel>
 
-      <Panel title="System" description="Device metadata pulled from the browser">
+      <Panel title="System" description="Device and performance information">
         <div className="space-y-1 text-sm">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-muted-foreground">Platform</span>
+            <span className="text-muted-foreground">Status</span>
             <span className="font-mono text-foreground">
-              {navigator.platform}
+              {isOnline ? "Online" : "Offline"}
             </span>
           </div>
           <div className="flex items-center justify-between gap-2">
-            <span className="text-muted-foreground">Screen</span>
+            <span className="text-muted-foreground">Uptime</span>
+            <span className="font-mono text-foreground">{uptime}</span>
+          </div>
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-muted-foreground">CPU Cores</span>
+            <span className="font-mono text-foreground">{cores}</span>
+          </div>
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-muted-foreground">Memory</span>
             <span className="font-mono text-foreground">
-              {window.screen.width}x{window.screen.height}
+              {deviceMemory ? `${deviceMemory} GB` : "N/A"}
             </span>
           </div>
           <div className="flex items-center justify-between gap-2">
-            <span className="text-muted-foreground">Timezone</span>
+            <span className="text-muted-foreground">Battery</span>
+            <span className="font-mono text-foreground">{battery}</span>
+          </div>
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-muted-foreground">Viewport</span>
             <span className="font-mono text-foreground">
-              {Intl.DateTimeFormat().resolvedOptions().timeZone}
+              {window.innerWidth}x{window.innerHeight}
             </span>
           </div>
         </div>
