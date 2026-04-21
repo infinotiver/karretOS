@@ -3,7 +3,10 @@ import { homeStats, type HomeStat } from "@/config/home";
 
 type AnyRecord = Record<string, unknown>;
 
-const WAKATIME_API_URL = (import.meta.env.VITE_WAKATIME_API_URL as string | undefined) ?? "/api/wakatime";
+const WAKATIME_API_URL =
+  (import.meta.env.VITE_WAKATIME_API_URL as string | undefined) ??
+  "/api/wakatime";
+const STATIC_WAKATIME_URL = "/wakatime.json";
 
 const asRecord = (value: unknown): AnyRecord | null =>
   typeof value === "object" && value !== null ? (value as AnyRecord) : null;
@@ -31,9 +34,12 @@ const pickNumber = (root: AnyRecord, paths: string[]): number | null => {
 };
 
 const formatInteger = (value: number | null, fallback: string): string =>
-  value === null ? fallback : Intl.NumberFormat("en-US").format(Math.round(value));
+  value === null
+    ? fallback
+    : Intl.NumberFormat("en-US").format(Math.round(value));
 
-const isOtherLanguage = (name: string): boolean => name.trim().toLowerCase() === "other";
+const isOtherLanguage = (name: string): boolean =>
+  name.trim().toLowerCase() === "other";
 
 const deriveStats = (payload: unknown): HomeStat[] => {
   const body = asRecord(payload);
@@ -70,10 +76,13 @@ const deriveStats = (payload: unknown): HomeStat[] => {
         })
     : [];
 
-  const topLanguage = filteredLanguages.length > 0 ? filteredLanguages[0] : null;
-  const topLanguageName = typeof topLanguage?.name === "string" ? topLanguage.name : "N/A";
+  const topLanguage =
+    filteredLanguages.length > 0 ? filteredLanguages[0] : null;
+  const topLanguageName =
+    typeof topLanguage?.name === "string" ? topLanguage.name : "N/A";
   const topLanguagePercent =
-    (typeof topLanguage?.percent === "number" && Math.round(topLanguage.percent)) ||
+    (typeof topLanguage?.percent === "number" &&
+      Math.round(topLanguage.percent)) ||
     pickNumber(topLanguage ?? {}, ["percent"]);
   const topLanguageValue =
     topLanguageName === "N/A"
@@ -110,17 +119,24 @@ const useWakaTimeStats = (): HomeStat[] => {
   const [stats, setStats] = useState<HomeStat[]>(homeStats);
 
   useEffect(() => {
-    if (!WAKATIME_API_URL) return;
     let isActive = true;
 
-    const load = async () => {
+    const loadFromUrl = async (url: string) => {
       try {
-        const response = await fetch(WAKATIME_API_URL, { cache: "no-store" });
-        if (!response.ok) return;
+        const response = await fetch(url, { cache: "no-store" });
+        if (!response.ok) return false;
         const payload = (await response.json()) as unknown;
         if (isActive) setStats(deriveStats(payload));
+        return true;
       } catch {
-        // Keep fallback stats when WakaTime is not reachable.
+        return false;
+      }
+    };
+
+    const load = async () => {
+      const loaded = await loadFromUrl(WAKATIME_API_URL);
+      if (!loaded && WAKATIME_API_URL !== STATIC_WAKATIME_URL) {
+        await loadFromUrl(STATIC_WAKATIME_URL);
       }
     };
 
