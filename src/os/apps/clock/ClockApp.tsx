@@ -44,7 +44,7 @@ const ClockApp = () => {
             </p>
           </section>
 
-          <section className="flex w-full gap-3 md:w-80">
+          <section className="flex w-full gap-4 md:w-80">
             <div className="rounded-xl border border-border/40 bg-background/35 p-3">
               <p className="text-xs text-muted-foreground">UNIX</p>
               <p className="mt-1 text-sm font-semibold text-foreground">

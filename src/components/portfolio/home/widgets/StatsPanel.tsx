@@ -57,7 +57,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({ stats }) => {
       >
         <div className="space-y-2">
           <div className="space-y-1">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-4">
               <div className="rounded-xl border border-border/40 bg-background/40 p-2">
                 <p className="text-xs font-semibold  tracking-widest text-muted-foreground">
                   Daily Avg

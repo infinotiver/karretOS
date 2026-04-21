@@ -19,7 +19,7 @@ export const ClockWidget = ({ onOpenApp }: ClockWidgetProps) => {
     <button
       type="button"
       onClick={() => onOpenApp?.("clock")}
-      className="inline-flex h-12 items-center rounded-2xl border border-border/40 bg-background/45 px-3 transition-colors duration-300 hover:bg-background/65"
+      className="inline-flex h-12 items-center rounded-2xl border border-border hover:bg-secondary px-3"
       title="Open Clock"
       aria-label="Open Clock app"
     >

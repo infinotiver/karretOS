@@ -21,7 +21,7 @@ const PortfolioApp = () => {
         {/* ── projects ── */}
         <section className="space-y-3">
           <h2 className="text-2xl font-black tracking-tight">Projects</h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
                 title: "SlangType",
@@ -91,7 +91,10 @@ const PortfolioApp = () => {
                 </p>
                 <div className="mt-auto flex flex-wrap gap-2 pt-1">
                   {tags.map((tag) => (
-                    <Badge key={tag} className="bg-muted/60 text-muted-foreground">
+                    <Badge
+                      key={tag}
+                      className="bg-muted/60 text-muted-foreground"
+                    >
                       {tag}
                     </Badge>
                   ))}

@@ -5,7 +5,7 @@ import { useWeather } from "@/hooks/useWeather";
 const DOCK_CHIP =
   "inline-flex h-12 items-center rounded-2xl border border-border/40 bg-background/45 hover:bg-background/65 px-3 transition-colors duration-300";
 const WEATHER_STAT_CHIP =
-  "inline-flex items-center gap-1.5 rounded-xl border border-border/40 bg-background/45 px-2.5 py-1.5";
+  "inline-flex items-center gap-2.5 rounded-xl border border-border/40 bg-background/45 px-2.5 py-1.5";
 
 export const WeatherWidget = () => {
   const { data, loading, error } = useWeather();

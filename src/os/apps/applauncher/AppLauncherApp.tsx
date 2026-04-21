@@ -66,7 +66,7 @@ export default function AppLauncherApp({
             onOpen={() => openInstalledApp(app.id)}
             footer={
               app.system ? (
-                <span className="inline-flex w-full items-center justify-center gap-1 text-xs text-muted-foreground">
+                <span className="inline-flex w-full items-center justify-center gap-2 text-xs text-muted-foreground">
                   <CheckCircle2 className="h-3.5 w-3.5" />
                   System
                 </span>

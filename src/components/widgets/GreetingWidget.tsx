@@ -13,11 +13,11 @@ export const Greeting = () => {
   return (
     <Card>
       <div className="space-y-0.5">
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start justify-between gap-4">
           <h1 className="text-2xl font-bold tracking-tight">
             {getGreeting()},
           </h1>
-          <p className="inline-flex items-center gap-1.5 text-right text-lg font-semibold tracking-tight text-primary/60">
+          <p className="inline-flex items-center gap-2.5 text-right text-lg font-semibold tracking-tight text-primary/60">
             <span>karretOS</span>
             <CarrotIcon className="h-4 w-4" />
           </p>

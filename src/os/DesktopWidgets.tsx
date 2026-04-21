@@ -15,7 +15,7 @@ const widgets = [
 const DesktopWidgets = () => {
   return (
     <motion.div
-      className="flex flex-col gap-3 max-h-screen h-full scrollbar-none"
+      className="flex flex-col gap-4 max-h-screen h-full scrollbar-none"
       initial="initial"
       animate="animate"
       variants={{

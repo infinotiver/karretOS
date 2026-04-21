@@ -38,43 +38,49 @@ export default function AppStoreApp({
           const isSystem = app.system ?? false;
 
           return (
-            <AppTile
-              key={app.id}
-              app={app}
-              selected={selectedId === app.id}
-              layout="vertical"
-              onSelect={() => setSelectedId(app.id)}
-              action={
-                isInstalled ? (
-                  isSystem ? (
-                    <span className="inline-flex w-full items-center justify-center gap-1 text-xs text-muted-foreground">
-                      <CheckCircle2 className="h-3.5 w-3.5" />
-                      System
-                    </span>
+            <div key={app.id} className="relative">
+              {isInstalled ? (
+                <span className="pointer-events-none absolute right-2 top-2 z-10 inline-flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-foreground">
+                  <CheckCircle2 className="h-3.5 w-3.5" />
+                </span>
+              ) : null}
+
+              <AppTile
+                app={app}
+                selected={selectedId === app.id}
+                layout="vertical"
+                onSelect={() => setSelectedId(app.id)}
+                action={
+                  isInstalled ? (
+                    isSystem ? (
+                      <span className="inline-flex w-full items-center justify-center text-xs text-muted-foreground">
+                        System
+                      </span>
+                    ) : (
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => onUninstallApp?.(app.id)}
+                        className="w-full"
+                      >
+                        <Trash2 className="mr-1 h-4 w-4" />
+                        Uninstall
+                      </Button>
+                    )
                   ) : (
                     <Button
                       size="sm"
-                      variant="destructive"
-                      onClick={() => onUninstallApp?.(app.id)}
+                      variant="secondary"
+                      onClick={() => onInstallApp?.(app.id)}
                       className="w-full"
                     >
-                      <Trash2 className="mr-1 h-4 w-4" />
-                      Uninstall
+                      <Download className="mr-1 h-4 w-4" />
+                      Install
                     </Button>
                   )
-                ) : (
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    onClick={() => onInstallApp?.(app.id)}
-                    className="w-full"
-                  >
-                    <Download className="mr-1 h-4 w-4" />
-                    Install
-                  </Button>
-                )
-              }
-            />
+                }
+              />
+            </div>
           );
         })}
       </div>

@@ -57,7 +57,7 @@ export default function JsonFormatterTool() {
         </div>
       </header>
 
-      <div className="grid flex-1 gap-3 md:grid-cols-2">
+      <div className="grid flex-1 gap-4 md:grid-cols-2">
         <div className="flex h-full flex-col gap-2">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             Input

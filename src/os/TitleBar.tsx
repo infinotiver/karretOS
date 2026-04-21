@@ -26,9 +26,11 @@ const TitleBar = ({
       className,
     )}
   >
-    <p className="select-none text-xs font-semibold text-muted-foreground">{title}</p>
+    <p className="select-none text-xs font-semibold text-muted-foreground">
+      {title}
+    </p>
     <div className="flex-1" />
-    <div className="flex items-center gap-1.5 rounded-lg px-2 py-0.5">
+    <div className="flex items-center gap-2.5 rounded-lg px-2 py-0.5">
       <button
         type="button"
         onClick={onToggleMaximize}
