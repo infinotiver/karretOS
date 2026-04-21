@@ -11,7 +11,8 @@ export type AppId =
   | "launcher"
   | "devtools"
   | "appstore"
-  |"excalidraw";
+  | "excalidraw"
+  | "photopea";
 
 export interface AppProps {
   isActive: boolean;

@@ -9,7 +9,8 @@ import {
   // Search,
   CarrotIcon,
   StoreIcon,
-  BrushIcon
+  BrushIcon,
+  ImageIcon
 } from "lucide-react";
 import { WindowsLogoIcon } from "@phosphor-icons/react";
 import { Wrench } from "lucide-react";
@@ -28,6 +29,7 @@ const PomodoroApp = lazy(() => import("./pomodoro/PomodoroApp"));
 const ExcalidrawApp = lazy(() => import("./excalidraw/ExcalidrawApp"));
 const PortfolioApp = lazy(() => import("@/os/apps/portfolio/PortfolioApp"));
 const DevToolsApp = lazy(() => import("./devtools/DevToolsApp"));
+const PhotopeaApp = lazy(() => import("./photopea/PhotopeaApp"));
 
 export const apps: AppDefinition[] = [
   {
@@ -117,6 +119,13 @@ export const apps: AppDefinition[] = [
     component: DevToolsApp,
     hasSidebar: true,
     defaultSize: { w: 800, h: 540 },
+  },
+  {
+    id: "photopea",
+    title: "Photopea",
+    description: "Edit photo, add effects and more [iframe app]",
+    component: PhotopeaApp,
+    icon: ImageIcon,
   },
   {
     id: "appstore",
