@@ -5,8 +5,9 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
+  ContextMenuLabel
 } from "@/components/ui/context-menu";
-
+import { GithubLogoIcon } from "@phosphor-icons/react";
 const SOURCE_URL = "https://github.com/infinotiver/karretos";
 
 const Environment = ({ children }: PropsWithChildren) => {
@@ -49,7 +50,9 @@ const Environment = ({ children }: PropsWithChildren) => {
       </ContextMenuTrigger>
 
       <ContextMenuContent className="w-56">
+        <ContextMenuLabel>karretOS</ContextMenuLabel>
         <ContextMenuItem onSelect={openSource}>
+          <GithubLogoIcon className="mr-2 h-4 w-4" />
           View source on GitHub
         </ContextMenuItem>
       </ContextMenuContent>
