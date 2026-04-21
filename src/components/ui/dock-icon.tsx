@@ -40,11 +40,11 @@ const DockIcon = ({
               damping: 20,
             }}
             className={`
-              flex h-full cursor-pointer items-center rounded-2xl border px-3 transition-colors duration-300
+              flex h-full cursor-pointer items-center rounded-2xl bg-secondary border px-3 transition-colors duration-300
               ${
                 isActive
-                  ? "border-border/70 bg-background/80 shadow-md shadow-black/20"
-                  : "border-border/40 bg-background/45 hover:bg-background/65"
+                  ? "border-border/70 shadow-md shadow-black/20"
+                  : "border-border/40  hover:bg-background/65"
               }
             `}
           >

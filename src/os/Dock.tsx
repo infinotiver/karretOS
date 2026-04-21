@@ -16,7 +16,7 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
   const centerApps = apps.filter((app) => app.id !== "launcher");
 
   const pillClass =
-    "inline-grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-2 rounded-3xl border border-border bg-background/60 px-2 py-1 shadow-xl shadow-black/20 backdrop-blur-sm";
+    "inline-grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-2 rounded-3xl border border-border bg-background px-2 py-1 shadow-xl shadow-black/20";
 
   return (
     <div className="fixed inset-x-0 bottom-2 z-10 flex justify-center px-3">
@@ -26,7 +26,7 @@ const Dock = ({ apps, activeAppId, onOpenApp }: DockProps) => {
         transition={{ duration: 0.2, ease: "easeOut" }}
         className={pillClass}
       >
-        <div className="flex items-center gap-2 pl-1 pr-1.5">
+        <div className="flex items-center gap-2 pr-1.5">
           {/* <UserPill /> */}
           {launcherApp ? (
             <DockIcon
