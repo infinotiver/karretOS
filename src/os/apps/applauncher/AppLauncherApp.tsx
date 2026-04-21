@@ -1,14 +1,16 @@
 import { useMemo, useState } from "react";
-import { CheckCircle2, X } from "lucide-react";
+import { CheckCircle2, Settings, X } from "lucide-react";
 import { apps } from "@/os/apps/registry";
-import {AppTile} from "@/components/common/AppTile";
+import { AppTile } from "@/components/common/AppTile";
 import type { AppId, AppProps } from "@/os/apps/types";
+import { useAppContext } from "@/hooks/useAppContext";
 
 export default function AppLauncherApp({
   onOpenApp,
   onCloseApp,
   installedApps,
 }: AppProps) {
+  const { username } = useAppContext();
   const [selectedId, setSelectedId] = useState<AppId | null>(null);
   const installed = new Set<AppId>(installedApps ?? apps.map((app) => app.id));
 
@@ -27,9 +29,20 @@ export default function AppLauncherApp({
   return (
     <section className="flex h-full flex-col gap-4 p-4">
       <header className="flex items-center justify-between">
-        <h1 className="p-4 text-2xl font-black tracking-tight text-foreground">
-          App Launcher
-        </h1>
+        <button
+          type="button"
+          onClick={() => {
+            onOpenApp?.("settings");
+            onCloseApp?.();
+          }}
+          className="inline-flex items-center gap-2 rounded-xl border border-border/40 bg-background/50 px-3 py-2 text-left transition hover:bg-background/60"
+          aria-label="Open settings"
+        >
+          <Settings className="h-4 w-4 text-muted-foreground" />
+          <span className="text-sm font-medium text-foreground">
+            {username || "Guest"}
+          </span>
+        </button>
         <button
           type="button"
           onClick={() => onCloseApp?.()}
@@ -48,7 +61,7 @@ export default function AppLauncherApp({
             showDescription={false}
             selected={selectedId === app.id}
             layout="vertical"
-            title={`${app.title}`}
+            title={app.title}
             onSelect={() => setSelectedId(app.id)}
             onOpen={() => openInstalledApp(app.id)}
             footer={
