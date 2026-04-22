@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Palette, User, LineChart } from "lucide-react";
+import { Palette, User, LineChart, TestTube2Icon } from "lucide-react";
 import { PersonalisationSettings } from "@/components/settings/PersonalisationSettings";
 import { AboutSettings } from "@/components/settings/AboutSettings";
+import {ExperimentalSettings} from "@/components/settings/ExperimentalSettings";
 import { WindowLayout } from "@/components/layouts/WindowLayout";
 import { SidebarNav } from "@/components/common/SidebarNav";
 
@@ -17,6 +18,11 @@ const SETTINGS = [
     description: "Performance and optimization",
   },
   { icon: User, title: "About", description: "Information about karretOS" },
+  {
+    icon: TestTube2Icon,
+    title: "Experimental",
+    description: "Try out new and in-development features",
+  },
 ];
 const SIDEBAR_ITEMS = SETTINGS.map((item) => ({
   id: item.title,
@@ -50,6 +56,7 @@ export default function SettingsApp() {
 
           {active === "Personalisation" && <PersonalisationSettings />}
           {active === "About" && <AboutSettings />}
+          {active === "Experimental" && <ExperimentalSettings />}
         </section>
       </div>
     </WindowLayout>
