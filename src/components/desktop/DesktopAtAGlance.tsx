@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Cpu, Monitor, Wifi, WifiOff, CarrotIcon } from "lucide-react";
+import { Card } from "@/components/widgets/Card";
 export function DesktopAtAGlance() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [viewport, setViewport] = useState({
@@ -27,7 +28,7 @@ export function DesktopAtAGlance() {
   const cores = navigator.hardwareConcurrency ?? "N/A";
 
   return (
-    <div className="pointer-events-none absolute right-4 top-4 z-10 select-none space-y-1 text-xs text-foreground rounded-md bg-secondary/50 p-2">
+    <Card className="pointer-events-none select-none space-y-1 text-xs text-foreground bg-secondary/50 p-2">
       <div className="flex items-center gap-2">
         <Cpu className="h-3.5 w-3.5 text-muted-foreground" />
         <span>{cores} cores</span>
@@ -45,11 +46,11 @@ export function DesktopAtAGlance() {
           <WifiOff className="h-3.5 w-3.5 text-muted-foreground" />
         )}
         <span>{isOnline ? "Online" : "Offline"}</span>
-          </div>
+      </div>
       <div className="flex items-center gap-2 mt-4">
         <CarrotIcon className="h-3.5 w-3.5 text-foreground" />
         <span>karretOS</span>
       </div>
-    </div>
+    </Card>
   );
 }

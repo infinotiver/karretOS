@@ -38,7 +38,7 @@ export const WeatherWidget = () => {
           <p className="text-4xl font-black tracking-tighter text-foreground">
             {data.temp}°
           </p>
-          <p className="mt-1 inline-flex items-center rounded-xl border border-border/40 bg-background/45 px-2 py-1 text-xs font-semibold text-muted-foreground">
+          <p className="mt-1 inline-flex">
             {data.condition}
           </p>
         </div>
