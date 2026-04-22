@@ -16,7 +16,7 @@ export const Desktop = ({ enableMotion = true }: DesktopProps) => {
   const Content = (
     <div className="relative h-full w-full p-4">
       {/* Set the specific width here and use items-stretch */}
-      <div className="flex flex-col items-stretch gap-4 w-[20%]">
+      <div className="flex flex-col items-stretch gap-4 w-[60%] md:w-[20%]">
         <Feature enabled={flags.desktopWidgets}>
           {/* w-full now refers to 100% of the 20% container */}
           <div className="w-full">

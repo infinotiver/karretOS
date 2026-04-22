@@ -32,7 +32,7 @@ const PortfolioApp = () => {
               {
                 title: "karretOS",
                 desc: "webOS Portfolio built with React & Tailwind",
-                href: "https://infinotiver.is-a.dev/",
+                href: "https://karretos.vercel.app/",
                 tags: ["React", "Tailwind"],
               },
               {

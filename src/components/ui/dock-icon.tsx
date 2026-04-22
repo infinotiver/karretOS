@@ -30,7 +30,7 @@ const DockIcon = ({
         >
           <motion.div
             whileHover={{
-              scale: 1.06,
+              scale: 1.10,
               y: -2,
             }}
             whileTap={{ scale: 0.95 }}

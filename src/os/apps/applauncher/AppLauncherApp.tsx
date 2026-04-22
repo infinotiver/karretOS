@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
-import { CheckCircle2, Settings, X } from "lucide-react";
+import { CheckCircle2, Settings, LockIcon, X } from "lucide-react";
 import { apps } from "@/os/apps/registry";
 import { AppTile } from "@/components/common/AppTile";
 import type { AppId, AppProps } from "@/os/apps/types";
 import { useAppContext } from "@/hooks/useAppContext";
+import { Button } from "@/components/ui/button";
 
 export default function AppLauncherApp({
   onOpenApp,
@@ -26,31 +27,40 @@ export default function AppLauncherApp({
     onCloseApp?.();
   };
 
+  const handleLock = () => {
+    window.location.assign("/");
+  };
+
+  const openSettings = () => {
+    onOpenApp?.("settings");
+    onCloseApp?.();
+  };
+
   return (
-    <section className="flex h-full flex-col gap-4 p-4">
-      <header className="flex items-center justify-between">
-        <button
+    <section className="flex h-full flex-col gap-3 rounded-2xl border border-border/40 p-4">
+      <header className="flex items-center gap-2">
+        <Button
           type="button"
-          onClick={() => {
-            onOpenApp?.("settings");
-            onCloseApp?.();
-          }}
-          className="inline-flex items-center gap-2 rounded-xl border border-border/40 bg-background/50 px-3 py-2 text-left transition hover:bg-background/60"
-          aria-label="Open settings"
+          size="sm"
+          variant="outline"
+          onClick={openSettings}
+          className="justify-start"
+          aria-label="Open user settings"
         >
-          <Settings className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm font-medium text-foreground">
-            {username || "Guest"}
-          </span>
-        </button>
-        <button
+          <Settings className="h-4 w-4" />
+          <span>{username || "Guest"}</span>
+        </Button>
+
+        <Button
           type="button"
+          size="icon-sm"
+          variant="ghost"
           onClick={() => onCloseApp?.()}
-          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/40 bg-background/60 text-muted-foreground transition hover:text-foreground"
+          className="ml-auto"
           aria-label="Close launcher"
         >
           <X className="h-4 w-4" />
-        </button>
+        </Button>
       </header>
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
@@ -75,6 +85,20 @@ export default function AppLauncherApp({
           />
         ))}
       </div>
+
+      <footer className="mt-auto flex items-center">
+        <Button
+          type="button"
+          size="sm"
+          variant="destructive"
+          onClick={handleLock}
+          aria-label="Suspend session"
+          title="Suspend"
+        >
+          <LockIcon className="h-4 w-4" />
+          <span>Suspend</span>
+        </Button>
+      </footer>
     </section>
   );
 }
