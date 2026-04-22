@@ -1,4 +1,5 @@
-import { createContext, type FeatureFlag } from "react";
+import { createContext } from "react";
+import type {FeatureFlag} from "@/config/featureFlags";
 
 export interface FeatureFlagsContextType {
   flags: Record<FeatureFlag, boolean>;
