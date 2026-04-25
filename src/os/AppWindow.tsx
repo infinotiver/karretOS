@@ -5,9 +5,12 @@ import TitleBar from "@/os/TitleBar";
 import { getApp } from "@/os/apps/registry";
 import type { AppId } from "@/os/apps/types";
 import type { WindowEntry } from "@/os/useSession";
-const APP_WINDOW_BLUR = "backdrop-blur-sm";
-const APP_WINDOW_OPACITY = "bg-background/60";
-const APP_WINDOW_SOLID = "bg-muted";
+
+const WINDOW_SURFACE_CLASS = {
+  solid: "bg-secondary",
+  glass: "backdrop-blur-sm bg-secondary/60",
+  none: "bg-transparent",
+} as const;
 
 interface AppWindowProps {
   win: WindowEntry;
@@ -20,7 +23,10 @@ interface AppWindowProps {
   onInstallApp?: (id: AppId) => void;
   onUninstallApp?: (id: AppId) => void;
   onMove: (offset: { x: number; y: number }) => void;
-  onResize: (size: { w: number; h: number }, offset: { x: number; y: number }) => void;
+  onResize: (
+    size: { w: number; h: number },
+    offset: { x: number; y: number },
+  ) => void;
   titleBar: boolean;
 }
 
@@ -43,9 +49,9 @@ export const AppWindow = ({
   const isWindowed = win.windowState === "windowed";
   const isResizable = appDef.resizable ?? true;
   const closeOnOutside = appDef.closeOnOutside ?? false;
-  const windowSurface = appDef.hasSidebar
-    ? `${APP_WINDOW_BLUR} ${APP_WINDOW_OPACITY}`
-    : APP_WINDOW_SOLID;
+  const surfaceMode =
+    appDef.windowSurface ?? (appDef.hasSidebar ? "glass" : "solid");
+  const windowSurface = WINDOW_SURFACE_CLASS[surfaceMode];
 
   return (
     <motion.div

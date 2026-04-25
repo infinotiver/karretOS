@@ -14,6 +14,8 @@ export type AppId =
   | "excalidraw"
   | "photopea";
 
+export type AppWindowSurface = "solid" | "glass" | "none";
+
 export interface AppProps {
   isActive: boolean;
   onOpenApp?: (id: AppId) => void;
@@ -30,6 +32,7 @@ export interface AppDefinition {
   icon: React.ComponentType<{ className?: string }>;
   component: React.ComponentType<AppProps>;
   hasSidebar?: boolean; // Sidebar-style apps keep glass effect
+  windowSurface?: AppWindowSurface; // Optional: force window surface style
   titleBar?: boolean; // Optional: override default title bar behavior
   resizable?: boolean; // Optional: configure resizing
   defaultSize?: { w: number; h: number };

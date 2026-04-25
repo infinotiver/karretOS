@@ -10,7 +10,7 @@ import {
   CarrotIcon,
   StoreIcon,
   BrushIcon,
-  ImageIcon
+  ImageIcon,
 } from "lucide-react";
 import { WindowsLogoIcon } from "@phosphor-icons/react";
 import { Wrench } from "lucide-react";
@@ -38,6 +38,7 @@ export const apps: AppDefinition[] = [
     description: "Start any app",
     icon: CarrotIcon,
     component: AppLauncherApp,
+    windowSurface: "glass",
     titleBar: false, // Hide title bar for launcher
     defaultSize: { w: 800, h: 400 },
     centerOnOpen: true,
