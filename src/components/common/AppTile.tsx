@@ -18,6 +18,7 @@ interface AppTileProps {
   onOpen?: () => void;
   footer?: ReactNode;
   action?: ReactNode;
+  badge?: ReactNode;
 }
 
 export function AppTile({
@@ -26,7 +27,8 @@ export function AppTile({
   layout = "vertical",
   title,
   description,
-  showDescription = true,
+  showDescription = false,
+  badge,
   onSelect,
   onOpen,
   footer,
@@ -54,29 +56,29 @@ export function AppTile({
       onDoubleClick={onOpen}
       onKeyDown={onKeyDown}
       title={resolvedTitle}
-      className={`h-full rounded-lg border p-2 cursor-pointer transition-colors duration-200 ${
+      className={`relative h-full cursor-pointer rounded-xl border p-2.5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 ${
         selected
-          ? "border-primary/40 bg-primary/5"
-          : "border-border/40 bg-background/40 hover:border-border hover:bg-background/55"
+          ? "border-primary/35 bg-primary/6"
+          : "border-border/30 bg-background/35 hover:border-border/50 hover:bg-background/50"
       }`}
     >
-      <div
-        className={
-          isVertical
-            ? "flex h-full w-full flex-col"
-            : "flex h-full w-full flex-col"
-        }
-      >
+      {badge ? (
+        <div className="pointer-events-none absolute right-2 top-2">
+          {badge}
+        </div>
+      ) : null}
+
+      <div className="flex h-full w-full flex-col">
         <div
           className={
             isVertical
-              ? "flex w-full flex-1 flex-col items-center gap-2"
+              ? "flex w-full flex-1 flex-col items-center gap-1.5"
               : "flex w-full flex-1 items-center gap-2 text-left"
           }
         >
           <span
-            className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
-              selected ? "bg-primary/15" : "bg-muted/60"
+            className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
+              selected ? "bg-primary/14" : "bg-muted/45"
             }`}
           >
             <Icon
@@ -98,7 +100,7 @@ export function AppTile({
             <p
               className={
                 isVertical
-                  ? "w-full line-clamp-2 text-center text-xs text-muted-foreground"
+                  ? "w-full line-clamp-2 text-center text-[11px] leading-4 text-muted-foreground/90"
                   : "line-clamp-2 text-xs text-muted-foreground"
               }
             >
@@ -108,7 +110,10 @@ export function AppTile({
         </div>
 
         {(footer || action) && (
-          <div className="mt-2" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="mt-2 border-t border-border/30 pt-2"
+            onClick={(e) => e.stopPropagation()}
+          >
             {footer ? <div>{footer}</div> : null}
             {action ? (
               <div className={footer ? "mt-2" : ""}>{action}</div>

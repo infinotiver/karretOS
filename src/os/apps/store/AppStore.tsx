@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CheckCircle2, Download, Trash2 } from "lucide-react";
+import { BadgeCheck, Download, Shield, Trash2 } from "lucide-react";
 import { apps } from "@/os/apps/registry";
 import type { AppId, AppProps } from "@/os/apps/types";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ export default function AppStoreApp({
   );
 
   return (
-    <section className="flex h-full flex-col gap-4 p-4">
+    <section className="flex h-full flex-col gap-4 rounded-2xl border border-border/40 bg-background/35 p-4 backdrop-blur-sm">
       <header className="px-2">
         <h1 className="text-2xl font-black tracking-tight text-foreground">
           App Store
@@ -38,49 +38,57 @@ export default function AppStoreApp({
           const isSystem = app.system ?? false;
 
           return (
-            <div key={app.id} className="relative">
-              {isInstalled ? (
-                <span className="pointer-events-none absolute right-2 top-2 z-10 inline-flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-foreground">
-                  <CheckCircle2 className="h-3.5 w-3.5" />
-                </span>
-              ) : null}
-
-              <AppTile
-                app={app}
-                selected={selectedId === app.id}
-                layout="vertical"
-                onSelect={() => setSelectedId(app.id)}
-                action={
-                  isInstalled ? (
-                    isSystem ? (
-                      <span className="inline-flex w-full items-center justify-center text-xs text-muted-foreground">
-                        System
-                      </span>
-                    ) : (
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => onUninstallApp?.(app.id)}
-                        className="w-full"
-                      >
-                        <Trash2 className="mr-1 h-4 w-4" />
-                        Uninstall
-                      </Button>
-                    )
+            <AppTile
+              key={app.id}
+              app={app}
+              selected={selectedId === app.id}
+              layout="vertical"
+              showDescription
+              onSelect={() => setSelectedId(app.id)}
+              badge={
+                isSystem ? (
+                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/12 text-primary">
+                    <Shield className="h-3 w-3" />
+                  </span>
+                ) : null
+              }
+              action={
+                isInstalled ? (
+                  isSystem ? (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="w-full justify-center"
+                      title="System app"
+                      disabled
+                    >
+                      <BadgeCheck className="h-4 w-4" />
+                      <span className="text-[10px] font-medium">Installed</span>
+                    </Button>
                   ) : (
                     <Button
                       size="sm"
-                      variant="secondary"
-                      onClick={() => onInstallApp?.(app.id)}
-                      className="w-full"
+                      variant="destructive"
+                      onClick={() => onUninstallApp?.(app.id)}
+                      className="w-full justify-center"
+                      title="Uninstall"
                     >
-                      <Download className="mr-1 h-4 w-4" />
-                      Install
+                      <Trash2 className="h-4 w-4" />
                     </Button>
                   )
-                }
-              />
-            </div>
+                ) : (
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    onClick={() => onInstallApp?.(app.id)}
+                    className="w-full justify-center"
+                    title="Install"
+                  >
+                    <Download className="h-4 w-4" /> Install
+                  </Button>
+                )
+              }
+            />
           );
         })}
       </div>

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CheckCircle2, Settings, LockIcon, Pin, PinOff, X } from "lucide-react";
+import { Settings, LockIcon, Pin, PinOff, X } from "lucide-react";
 import { apps } from "@/os/apps/registry";
 import { AppTile } from "@/components/common/AppTile";
 import type { AppId, AppProps } from "@/os/apps/types";
@@ -41,7 +41,7 @@ export default function AppLauncherApp({
   };
 
   return (
-    <section className="flex h-full flex-col gap-3 rounded-2xl border border-border/40 p-4">
+    <section className="flex h-full flex-col gap-3 rounded-2xl border border-border/40 bg-background/35 p-4 backdrop-blur-sm">
       <header className="flex items-center gap-2">
         <Button
           type="button"
@@ -84,30 +84,22 @@ export default function AppLauncherApp({
                   size="sm"
                   variant="ghost"
                   onClick={() => onUnpinApp?.(app.id)}
-                  className="w-full"
+                  className="w-full justify-center"
+                  title="Unpin"
                 >
                   <PinOff className="h-4 w-4" />
-                  <span>Unpin</span>
                 </Button>
               ) : (
                 <Button
                   size="sm"
                   variant="ghost"
                   onClick={() => onPinApp?.(app.id)}
-                  className="w-full"
+                  className="w-full justify-center"
+                  title="Pin"
                 >
                   <Pin className="h-4 w-4" />
-                  <span>Pin</span>
                 </Button>
               )
-            }
-            footer={
-              app.system ? (
-                <span className="inline-flex w-full items-center justify-center gap-2 text-xs text-muted-foreground">
-                  <CheckCircle2 className="h-3.5 w-3.5" />
-                  System
-                </span>
-              ) : null
             }
           />
         ))}
@@ -123,7 +115,6 @@ export default function AppLauncherApp({
           title="Suspend"
         >
           <LockIcon className="h-4 w-4" />
-          <span>Suspend</span>
         </Button>
       </footer>
     </section>
