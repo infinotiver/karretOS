@@ -1,4 +1,5 @@
-import { Maximize2, Minimize2, X } from "lucide-react";
+// import { Maximize2, Minimize2, X } from "lucide-react";
+import { ArrowsOutSimpleIcon, ArrowsInSimpleIcon, XIcon } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import type { WindowState } from "@/os/useSession";
 
@@ -45,9 +46,9 @@ const TitleBar = ({
         aria-label={windowState === "maximized" ? "Restore" : "Maximize"}
       >
         {windowState === "maximized" ? (
-          <Minimize2 className="h-4 w-4" />
+          <ArrowsInSimpleIcon className="h-4 w-4" />
         ) : (
-          <Maximize2 className="h-4 w-4" />
+          <ArrowsOutSimpleIcon className="h-4 w-4" />
         )}
       </button>
 
@@ -60,7 +61,7 @@ const TitleBar = ({
         className={cn(ctrl, "hover:bg-red-500/20 hover:text-red-600")}
         aria-label={`Close ${title}`}
       >
-        <X className="h-4 w-4" />
+        <XIcon className="h-4 w-4" />
       </button>
     </div>
   </header>

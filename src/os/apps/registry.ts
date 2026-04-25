@@ -1,19 +1,18 @@
 import { lazy } from "react";
 import {
-  Briefcase,
-  Clock,
+  BagSimpleIcon,
+  ClockIcon,
   TimerIcon,
   TerminalIcon,
-  NotebookPenIcon,
-  SettingsIcon,
-  // Search,
+  NotePencilIcon,
+  GearIcon,
   CarrotIcon,
-  StoreIcon,
-  BrushIcon,
+  StorefrontIcon,
+  PaintBrushIcon,
   ImageIcon,
-} from "lucide-react";
-import { WindowsLogoIcon } from "@phosphor-icons/react";
-import { Wrench } from "lucide-react";
+  WindowsLogoIcon,
+  WrenchIcon,
+} from "@phosphor-icons/react";
 
 import ClockApp from "@/os/apps/clock/ClockApp";
 
@@ -50,7 +49,7 @@ export const apps: AppDefinition[] = [
     id: "portfolio",
     title: "Portfolio",
     description: "Your personal site as an app inside the OS shell.",
-    icon: Briefcase,
+    icon: BagSimpleIcon,
     component: PortfolioApp,
     system: true,
     preinstalled: true,
@@ -59,7 +58,7 @@ export const apps: AppDefinition[] = [
     id: "clock",
     title: "Clock",
     description: "Full-screen clock display.",
-    icon: Clock,
+    icon: ClockIcon,
     component: ClockApp,
     preinstalled: true,
     system: true,
@@ -76,14 +75,14 @@ export const apps: AppDefinition[] = [
     title: "Excalidraw",
     description: "Draw and build diagrams [iframe app]",
     component: ExcalidrawApp,
-    icon: BrushIcon,
+    icon: PaintBrushIcon,
   },
   {
     id: "notes",
     title: "kNotes",
     description: "Take Notes",
     component: NotesApp,
-    icon: NotebookPenIcon,
+    icon: NotePencilIcon,
   },
   {
     id: "terminal",
@@ -99,7 +98,7 @@ export const apps: AppDefinition[] = [
     title: "Settings",
     description: "Make karretOS all yours",
     component: SettingsApp,
-    icon: SettingsIcon,
+    icon: GearIcon,
     hasSidebar: true,
     defaultSize: { w: 860, h: 560 },
     system: true,
@@ -116,7 +115,7 @@ export const apps: AppDefinition[] = [
     id: "devtools",
     title: "DevTools",
     description: "Developer tools: formatters, converters, and more.",
-    icon: Wrench,
+    icon: WrenchIcon,
     component: DevToolsApp,
     hasSidebar: true,
     defaultSize: { w: 800, h: 540 },
@@ -132,7 +131,7 @@ export const apps: AppDefinition[] = [
     id: "appstore",
     title: "App Store",
     description: "Browse and manage apps",
-    icon: StoreIcon,
+    icon: StorefrontIcon,
     component: AppStoreApp,
     system: true,
   },

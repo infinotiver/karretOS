@@ -1,7 +1,7 @@
-import type { LucideIcon } from "lucide-react";
-
+// import type { LucideIcon } from "lucide-react";
+import type { Icon } from "@phosphor-icons/react";
 interface SettingsListProps {
-  settings: Array<{ icon: LucideIcon; title: string; description: string }>;
+  settings: Array<{ icon: Icon; title: string; description: string }>;
   active: string;
   onSelect: (title: string) => void;
 }

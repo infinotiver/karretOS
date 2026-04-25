@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Cpu, Monitor, Wifi, WifiOff, CarrotIcon } from "lucide-react";
+// import { Cpu, Monitor, Wifi, WifiOff, CarrotIcon } from "lucide-react";
+import { CpuIcon, MonitorIcon, WifiHighIcon, WifiSlashIcon, CarrotIcon } from "@phosphor-icons/react";
 import { Card } from "@/components/widgets/Card";
 export function DesktopAtAGlance() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -30,20 +31,20 @@ export function DesktopAtAGlance() {
   return (
     <Card className="pointer-events-none select-none space-y-1 text-xs text-foreground bg-secondary/50 p-2">
       <div className="flex items-center gap-2">
-        <Cpu className="h-3.5 w-3.5 text-muted-foreground" />
+        <CpuIcon className="h-3.5 w-3.5 text-muted-foreground" />
         <span>{cores} cores</span>
       </div>
       <div className="flex items-center gap-2">
-        <Monitor className="h-3.5 w-3.5 text-muted-foreground" />
+        <MonitorIcon className="h-3.5 w-3.5 text-muted-foreground" />
         <span>
           {viewport.w}×{viewport.h}
         </span>
       </div>
       <div className="flex items-center gap-2">
         {isOnline ? (
-          <Wifi className="h-3.5 w-3.5 text-muted-foreground" />
+          <WifiHighIcon className="h-3.5 w-3.5 text-muted-foreground" />
         ) : (
-          <WifiOff className="h-3.5 w-3.5 text-muted-foreground" />
+          <WifiSlashIcon className="h-3.5 w-3.5 text-muted-foreground" />
         )}
         <span>{isOnline ? "Online" : "Offline"}</span>
       </div>

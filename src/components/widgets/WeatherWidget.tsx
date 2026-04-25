@@ -1,4 +1,5 @@
-import { Wind, Droplets, Thermometer } from "lucide-react";
+// import { Wind, Droplets, Thermometer } from "lucide-react";
+import { WindIcon, CloudRainIcon, ThermometerSimpleIcon } from "@phosphor-icons/react";
 import { Card } from "./Card";
 import { useWeather } from "@/hooks/useWeather";
 
@@ -55,7 +56,7 @@ export const WeatherWidget = () => {
       <div className="mt-4 flex flex-wrap gap-2 border-t border-border/40 pt-3">
         {/* Wind */}
         <div className={WEATHER_STAT_CHIP}>
-          <Wind className="h-3.5 w-3.5 text-muted-foreground/70" />
+          <WindIcon className="h-3.5 w-3.5 text-muted-foreground/70" />
           <span className="text-xs font-semibold text-foreground">
             {data.wind}km/h
           </span>
@@ -63,7 +64,7 @@ export const WeatherWidget = () => {
 
         {/* Humidity */}
         <div className={WEATHER_STAT_CHIP}>
-          <Droplets className="h-3.5 w-3.5 text-muted-foreground/70" />
+          <CloudRainIcon className="h-3.5 w-3.5 text-muted-foreground/70" />
           <span className="text-xs font-semibold text-foreground">
             {data.humidity}%
           </span>
@@ -71,7 +72,7 @@ export const WeatherWidget = () => {
 
         {/* Feels Like */}
         <div className={WEATHER_STAT_CHIP}>
-          <Thermometer className="h-3.5 w-3.5 text-muted-foreground/70" />
+          <ThermometerSimpleIcon className="h-3.5 w-3.5 text-muted-foreground/70" />
           <span className="text-xs font-semibold text-foreground">
             {data.feelsLike}°
           </span>

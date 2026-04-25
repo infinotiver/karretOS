@@ -1,6 +1,6 @@
 import { useAppContext } from "@/hooks/useAppContext";
 import { Card } from "./Card";
-import { CarrotIcon } from "lucide-react";
+import { CarrotIcon } from "@phosphor-icons/react";
 function getGreeting() {
   const h = new Date().getHours();
   if (h < 12) return "Good morning";
