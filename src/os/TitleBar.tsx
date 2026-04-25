@@ -11,7 +11,11 @@ interface TitleBarProps {
 }
 
 const ctrl =
-  "inline-flex h-6 w-6 items-center justify-center rounded-full text-muted-foreground bg-gray-400/20 transition-colors hover:bg-black/10 hover:text-foreground";
+  "window-control-btn inline-flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-black/10 hover:text-foreground touch-manipulation";
+
+const stopDrag = (e: React.PointerEvent | React.TouchEvent) => {
+  e.stopPropagation();
+};
 
 const TitleBar = ({
   title,
@@ -22,36 +26,41 @@ const TitleBar = ({
 }: TitleBarProps) => (
   <header
     className={cn(
-      "flex items-center justify-between px-3 py-0.5 cursor-grab active:cursor-grabbing bg-background/60 border-b border-border/40",
+      "window-drag-handle flex items-center justify-between cursor-grab border-b border-border/40 bg-background/60 px-2 py-1 active:cursor-grabbing",
       className,
     )}
   >
-    <p className="select-none text-xs font-semibold text-muted-foreground">
+    <p className="select-none truncate text-sm font-semibold text-muted-foreground">
       {title}
     </p>
-    <div className="flex-1" />
-    <div className="flex items-center gap-2.5 rounded-lg px-2 py-0.5">
+
+    <div className="window-controls flex items-center gap-1" data-no-drag>
       <button
         type="button"
+        data-no-drag
+        onPointerDown={stopDrag}
+        onTouchStart={stopDrag}
         onClick={onToggleMaximize}
-        onPointerDown={(e) => e.stopPropagation()}
         className={ctrl}
         aria-label={windowState === "maximized" ? "Restore" : "Maximize"}
       >
         {windowState === "maximized" ? (
-          <Minimize2 className="h-3.5 w-3.5" />
+          <Minimize2 className="h-4 w-4" />
         ) : (
-          <Maximize2 className="h-3.5 w-3.5" />
+          <Maximize2 className="h-4 w-4" />
         )}
       </button>
+
       <button
         type="button"
+        data-no-drag
+        onPointerDown={stopDrag}
+        onTouchStart={stopDrag}
         onClick={onClose}
-        onPointerDown={(e) => e.stopPropagation()}
-        className={`${ctrl} hover:bg-red-500/20 hover:text-red-600`}
+        className={cn(ctrl, "hover:bg-red-500/20 hover:text-red-600")}
         aria-label={`Close ${title}`}
       >
-        <X className="h-3.5 w-3.5" />
+        <X className="h-4 w-4" />
       </button>
     </div>
   </header>

@@ -89,6 +89,7 @@ export const AppWindow = ({
             minWidth={360}
             minHeight={260}
             dragHandleClassName="window-drag-handle"
+            cancel=".window-controls, .window-control-btn, [data-no-drag]"
             enableResizing={isResizable}
             onDragStart={onFocus}
             onDragStop={(_, data) => onMove({ x: data.x, y: data.y })}
