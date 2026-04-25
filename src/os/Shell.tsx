@@ -6,6 +6,8 @@ import useSession from "@/os/useSession";
 import { Desktop } from "@/os/Desktop";
 import { AppWindow } from "@/os/AppWindow";
 import { useEffect, useRef } from "react";
+import { DEFAULT_PINNED_APPS } from "@/config/dock";
+
 /* ── Shell ── */
 const Shell = () => {
   const session = useSession();
@@ -21,11 +23,11 @@ const Shell = () => {
     session.open("portfolio");
   }, [session]);
   const installed = apps.filter((a) => session.installedApps.includes(a.id));
+  const openAppIds = session.windows.map((w) => w.id);
 
   return (
     <Environment>
       <div className="relative z-0 flex h-full w-full flex-col">
-
         {!hasMaximized && (
           <div className="flex-1 p-16">
             <Desktop enableMotion={!hasMaximized} />
@@ -63,6 +65,8 @@ const Shell = () => {
         apps={installed}
         activeAppId={session.focusedId}
         onOpenApp={session.open}
+        openAppIds={openAppIds}
+        pinnedAppIds={DEFAULT_PINNED_APPS}
       />
     </Environment>
   );
