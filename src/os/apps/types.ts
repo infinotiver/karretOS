@@ -23,6 +23,9 @@ export interface AppProps {
   installedApps?: AppId[];
   onInstallApp?: (id: AppId) => void;
   onUninstallApp?: (id: AppId) => void;
+  pinnedAppIds?: AppId[];
+  onPinApp?: (id: AppId) => void;
+  onUnpinApp?: (id: AppId) => void;
 }
 
 export interface AppDefinition {

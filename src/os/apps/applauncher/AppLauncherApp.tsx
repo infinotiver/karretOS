@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CheckCircle2, Settings, LockIcon, X } from "lucide-react";
+import { CheckCircle2, Settings, LockIcon, Pin, PinOff, X } from "lucide-react";
 import { apps } from "@/os/apps/registry";
 import { AppTile } from "@/components/common/AppTile";
 import type { AppId, AppProps } from "@/os/apps/types";
@@ -10,6 +10,9 @@ export default function AppLauncherApp({
   onOpenApp,
   onCloseApp,
   installedApps,
+  pinnedAppIds,
+  onPinApp,
+  onUnpinApp,
 }: AppProps) {
   const { username } = useAppContext();
   const [selectedId, setSelectedId] = useState<AppId | null>(null);
@@ -21,6 +24,7 @@ export default function AppLauncherApp({
   );
 
   const installedList = visibleApps.filter((app) => installed.has(app.id));
+  const pinnedSet = new Set<AppId>(pinnedAppIds ?? []);
 
   const openInstalledApp = (id: AppId) => {
     onOpenApp?.(id);
@@ -74,6 +78,29 @@ export default function AppLauncherApp({
             title={app.title}
             onSelect={() => setSelectedId(app.id)}
             onOpen={() => openInstalledApp(app.id)}
+            action={
+              pinnedSet.has(app.id) ? (
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => onUnpinApp?.(app.id)}
+                  className="w-full"
+                >
+                  <PinOff className="h-4 w-4" />
+                  <span>Unpin</span>
+                </Button>
+              ) : (
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => onPinApp?.(app.id)}
+                  className="w-full"
+                >
+                  <Pin className="h-4 w-4" />
+                  <span>Pin</span>
+                </Button>
+              )
+            }
             footer={
               app.system ? (
                 <span className="inline-flex w-full items-center justify-center gap-2 text-xs text-muted-foreground">

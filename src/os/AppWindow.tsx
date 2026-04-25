@@ -22,6 +22,9 @@ interface AppWindowProps {
   installedApps?: AppId[];
   onInstallApp?: (id: AppId) => void;
   onUninstallApp?: (id: AppId) => void;
+  pinnedAppIds?: AppId[];
+  onPinApp?: (id: AppId) => void;
+  onUnpinApp?: (id: AppId) => void;
   onMove: (offset: { x: number; y: number }) => void;
   onResize: (
     size: { w: number; h: number },
@@ -40,6 +43,9 @@ export const AppWindow = ({
   installedApps,
   onInstallApp,
   onUninstallApp,
+  pinnedAppIds,
+  onPinApp,
+  onUnpinApp,
   onMove,
   onResize,
   titleBar = true,
@@ -133,6 +139,9 @@ export const AppWindow = ({
                     installedApps={installedApps}
                     onInstallApp={onInstallApp}
                     onUninstallApp={onUninstallApp}
+                    pinnedAppIds={pinnedAppIds}
+                    onPinApp={onPinApp}
+                    onUnpinApp={onUnpinApp}
                   />
                 </Suspense>
               </div>
@@ -160,6 +169,9 @@ export const AppWindow = ({
               installedApps={installedApps}
               onInstallApp={onInstallApp}
               onUninstallApp={onUninstallApp}
+              pinnedAppIds={pinnedAppIds}
+              onPinApp={onPinApp}
+              onUnpinApp={onUnpinApp}
             />
           </div>
         </motion.div>

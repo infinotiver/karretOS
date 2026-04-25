@@ -6,9 +6,9 @@ import useSession from "@/os/useSession";
 import { Desktop } from "@/os/Desktop";
 import { AppWindow } from "@/os/AppWindow";
 import { useEffect, useRef } from "react";
-import { DEFAULT_PINNED_APPS } from "@/config/dock";
-
-/* ── Shell ── */
+import { DEFAULT_PINNED_APPS, MAX_PINNED_APPS } from "@/config/dock";
+import { useMemo, useState } from "react";
+import type { AppId } from "./apps/types";
 const Shell = () => {
   const session = useSession();
   const hasMaximized = session.windows.some(
@@ -23,7 +23,29 @@ const Shell = () => {
     session.open("portfolio");
   }, [session]);
   const installed = apps.filter((a) => session.installedApps.includes(a.id));
-  const openAppIds = session.windows.map((w) => w.id);
+  const [pinnedAppIds, setPinnedAppIds] =
+    useState<AppId[]>(DEFAULT_PINNED_APPS);
+
+  const onPinApp = (id: AppId) => {
+    setPinnedAppIds((prev) => {
+      if (
+        id === "launcher" ||
+        prev.includes(id) ||
+        prev.length >= MAX_PINNED_APPS
+      )
+        return prev;
+      return [...prev, id];
+    });
+  };
+
+  const onUnpinApp = (id: AppId) => {
+    setPinnedAppIds((prev) => prev.filter((x) => x !== id));
+  };
+
+  const openAppIds = useMemo(
+    () => Array.from(new Set(session.windows.map((w) => w.id))),
+    [session.windows],
+  );
 
   return (
     <Environment>
@@ -50,6 +72,9 @@ const Shell = () => {
               installedApps={session.installedApps}
               onInstallApp={session.install}
               onUninstallApp={session.uninstall}
+              pinnedAppIds={pinnedAppIds}
+              onPinApp={onPinApp}
+              onUnpinApp={onUnpinApp}
               onMove={(offset) => session.move(win.id, offset)}
               onResize={(size, offset) => {
                 session.resize(win.id, size);
@@ -66,7 +91,7 @@ const Shell = () => {
         activeAppId={session.focusedId}
         onOpenApp={session.open}
         openAppIds={openAppIds}
-        pinnedAppIds={DEFAULT_PINNED_APPS}
+        pinnedAppIds={pinnedAppIds}
       />
     </Environment>
   );
