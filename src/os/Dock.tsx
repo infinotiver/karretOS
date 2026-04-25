@@ -5,7 +5,7 @@ import DockIcon from "../components/ui/dock-icon";
 import { WeatherMini } from "@/components/widgets/WeatherWidget";
 import { ClockWidget } from "@/components/widgets/ClockWidget";
 import { MAX_PINNED_APPS } from "@/config/dock";
-
+import { useFeatureFlagsContext } from "@/hooks/useFeatureFlagsContext";
 interface DockProps {
   apps: AppDefinition[];
   activeAppId: AppId | null;
@@ -31,7 +31,7 @@ const Dock = ({
   );
   const launcherApp = apps.find((app) => app.id === "launcher");
   // const centerApps = apps.filter((app) => app.id !== "launcher");
-
+  const { flags } = useFeatureFlagsContext();
   const pillClass =
     "inline-grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-2 rounded-3xl border border-border bg-background px-2 py-1 shadow-xl shadow-black/20";
 
@@ -64,6 +64,7 @@ const Dock = ({
                 app={app}
                 isActive={activeAppId === id}
                 onClick={() => onOpenApp(id)}
+                showLabel={activeAppId === id && flags.showActiveAppLabel}
               />
             );
           })}
@@ -80,6 +81,7 @@ const Dock = ({
                 app={app}
                 isActive={activeAppId === id}
                 onClick={() => onOpenApp(id)}
+                showLabel={activeAppId === id && flags.showActiveAppLabel}
               />
             );
           })}
