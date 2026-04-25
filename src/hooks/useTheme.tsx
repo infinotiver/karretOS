@@ -3,6 +3,10 @@ import type { ReactNode } from "react";
 import bg from "@/assets/assets/bg.png";
 import bg2 from "@/assets/assets/bg2.png";
 import bg3 from "@/assets/assets/bg3.png";
+import bg4 from "@/assets/assets/bg4.png";
+import bg5 from "@/assets/assets/bg5.png";
+import bg6 from "@/assets/assets/bg6.png";
+import bg7 from "@/assets/assets/bg7.png";
 
 export type BackgroundMode = string;
 export type TransparencyMode = "default" | "light" | "none";
@@ -29,6 +33,26 @@ export const BACKGROUND_OPTIONS: BackgroundOption[] = [
     mode: "classic",
     label: "Classic",
     image: bg,
+  },
+  {
+    mode: "hallstatt",
+    label: "Hallstatt",
+    image: bg4,
+  },
+  {
+    mode: "starry",
+    label: "Starry Nights by Van Gogh",
+    image: bg5,
+  },
+  {
+    mode: "vacation",
+    label: "Vacation",
+    image: bg6,
+  },
+  {
+    mode: "alpine",
+    label: "Alpine Lake",
+    image: bg7,
   },
 ];
 
