@@ -1,14 +1,6 @@
 import type { PropsWithChildren } from "react";
 import { useTheme } from "@/hooks/useTheme";
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuTrigger,
-  ContextMenuLabel
-} from "@/components/ui/context-menu";
-import { GithubLogoIcon } from "@phosphor-icons/react";
-const SOURCE_URL = "https://github.com/infinotiver/karretos";
+
 
 const Environment = ({ children }: PropsWithChildren) => {
   const { backgroundMode, backgroundOptions } = useTheme();
@@ -17,13 +9,9 @@ const Environment = ({ children }: PropsWithChildren) => {
   );
   const isSolid = backgroundMode === "solid";
 
-  const openSource = () => {
-    window.open(SOURCE_URL, "_blank", "noopener,noreferrer");
-  };
+
 
   return (
-    <ContextMenu>
-      <ContextMenuTrigger asChild>
         <div className="relative h-screen w-full overflow-hidden text-foreground">
           {!isSolid && activeBackground?.image && (
             <>
@@ -47,16 +35,8 @@ const Environment = ({ children }: PropsWithChildren) => {
 
           <div className="relative h-full w-full">{children}</div>
         </div>
-      </ContextMenuTrigger>
 
-      <ContextMenuContent className="dark">
-        <ContextMenuLabel>karretOS</ContextMenuLabel>
-        <ContextMenuItem onSelect={openSource}>
-          <GithubLogoIcon className="mr-2 h-4 w-4" />
-          View source on GitHub
-        </ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenu>
+    
   );
 };
 

@@ -10,6 +10,15 @@ import { DEFAULT_PINNED_APPS, MAX_PINNED_APPS } from "@/config/dock";
 import { useMemo, useState } from "react";
 import type { AppId } from "./apps/types";
 import { Command } from "@/components/common/Command";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+  ContextMenuLabel,
+} from "@/components/ui/context-menu";
+import { GithubLogoIcon, CommandIcon } from "@phosphor-icons/react";
+const SOURCE_URL = "https://github.com/infinotiver/karretos";
 
 const Shell = () => {
   const session = useSession();
@@ -63,59 +72,74 @@ const Shell = () => {
   }, []);
 
   const handleLock = () => window.location.assign("/");
-
+  const openSource = () => {
+    window.open(SOURCE_URL, "_blank", "noopener,noreferrer");
+  };
   return (
     <Environment>
-      <div className="relative z-0 flex h-full w-full flex-col">
-        {!hasMaximized && (
-          <div className="flex-1 p-16">
-            <Desktop enableMotion={!hasMaximized} />
+      <ContextMenu>
+        <ContextMenuTrigger>
+          <div className="relative z-0 flex h-full w-full flex-col">
+            {!hasMaximized && (
+              <div className="flex-1 p-16">
+                <Desktop enableMotion={!hasMaximized} />
+              </div>
+            )}
           </div>
-        )}
-      </div>
-
-      <AnimatePresence>
-        {session.windows.map((win) => {
-          const appDef = apps.find((a) => a.id === win.id);
-          return (
-            <AppWindow
-              key={win.id}
-              win={win}
-              isFocused={session.focusedId === win.id}
-              onFocus={() => session.focus(win.id)}
-              onToggleMaximize={() => session.toggleMaximize(win.id)}
-              onClose={() => session.close(win.id)}
-              onOpenApp={session.open}
-              installedApps={session.installedApps}
-              onInstallApp={session.install}
-              onUninstallApp={session.uninstall}
-              pinnedAppIds={pinnedAppIds}
-              onPinApp={onPinApp}
-              onUnpinApp={onUnpinApp}
-              onMove={(offset) => session.move(win.id, offset)}
-              onResize={(size, offset) => {
-                session.resize(win.id, size);
-                session.move(win.id, offset);
-              }}
-              titleBar={appDef?.titleBar !== false}
-            />
-          );
-        })}
-      </AnimatePresence>
-
-      <Dock
-        apps={installed}
-        activeAppId={session.focusedId}
-        onOpenApp={session.open}
-        openAppIds={openAppIds}
-        pinnedAppIds={pinnedAppIds}
-      />
-      <Command
-        open={commandOpen}
-        onOpenChange={setCommandOpen}
-        onOpenApp={session.open}
-        onLock={handleLock}
-      />
+          <AnimatePresence>
+            {session.windows.map((win) => {
+              const appDef = apps.find((a) => a.id === win.id);
+              return (
+                <AppWindow
+                  key={win.id}
+                  win={win}
+                  isFocused={session.focusedId === win.id}
+                  onFocus={() => session.focus(win.id)}
+                  onToggleMaximize={() => session.toggleMaximize(win.id)}
+                  onClose={() => session.close(win.id)}
+                  onOpenApp={session.open}
+                  installedApps={session.installedApps}
+                  onInstallApp={session.install}
+                  onUninstallApp={session.uninstall}
+                  pinnedAppIds={pinnedAppIds}
+                  onPinApp={onPinApp}
+                  onUnpinApp={onUnpinApp}
+                  onMove={(offset) => session.move(win.id, offset)}
+                  onResize={(size, offset) => {
+                    session.resize(win.id, size);
+                    session.move(win.id, offset);
+                  }}
+                  titleBar={appDef?.titleBar !== false}
+                />
+              );
+            })}
+          </AnimatePresence>
+          <Dock
+            apps={installed}
+            activeAppId={session.focusedId}
+            onOpenApp={session.open}
+            openAppIds={openAppIds}
+            pinnedAppIds={pinnedAppIds}
+          />
+          <Command
+            open={commandOpen}
+            onOpenChange={setCommandOpen}
+            onOpenApp={session.open}
+            onLock={handleLock}
+          />{" "}
+        </ContextMenuTrigger>
+        <ContextMenuContent className="dark">
+          <ContextMenuLabel>karretOS</ContextMenuLabel>
+          <ContextMenuItem onSelect={openSource}>
+            <GithubLogoIcon className="mr-2 h-4 w-4" />
+            View source on GitHub
+          </ContextMenuItem>
+          <ContextMenuItem onSelect={() => setCommandOpen(true)}>
+            <CommandIcon className="mr-2 h-4 w-4"/>
+            Command Palette
+          </ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
     </Environment>
   );
 };
