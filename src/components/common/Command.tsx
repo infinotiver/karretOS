@@ -5,6 +5,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
 } from "@/components/ui/command";
 import { apps } from "@/os/apps/registry";
 import type { AppId } from "@/os/apps/types";
@@ -33,12 +34,12 @@ export function Command({ open, onOpenChange, onOpenApp, onLock }: Props) {
                 onOpenChange(false);
               }}
             >
-              <app.icon className="h-4 w-4 text-muted-foreground" />
+              <app.icon className="text-muted-foreground" />
               {app.title}
             </CommandItem>
           ))}
         </CommandGroup>
-
+        <CommandSeparator />
         <CommandGroup heading="Actions">
           <CommandItem
             onSelect={() => {
@@ -46,7 +47,7 @@ export function Command({ open, onOpenChange, onOpenApp, onLock }: Props) {
               onOpenChange(false);
             }}
           >
-            <LockIcon className="h-4 w-4 text-muted-foreground" />
+            <LockIcon className="text-muted-foreground" />
             Suspend session
           </CommandItem>
         </CommandGroup>
