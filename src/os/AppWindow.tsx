@@ -8,7 +8,7 @@ import type { WindowEntry } from "@/os/useSession";
 
 const WINDOW_SURFACE_CLASS = {
   solid: "bg-secondary",
-  glass: "backdrop-blur-sm bg-secondary/60",
+  glass: "backdrop-blur-sm bg-secondary/80",
   none: "bg-transparent",
 } as const;
 

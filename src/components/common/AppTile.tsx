@@ -77,12 +77,12 @@ export function AppTile({
           }
         >
           <span
-            className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
-              selected ? "bg-primary/14" : "bg-muted/45"
+            className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${
+              selected ? "bg-primary" : "bg-muted"
             }`}
           >
             <Icon
-              className={`h-5 w-5 ${selected ? "text-primary" : "text-muted-foreground"}`}
+              className={`h-8 w-8 ${selected ? "text-primary" : "text-muted-foreground"}`}
             />
           </span>
 

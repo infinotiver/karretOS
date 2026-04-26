@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useAppContext } from "@/hooks/useAppContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,51 +17,52 @@ export function AboutSettings() {
   const { username, setUsername } = useAppContext();
   const [tempName, setTempName] = useState(username);
   const [open, setOpen] = useState(false);
-const [isOnline, setIsOnline] = useState(navigator.onLine);
-const [uptimeSec, setUptimeSec] = useState(0);
-const [battery, setBattery] = useState<string>("N/A");
+  const [lastCommitUpdated, setLastCommitUpdated] = useState("Loading...");
+  const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
 
-useEffect(() => {
-  const onOnline = () => setIsOnline(true);
-  const onOffline = () => setIsOnline(false);
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setCurrentTime(new Date().toLocaleString());
+    }, 1000);
 
-  window.addEventListener("online", onOnline);
-  window.addEventListener("offline", onOffline);
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, []);
 
-  const uptimeTimer = window.setInterval(
-    () => setUptimeSec((s) => s + 1),
-    1000,
-  );
+  useEffect(() => {
+    const controller = new AbortController();
 
-  // Battery API (optional support)
-  const nav = navigator as Navigator & {
-    getBattery?: () => Promise<{ level: number; charging: boolean }>;
-  };
+    const loadLastCommit = async () => {
+      try {
+        const response = await fetch(
+          "https://api.github.com/repos/infinotiver/karretos/commits?per_page=1",
+          { signal: controller.signal },
+        );
+        if (!response.ok) throw new Error("Failed to load latest commit");
 
-  if (nav.getBattery) {
-    nav.getBattery().then((b) => {
-      const pct = Math.round(b.level * 100);
-      setBattery(`${pct}%${b.charging ? " (charging)" : ""}`);
-    });
-  }
+        const data = (await response.json()) as Array<{
+          commit?: { committer?: { date?: string } };
+        }>;
 
-  return () => {
-    window.removeEventListener("online", onOnline);
-    window.removeEventListener("offline", onOffline);
-    window.clearInterval(uptimeTimer);
-  };
-}, []);
+        const date = data[0]?.commit?.committer?.date;
+        if (!date) {
+          setLastCommitUpdated("Unavailable");
+          return;
+        }
 
-const uptime = useMemo(() => {
-  const h = Math.floor(uptimeSec / 3600);
-  const m = Math.floor((uptimeSec % 3600) / 60);
-  const s = uptimeSec % 60;
-  return `${h}h ${m}m ${s}s`;
-}, [uptimeSec]);
+        setLastCommitUpdated(new Date(date).toLocaleString());
+      } catch {
+        if (!controller.signal.aborted) {
+          setLastCommitUpdated("Unavailable");
+        }
+      }
+    };
 
-  const deviceMemory = (navigator as Navigator & { deviceMemory?: number })
-    .deviceMemory;
-  const cores = navigator.hardwareConcurrency ?? "N/A";
+    loadLastCommit();
+
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     setTempName(username);
@@ -86,7 +87,7 @@ const uptime = useMemo(() => {
               </Button>
             </DialogTrigger>
 
-            <DialogContent>
+            <DialogContent className="dark">
               <DialogHeader>
                 <DialogTitle>Edit Profile</DialogTitle>
                 <DialogDescription>
@@ -115,37 +116,17 @@ const uptime = useMemo(() => {
         </div>
       </Panel>
 
-      <Panel title="System" description="Device and performance information">
+      <Panel title="About karretOS" description="Project information">
         <div className="space-y-1 text-sm">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-muted-foreground">Status</span>
+            <span className="text-muted-foreground">Last Commit Update</span>
             <span className="font-mono text-foreground">
-              {isOnline ? "Online" : "Offline"}
+              {lastCommitUpdated}
             </span>
           </div>
           <div className="flex items-center justify-between gap-2">
-            <span className="text-muted-foreground">Uptime</span>
-            <span className="font-mono text-foreground">{uptime}</span>
-          </div>
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-muted-foreground">CPU Cores</span>
-            <span className="font-mono text-foreground">{cores}</span>
-          </div>
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-muted-foreground">Memory</span>
-            <span className="font-mono text-foreground">
-              {deviceMemory ? `${deviceMemory} GB` : "N/A"}
-            </span>
-          </div>
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-muted-foreground">Battery</span>
-            <span className="font-mono text-foreground">{battery}</span>
-          </div>
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-muted-foreground">Viewport</span>
-            <span className="font-mono text-foreground">
-              {window.innerWidth}x{window.innerHeight}
-            </span>
+            <span className="text-muted-foreground">Current Time</span>
+            <span className="font-mono text-foreground">{currentTime}</span>
           </div>
         </div>
       </Panel>

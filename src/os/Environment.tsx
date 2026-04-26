@@ -49,7 +49,7 @@ const Environment = ({ children }: PropsWithChildren) => {
         </div>
       </ContextMenuTrigger>
 
-      <ContextMenuContent className="w-56">
+      <ContextMenuContent className="dark">
         <ContextMenuLabel>karretOS</ContextMenuLabel>
         <ContextMenuItem onSelect={openSource}>
           <GithubLogoIcon className="mr-2 h-4 w-4" />
