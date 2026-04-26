@@ -9,6 +9,8 @@ import { useEffect, useRef } from "react";
 import { DEFAULT_PINNED_APPS, MAX_PINNED_APPS } from "@/config/dock";
 import { useMemo, useState } from "react";
 import type { AppId } from "./apps/types";
+import { Command } from "@/components/common/Command";
+
 const Shell = () => {
   const session = useSession();
   const hasMaximized = session.windows.some(
@@ -46,6 +48,21 @@ const Shell = () => {
     () => Array.from(new Set(session.windows.map((w) => w.id))),
     [session.windows],
   );
+  const [commandOpen, setCommandOpen] = useState(false);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setCommandOpen((v) => !v);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
+  const handleLock = () => window.location.assign("/");
 
   return (
     <Environment>
@@ -92,6 +109,12 @@ const Shell = () => {
         onOpenApp={session.open}
         openAppIds={openAppIds}
         pinnedAppIds={pinnedAppIds}
+      />
+      <Command
+        open={commandOpen}
+        onOpenChange={setCommandOpen}
+        onOpenApp={session.open}
+        onLock={handleLock}
       />
     </Environment>
   );
