@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Copy } from "lucide-react";
+import { CopyIcon } from "@phosphor-icons/react";
 
 export default function JsonFormatterTool() {
   const [input, setInput] = useState("");
@@ -52,7 +52,7 @@ export default function JsonFormatterTool() {
             aria-label="Copy formatted JSON"
             title={copied ? "Copied" : "Copy"}
           >
-            <Copy className="h-4 w-4" />
+            <CopyIcon className="h-4 w-4" />
           </button>
         </div>
       </header>

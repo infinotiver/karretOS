@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { BadgeCheck, Download, Shield, Trash2 } from "lucide-react";
+import { SealCheckIcon, DownloadIcon, ShieldCheckIcon, TrashIcon } from "@phosphor-icons/react";
 import { apps } from "@/os/apps/registry";
 import type { AppId, AppProps } from "@/os/apps/types";
 import { Button } from "@/components/ui/button";
@@ -48,7 +48,7 @@ export default function AppStoreApp({
               badge={
                 isSystem ? (
                   <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/12 text-primary">
-                    <Shield className="h-3 w-3" />
+                    <ShieldCheckIcon className="h-3 w-3" />
                   </span>
                 ) : null
               }
@@ -62,7 +62,7 @@ export default function AppStoreApp({
                       title="System app"
                       disabled
                     >
-                      <BadgeCheck className="h-4 w-4" />
+                      <SealCheckIcon className="h-4 w-4" />
                       <span className="text-[10px] font-medium">Installed</span>
                     </Button>
                   ) : (
@@ -73,7 +73,7 @@ export default function AppStoreApp({
                       className="w-full justify-center"
                       title="Uninstall"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <TrashIcon className="h-4 w-4" />
                     </Button>
                   )
                 ) : (
@@ -84,7 +84,7 @@ export default function AppStoreApp({
                     className="w-full justify-center"
                     title="Install"
                   >
-                    <Download className="h-4 w-4" /> Install
+                    <DownloadIcon className="h-4 w-4" /> Install
                   </Button>
                 )
               }

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Settings, LockIcon, Pin, PinOff, X } from "lucide-react";
+import { GearIcon, LockIcon, PushPinIcon, PushPinSlashIcon, XIcon } from "@phosphor-icons/react";
 import { apps } from "@/os/apps/registry";
 import { AppTile } from "@/components/common/AppTile";
 import type { AppId, AppProps } from "@/os/apps/types";
@@ -51,7 +51,7 @@ export default function AppLauncherApp({
           className="justify-start"
           aria-label="Open user settings"
         >
-          <Settings className="h-4 w-4" />
+          <GearIcon className="h-4 w-4" />
           <span>{username || "Guest"}</span>
         </Button>
 
@@ -63,7 +63,7 @@ export default function AppLauncherApp({
           className="ml-auto"
           aria-label="Close launcher"
         >
-          <X className="h-4 w-4" />
+          <XIcon className="h-4 w-4" />
         </Button>
       </header>
 
@@ -87,7 +87,7 @@ export default function AppLauncherApp({
                   className="w-full justify-center"
                   title="Unpin"
                 >
-                  <PinOff className="h-4 w-4" />
+                  <PushPinSlashIcon className="h-4 w-4" />
                 </Button>
               ) : (
                 <Button
@@ -97,7 +97,7 @@ export default function AppLauncherApp({
                   className="w-full justify-center"
                   title="Pin"
                 >
-                  <Pin className="h-4 w-4" />
+                  <PushPinIcon className="h-4 w-4" />
                 </Button>
               )
             }

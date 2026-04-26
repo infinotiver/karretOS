@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Palette, User, LineChart, TestTube2Icon } from "lucide-react";
+import { PaletteIcon, UserCircleIcon, GaugeIcon, TestTubeIcon } from "@phosphor-icons/react";
 import { PersonalisationSettings } from "@/components/settings/PersonalisationSettings";
 import { AboutSettings } from "@/components/settings/AboutSettings";
 import {ExperimentalSettings} from "@/components/settings/ExperimentalSettings";
@@ -8,18 +8,18 @@ import { SidebarNav } from "@/components/common/SidebarNav";
 
 const SETTINGS = [
   {
-    icon: Palette,
+    icon: PaletteIcon,
     title: "Personalisation",
     description: "Choose how the desktop looks",
   },
   {
-    icon: LineChart,
+    icon: GaugeIcon,
     title: "Performance",
     description: "Performance and optimization",
   },
-  { icon: User, title: "About", description: "Information about karretOS" },
+  { icon: UserCircleIcon, title: "About", description: "Information about karretOS" },
   {
-    icon: TestTube2Icon,
+    icon: TestTubeIcon,
     title: "Experimental",
     description: "Try out new and in-development features",
   },

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Copy } from "lucide-react";
+import { CopyIcon } from "@phosphor-icons/react";
 
 type Algo = "SHA-1" | "SHA-256" | "SHA-384" | "SHA-512";
 
@@ -96,7 +96,7 @@ export default function HashGenerator() {
             aria-label="Copy hash"
             title={copied ? "Copied" : "Copy"}
           >
-            <Copy className="h-4 w-4" />
+            <CopyIcon className="h-4 w-4" />
           </button>
         </div>
       </header>
