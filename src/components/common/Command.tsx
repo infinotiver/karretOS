@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/command";
 import { apps } from "@/os/apps/registry";
 import type { AppId } from "@/os/apps/types";
-import { Lock } from "@phosphor-icons/react";
+import { LockIcon } from "@phosphor-icons/react";
 
 type Props = {
   open: boolean;
@@ -46,8 +46,8 @@ export function Command({ open, onOpenChange, onOpenApp, onLock }: Props) {
               onOpenChange(false);
             }}
           >
-            <Lock className="h-4 w-4 text-muted-foreground" />
-            Lock
+            <LockIcon className="h-4 w-4 text-muted-foreground" />
+            Suspend session
           </CommandItem>
         </CommandGroup>
       </CommandList>

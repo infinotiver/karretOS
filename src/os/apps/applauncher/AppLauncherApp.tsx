@@ -1,10 +1,17 @@
 import { useMemo, useState } from "react";
-import { GearIcon, LockIcon, PushPinIcon, PushPinSlashIcon, XIcon } from "@phosphor-icons/react";
+import {
+  GearIcon,
+  LockIcon,
+  PushPinIcon,
+  PushPinSlashIcon,
+  XIcon,
+} from "@phosphor-icons/react";
 import { apps } from "@/os/apps/registry";
 import { AppTile } from "@/components/common/AppTile";
 import type { AppId, AppProps } from "@/os/apps/types";
 import { useAppContext } from "@/hooks/useAppContext";
 import { Button } from "@/components/ui/button";
+import { Kbd } from "@/components/ui/kbd";
 
 export default function AppLauncherApp({
   onOpenApp,
@@ -105,7 +112,7 @@ export default function AppLauncherApp({
         ))}
       </div>
 
-      <footer className="mt-auto flex items-center">
+      <footer className="mt-auto flex items-center justify-between gap-3 border-t border-border/30 pt-3 text-xs text-muted-foreground">
         <Button
           type="button"
           size="sm"
@@ -116,6 +123,12 @@ export default function AppLauncherApp({
         >
           <LockIcon className="h-4 w-4" />
         </Button>
+
+        <span className="inline-flex items-center gap-1.5 leading-none">
+          <span>Command palette</span>
+          <Kbd>Cmd/Ctrl</Kbd>
+          <Kbd>K</Kbd>
+        </span>
       </footer>
     </section>
   );
