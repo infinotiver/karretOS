@@ -6,7 +6,6 @@
   "homepage": "https://infinotiver.github.io",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node ./scripts/fetch-wakatime.mjs",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",

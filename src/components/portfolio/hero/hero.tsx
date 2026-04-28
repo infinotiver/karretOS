@@ -1,22 +1,23 @@
-import { useState } from "react";
-import UsernameChip, { identities, type ChipIdentity } from "./usernamechip";
+import UsernameChip from "./usernamechip";
 import QuickHubActions from "./quickhubactions";
 
 export default function Hero() {
-  const [activeIdentity, setActiveIdentity] = useState<ChipIdentity>(
-    identities[0],
-  );
-
   return (
-    <section className="space-y-2 text-left">
-      <UsernameChip onActiveIdentityChange={setActiveIdentity} />
-      <h2 className="text-3xl font-bold md:text-5xl">infinotiver</h2>
-      <p className="max-w-sm text-xs text-muted-foreground md:text-sm">
-        Student developer building useful full-stack products with clean UX.I
-        like to imagine stuff and try to build it — even when it fails
+    <section className="space-y-4 text-left">
+      <UsernameChip />
+      <h2 className="text-2xl font-bold md:text-3xl">
+        Student by day, developer by choice
+      </h2>
+      <p className="text-xs text-muted-foreground md:text-sm">
+        Coding has been my obsession since I was 11 years old. Today, I’m a
+        student developer on a mission to master the full stack. While I’m
+        already comfortable with Python and JavaScript, discovering the power of
+        React and Tailwind was a total game-changer for me. I’m currently
+        focused on building tools that make the internet a better place,
+        skillfully balancing my passion for development with my academic life.
       </p>
 
-      <QuickHubActions accent={activeIdentity.accent} />
+      <QuickHubActions />
     </section>
   );
 }

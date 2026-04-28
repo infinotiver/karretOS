@@ -1,21 +1,16 @@
 import Hero from "@/components/portfolio/hero/hero";
-import StatsPanel from "@/components/portfolio/home/widgets/StatsPanel";
 import { Badge } from "@/components/common/Badge";
-import useWakaTimeStats from "@/hooks/useWakaTimeStats";
 import { WindowLayout } from "@/components/layouts/WindowLayout";
-
+import { ArrowSquareOutIcon } from "@phosphor-icons/react";
 const PortfolioApp = () => {
-  const stats = useWakaTimeStats();
-
   return (
     <WindowLayout>
       <main className="h-full flex flex-col space-y-8 p-6 overflow-y-auto">
-        {/* ── hero + about + stats ── */}
+        {/* ── hero + about ── */}
         <div className="grid gap-4">
           <section className="space-y-4">
             <Hero />
           </section>
-          <StatsPanel stats={stats} />
         </div>
 
         {/* ── projects ── */}
@@ -71,20 +66,7 @@ const PortfolioApp = () => {
                   <span className="font-bold text-sm text-foreground group-hover:text-primary transition-colors">
                     {title}
                   </span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M14 3h7m0 0v7m0-7L10 14M5 5H3a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-2"
-                    />
-                  </svg>
+                  <ArrowSquareOutIcon />
                 </div>
                 <p className="text-xs text-muted-foreground leading-relaxed">
                   {desc}
